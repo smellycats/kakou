@@ -1,0 +1,322 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Mlogo extends CI_Model
+{
+	private $logo_db;
+	
+	function __construct()
+	{
+		parent::__construct();
+		
+		$this->logo_db = $this->load->database('logo_db', TRUE);
+	}
+
+	//获取监控地点
+	function get_places()
+	{
+		$this->logo_db->select('*')->order_by('order','asc');
+		return $this->logo_db->get('places');
+	}
+	
+	//车牌类型
+	function get_hpzl()
+	{
+		$this->logo_db->select('*');
+		return $this->logo_db->get('hpzl');
+	}
+	
+	//车标类型
+	function get_logos()
+	{
+		$this->logo_db->select('*');
+		return $this->logo_db->get('logos');
+	}
+	
+	//品牌代码
+	function get_ppdm()
+	{
+		$this->logo_db->select('*');
+		return $this->logo_db->get('ppdm');
+	}
+	
+	//车辆类型
+	function get_cllx()
+	{
+		$this->logo_db->select('*');
+		return $this->logo_db->get('cllx');
+	}
+	
+	//车辆类型2
+	function get_d_cllx()
+	{
+		$this->logo_db->select('*');
+		return $this->logo_db->get('d_cllx');
+	}
+	
+	//根据ID查询汽车品牌类型
+	function get_caridmap_by_id($id)
+	{
+		$this->logo_db->select('*')->where('id',$id);
+		return $this->logo_db->get('caridmap');
+	}
+	
+	//车身类型
+	function get_csys()
+	{
+		$this->logo_db->select('*');
+		return $this->logo_db->get('csys');
+	}
+	
+	function get_confirm_carinfo($offset=0, $limit=0, $data)
+	{
+		$this->logo_db->where('passtime >=',$data['starttime'])->where('passtime <=',$data['endtime']);
+		#地点
+		if($data['place']=='all'){
+			$this->logo_db->where('i.cltx_place >=',0);
+		}else{
+			$this->logo_db->where('cltx_place',$data['place']);
+		}
+		#方向
+		if($data['direction']=='all'){
+			$this->logo_db->where('cltx_dire >=',0);
+		}else{
+			$this->logo_db->where('cltx_dire',$data['direction']);
+		}
+		
+		#车标
+		if($data['logo']=='all'){
+			$data['logo'] = $data['logo'];
+		}else{
+			$this->logo_db->where('m.code',$data['logo']);
+		}
+		
+		#确认信息
+		if($data['confirm']=='all'){
+			$this->logo_db->where('confirmflag >=',0);
+		}else{
+			$this->logo_db->where('confirmflag',intval($data['confirm']));
+		}
+		#短信确认
+		if($data['smsflag']=='all'){
+			$this->logo_db->where('smsflag >=',0);
+		}else{
+			$this->logo_db->where('smsflag',intval($data['smsflag']));
+		}
+		#车辆品牌确认
+		if($data['clppflag']=='all'){
+			$this->logo_db->where('clppflag >=',0);
+		}else{
+			$this->logo_db->where('clppflag',intval($data['clppflag']));
+		}		
+		
+		#号牌号码
+		if($data['number']=='R'){
+			$this->logo_db->where('length(cltx_hphm) >=',2);
+		}
+		elseif($data['number']=='?'){
+			if($data['carnum']==''){
+				$data['carnum'] = $data['carnum'];
+			}
+			else{
+				$this->logo_db->where('cltx_hphm like','%'.$data['carnum']);
+			}
+		}
+		else{
+			$this->logo_db->where('cltx_hphm like',$data['platename'].'%');
+		}
+		
+		$this->logo_db->join('ppdm as m','i.ppdm = m.code');
+		
+		if ($limit==0){
+			$this->logo_db->select('count(*) as sum');
+			
+			return $this->logo_db->get('carinfo as i');
+		}else{
+			$this->logo_db->select('i.*, m.code, m.name');
+			$this->logo_db->order_by('i.id','desc');
+			
+			return $this->logo_db->get('carinfo as i',$limit,$offset);
+		}
+	}
+	
+	function get_carinfo($offset=0, $limit=0, $data)
+	{
+		$this->logo_db->where('passtime >=',$data['starttime'])->where('passtime <=',$data['endtime']);
+		#地点
+		if($data['place']=='all'){
+			$this->logo_db->where('i.cltx_place >=',0);
+		}else{
+			$this->logo_db->where('cltx_place',$data['place']);
+		}
+		#方向
+		if($data['direction']=='all'){
+			$this->logo_db->where('cltx_dire >=',0);
+		}else{
+			$this->logo_db->where('cltx_dire',$data['direction']);
+		}
+		#车道
+		if($data['lane']=='all'){
+			$this->logo_db->where('cltx_lane >=',0);
+		}else{
+			$this->logo_db->where('cltx_lane',$data['lane']);
+		}
+		#车牌颜色
+		if($data['platecolor']=='all'){
+			$this->logo_db->where('cltx_color >=',0);
+		}else{
+			$this->logo_db->where('cltx_color',$data['platecolor']);
+		}
+		
+		#车标
+		if($data['logo']=='all'){
+			$data['logo'] = $data['logo'];
+		}else{
+			$this->logo_db->where('m.code',$data['logo']);
+		}
+		
+		#车辆类型
+		if($data['cllx']=='all'){
+			$this->logo_db->where('i.cllx >=',0);
+		}else{
+			$this->logo_db->where('i.cllx',$data['cllx']);
+		}
+		#车身颜色
+		if($data['csys']=='all'){
+			$this->logo_db->where('csys >=',0);
+		}else{
+			$this->logo_db->where('csys',$data['csys']);
+		}
+		#号牌种类
+		$this->logo_db->where('i.hpzl >=',0);
+		
+		if($data['number']=='R'){
+			$this->logo_db->where('length(cltx_hphm) >=',2);
+		}
+		elseif($data['number']=='?'){
+			if($data['carnum']==''){
+				$data['carnum'] = $data['carnum'];
+			}
+			else{
+				$this->logo_db->where('cltx_hphm like','%'.$data['carnum']);
+			}
+		}
+		else{
+			$this->logo_db->where('cltx_hphm like',$data['platename'].'%');
+		}
+		
+		$this->logo_db->join('ppdm as m','i.ppdm = m.code');
+		
+		if ($limit==0){
+			$this->logo_db->select('count(*) as sum');
+			
+			return $this->logo_db->get('carinfo as i');
+		}else{
+			$this->logo_db->select('i.*, m.code, m.name');
+			$this->logo_db->order_by('i.id','desc');
+			
+			return $this->logo_db->get('carinfo as i',$limit,$offset);
+		}
+	}
+	
+	#根据ID获取车辆信息
+	function get_carinfo_by_id($id)
+	{
+		$this->logo_db->select('i.*, m.code, m.name');
+		$this->logo_db->join('ppdm as m','i.ppdm = m.code');
+		$this->logo_db->where('i.id',$id);
+		return $this->logo_db->get('carinfo as i');
+	}
+	
+	#根据ID获取车辆信息
+	function get_full_carinfo_by_id($id)
+	{
+		$this->logo_db->select('i.*, p.place, m.code, m.name');
+		$this->logo_db->join('ppdm as m','i.ppdm = m.code','left');
+		$this->logo_db->join('place as p','i.cltx_place = p.id','left');
+		$this->logo_db->where('i.id',$id);
+		return $this->logo_db->get('carinfo as i');
+	}
+	
+	#根据车牌号码查询广东车管信息
+	function get_vehicle_gd_by_hphm($hphm)
+	{
+		$this->logo_db->select('v.*');
+		$this->logo_db->join('hpzl as h','v.hpzl = h.code','left');
+		$this->logo_db->where('v.hphm',$hphm);
+		$this->logo_db->where('h.banned',0);
+		return $this->logo_db->get('vehicle_gd as v');
+	}
+	
+	function get_confirm($userid,$place_str,$dire='all')
+	{
+		$this->load->helper('date');
+		$time1 = mdate("%Y-%m-%d %H:%i:%s",strtotime("-1 hours"));
+		$time2 = mdate("%Y-%m-%d %H:%i:%s",strtotime("-20 seconds"));
+		
+		#$this->logo_db->query('LOCK TABLES userconfirm READ');
+		
+		$this->logo_db->select('c.*');
+		$this->logo_db->join('userconfirm as u','c.id = u.carinfoid','left');
+		$this->logo_db->where('c.passtime >=', $time1);
+		$this->logo_db->where_in('c.cltx_place',$place_str);
+		if ($dire == 'all'){
+			$dire = $dire;
+		}else{
+			$this->logo_db->where('c.cltx_dire',$dire);
+		}
+		$this->logo_db->where('c.confirmflag', 0);
+		$this->logo_db->where("c.id not in (SELECT a.id from carinfo as a LEFT JOIN userconfirm as b on a.id = b.carinfoid where b.timeflag < '$time2')");
+		$this->logo_db->order_by("c.passtime", "desc");
+		$this->logo_db->limit(1);
+		$res = $this->logo_db->get('carinfo as c');
+		
+		if($res->num_rows()>0){
+			$row = $res->row();
+			$this->logo_db->where('userid', $userid);
+			$data = array(
+                'timeflag'  => mdate("%Y-%m-%d %H:%i:%s"),
+                'carinfoid' => $row->id
+             );
+			$this->logo_db->update('userconfirm', $data);
+			
+			return $this->get_carinfo_by_id($row->id);
+		}else{
+			return $res;
+		}
+		#$this->logo_db->query('UNLOCK TABLES');	
+	}
+	
+	function unlock()
+	{
+		$this->logo_db->query('UNLOCK TABLES');
+	}
+	
+	#根据用户ID获取用户确认表
+	function get_userconfirm_by_userid($userid)
+	{
+		$this->logo_db->select('*')->where('userid',$userid);
+		return $this->logo_db->get('userconfirm');
+	}
+	
+	#编辑用户确认表
+	function edit_userconfirm($userid,$data)
+	{
+		$this->logo_db->where('userid', $userid);
+ 		return $this->logo_db->update('userconfirm', $data);
+	}
+	
+	#添加用户确认表
+	function add_userconfirm($data)
+	{
+		$this->logo_db->insert('userconfirm',$data);
+	}
+	
+	#修改车辆确认信息
+	function edit_confirm($id,$data)
+	{
+		$this->logo_db->where('id', $id);
+ 		return $this->logo_db->update('carinfo', $data);
+	}
+
+}
+?>

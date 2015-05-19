@@ -1,0 +1,23 @@
+#Wed May 06 13:22:56 GMT 2015
+eclipse.preferences.version=1
+encoding//application/config=UTF-8
+encoding//application/config/basedata.php=UTF-8
+encoding//application/config/database.php=UTF-8
+encoding//application/config/kakou.php=UTF-8
+encoding//application/controllers/admin.php=UTF-8
+encoding//application/controllers/basedata.php=UTF-8
+encoding//application/controllers/logo2.php=UTF-8
+encoding//application/controllers/user.php=UTF-8
+encoding//application/views/admin=UTF-8
+encoding//application/views/admin/footer.php=UTF-8
+encoding//application/views/admin/header.php=UTF-8
+encoding//application/views/admin/index.php=UTF-8
+encoding//application/views/gate/test1.php=UTF-8
+encoding//application/views/logo/lgquery2.php=UTF-8
+encoding//application/views/user=UTF-8
+encoding//js/dwz=UTF-8
+encoding//js/dwz/js=UTF-8
+encoding//js/dwz/js/dwz.regional.zh.js=UTF-8
+encoding//js/dwz/themes/css/core.css=gbk
+encoding//js/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js=UTF-8
+encoding//js/jquery-easyui/locale/easyui-lang-zh_CN.js=UTF-8
