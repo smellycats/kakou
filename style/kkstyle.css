@@ -1,0 +1,66 @@
+@CHARSET "UTF-8";
+
+body {
+margin-left: 3px;
+margin-top: 0px;
+margin-right: 3px;
+margin-bottom: 0px;
+font-family: 宋体,arial ;
+font-size: 12px;
+background-color: #e6e6e6;
+}
+/*a{
+text-decoration:underline;
+color: #344b50;
+}
+*/
+a {
+	COLOR: #004488; TEXT-DECORATION: none
+}
+a:hover {
+	COLOR: #a28324; TEXT-DECORATION: underline
+}
+.STYLE1 { color: #e1e2e3; font-size: 12px; }
+.STYLE1 a{ color:#fff; }
+.STYLE6 {color: #000000; font-size: 12; }
+.STYLE10 {color: #000000; font-size: 12px; }
+.STYLE11 {font-weight:bold;font-family:宋体,arial ; color: #FFFFFF; font-size: 14px; }
+.STYLE12 {font-weight:bold; font-family:宋体,arial ; color: #FFFFFF; font-size: 14px; }
+.STYLE13 {font-weight:bold; color: #000000; font-size: 14px; }
+.STYLE19 { color: #344b50; font-size: 12px; }
+.STYLE21 { font-size: 12px; color: #3b6375; }
+.STYLE22 { font-family:宋体,arial ; font-size: 14px; color: #295568; }
+.STYLE23 { font-family:宋体,arial ; color: #000000; font-size: 12px; }
+.STYLE24 { font-family:宋体,arial ; color: blue; font-size: 12px;}       /* 蓝色*/
+.STYLE25 {font-weight:bold;font-family:宋体,arial ; color: #000000; font-size: 12px; }
+
+.STYLE26 { font-family:宋体,arial ; color: #ff0000; font-size: 12px; }   /* 红色*/
+.STYLE27 { font-family:宋体,arial ; color: #088744; font-size: 12px; }   /* 绿色*/
+.STYLE28 { font-family:宋体,arial ; color: #808080; font-size: 12px; }   /* 灰色*/
+
+.BLACK { font-family: 宋体,arial ; color: black; font-size: 12px; }   /* 黑色*/
+.BLACK14 { font-family:宋体,arial ; color: black; font-size: 14px;}       /* 黑色*/
+.SKYBLUE { font-family:宋体,arial ; color: #4a8cf6; font-size: 12px;}       /* 蓝色*/
+.BLUE { font-family:宋体,arial ; color: blue; font-size: 12px;}       /* 蓝色*/
+.RED { font-family:宋体,arial ; color: #ff0000; font-size: 12px; }   /* 红色*/
+.DARKRED { font-family:宋体,arial ; color: #8E0000; font-size: 12px; }   /* 深红色*/
+.GREEN { font-family:宋体,arial ; color: #088744; font-size: 12px; }   /* 绿色*/
+.GRAY { font-family:宋体,arial ; color: #808080; font-size: 12px; }   /* 灰色*/
+.LIST { font-weight:bold; font-family: 宋体,arial ; color: #FFFFFF; font-size: 16px; }   /* 白色*/
+.BOLDBLACK { font-weight:bold; font-family: 宋体,arial ; color: black; font-size: 12px; }   /* 黑色*/
+
+.BUTBLACK { font-weight:bold; font-family: 宋体,arial ; color: black; font-size: 12px; }   /* 黑色*/
+.BUTBLACK14 { font-weight:bold; font-family: 宋体,arial ; color: black; font-size: 14px; }   /* 黑色*/
+.BUTBLACK16 { font-weight:bold; font-family: 宋体,arial ; color: black; font-size: 16px; }   /* 黑色*/
+.BUTBLUE24 { font-weight:bold; font-family: 宋体,arial ; color: blue; font-size: 24px; }   /* 蓝色*/
+
+.BLUE14 {font-weight:bold;  font-family:宋体,arial ; color: #4a8cf6; font-size: 14px;}       /* 蓝色*/
+
+.TITLE2 { font-family:宋体,arial ; color: blue; font-size: 24px; }
+.TITLE3 { font-family:宋体,arial ; color: orange; font-size: 24px; }
+
+.odd{background:#ffffee;} 
+.even{background:#ffeebb;} 
+.first{background:red;} 
+.last{background:blue;} 
+.mouseOver{background:#8ecfef;}
