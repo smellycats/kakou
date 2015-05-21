@@ -10,8 +10,8 @@
 	<input type="hidden" name="department" value="<?php echo $department; ?>">
 	<input type="hidden" name="page" value="<?php echo $page; ?>" />
 	<input type="hidden" name="rows" value="<?php echo $rows; ?>" />
-	<input type="hidden" name="sort" value="<?php echo $orderField; ?>" />
-	<input type="hidden" name="order" value="<?php echo $orderDirection; ?>" />
+	<input type="hidden" name="sort" value="<?php echo $sort; ?>" />
+	<input type="hidden" name="order" value="<?php echo $order; ?>" />
 </form>
 
 
@@ -71,13 +71,13 @@
 				<th width="90">真实名</th>
 				<th width="90">所属角色</th>
 				<th width="90" orderField="department" 
-					<?php if($orderField == 'department'){echo 'class="'.$orderDirection.'"';}?>>部门</th>
+					<?php if($sort == 'department'){echo 'class="'.$order.'"';}?>>部门</th>
 				<th width="40">登录模式</th>
 				<th width="60">最后登录IP</th>
 				<th width="120" orderField="last_login"
-					<?php if($orderField == 'last_login'){echo 'class="'.$orderDirection.'"';}?>>最后登录时间</th>
+					<?php if($sort == 'last_login'){echo 'class="'.$order.'"';}?>>最后登录时间</th>
 				<th width="40" orderField="access_count"
-				    <?php if($orderField == 'access_count'){echo 'class="'.$orderDirection.'"';}?>>登录次数</th>
+				    <?php if($sort == 'access_count'){echo 'class="'.$order.'"';}?>>登录次数</th>
 				<th width="40">冻结</th>
 			</tr>
 		</thead>
@@ -108,7 +108,7 @@
 				<option value="20">20</option>
 				<option value="50">50</option>
 			</select>
-			<span>条，共<?php echo $total_page;?>页，共<?php echo $total;?>条</span>
+			<span>条，共<?php echo ceil($total/$rows);?>页，共<?php echo $total;?>条</span>
 		</div>
 		
 		<div class="pagination" targetType="navTab" totalCount="<?php echo $total;?>" 

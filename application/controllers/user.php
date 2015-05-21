@@ -322,25 +322,19 @@ class User extends CI_Controller
 	//加载用户列表视图
 	function account_man()
 	{
-		$page = $this->input->post('page') ? intval($this->input->post('page')) : 1;
-		$rows = $this->input->post('rows') ? intval($this->input->post('rows')) : 20;
-		$sort = $this->input->post('sort') ? strval($this->input->post('sort')) : 'access_count';
-	    $order = $this->input->post('order') ? strval($this->input->post('order')) : 'desc';
-		$offset = ($page - 1) * $rows;
+		$data['page'] = $this->input->post('page') ? intval($this->input->post('page')) : 1;
+		$data['rows'] = $this->input->post('rows') ? intval($this->input->post('rows')) : 20;
+		$data['sort'] = $this->input->post('sort') ? strval($this->input->post('sort')) : 'access_count';
+	    $data['order'] = $this->input->post('order') ? strval($this->input->post('order')) : 'desc';
+		$data['offset'] = ($data['page'] - 1) * $data['rows'];
 		
 	    $data['username'] = $this->input->post('username') ? $this->input->post('username') : '';
 	    $data['department'] = $this->input->post('department') ? $this->input->post('department') : '';
 
-		$data['result'] = $this->Muser->get_users($offset,$rows,$sort,$order,$data)->result_array();
-		$data['total'] = $this->Muser->get_users(0,0,$sort,$order,$data)->row()->sum;
+		$data['result'] = $this->Muser->get_users($data['offset'],$data['rows'],$data['sort'],$data['order'],$data)->result_array();
+		$data['total'] = $this->Muser->get_users(0,0,$data['sort'],$data['order'],$data)->row()->sum;
 
 		$data['title'] = '用户列表';
-		$data['page'] = $page;
-		$data['rows'] = $rows;
-		$data['orderField'] = $sort;
-		$data['orderDirection'] = $order;
-		$data['total_page'] = ceil($data['total']/$rows);  //向上取整
-		$data['offset'] = $offset;
 
 		$this->load->view('user/user_view', $data);
 	}
@@ -405,17 +399,17 @@ class User extends CI_Controller
 	{	
 		$id = $this->input->get('id',True);
 		
-		#$data['username'] = $this->input->post('user_add_username', True);
-		$data['realname'] = $this->input->post('user_add_realname', True);
-		$data['role_id'] = $this->input->post('user_add_role_id', True);
-		$data['identity'] = $this->input->post('user_add_identity', True);
-		$data['phone'] = $this->input->post('user_add_phone', True);
-		#$data['password'] = sha1($this->input->post('user_add_pwd'));
-		$data['department'] = $this->input->post('user_add_dadepartment', True);
-		$data['banned'] = $this->input->post('user_add_banned', True) ? $this->input->post('user_add_banned', True) : 0;
-		$data['access_type'] = $this->input->post('user_add_access_type', True);
-		$data['limit_login_address'] = $this->input->post('user_add_limit_login_address', True);
-		$data['memo'] = $this->input->post('user_add_memo', True);
+		#$data['username'] = $this->input->post('user_edit_username', True);
+		$data['realname'] = $this->input->post('user_edit_realname', True);
+		$data['role_id'] = $this->input->post('user_edit_role_id', True);
+		$data['identity'] = $this->input->post('user_edit_identity', True);
+		$data['phone'] = $this->input->post('user_edit_phone', True);
+		#$data['password'] = sha1($this->input->post('user_edit_pwd'));
+		$data['department'] = $this->input->post('user_edit_department', True);
+		$data['banned'] = $this->input->post('user_edit_banned', True) ? $this->input->post('user_edit_banned', True) : 0;
+		$data['access_type'] = $this->input->post('user_edit_access_type', True);
+		$data['limit_login_address'] = $this->input->post('user_edit_limit_login_address', True);
+		$data['memo'] = $this->input->post('user_edit_memo', True);
 		
 		$query = $this->Muser->get_user_by_id($id);
 		
