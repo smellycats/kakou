@@ -11,14 +11,14 @@ class Mlogo extends CI_Model
 		$this->logo_db = $this->load->database('logo_db', TRUE);
 	}
 
-	//»ñÈ¡¼à¿ØµØµã
+	//è·å–ç›‘æ§åœ°ç‚¹
 	function get_places()
 	{
 		$this->logo_db->select('*')->order_by('order','asc');
 		return $this->logo_db->get('places');
 	}
 	
-	//»ñÈ¡¼à¿ØµØµã
+	//è·å–ç›‘æ§åœ°ç‚¹
 	function get_places_by_perm($right)
 	{
 		$this->logo_db->select('*')->order_by('order','asc');
@@ -27,49 +27,49 @@ class Mlogo extends CI_Model
 		return $this->logo_db->get('places');
 	}
 	
-	//³µÅÆÀàĞÍ
+	//è½¦ç‰Œç±»å‹
 	function get_hpzl()
 	{
 		$this->logo_db->select('*');
 		return $this->logo_db->get('hpzl');
 	}
 	
-	//³µ±êÀàĞÍ
+	//è½¦æ ‡ç±»å‹
 	function get_logos()
 	{
 		$this->logo_db->select('*');
 		return $this->logo_db->get('logos');
 	}
 	
-	//Æ·ÅÆ´úÂë
+	//å“ç‰Œä»£ç 
 	function get_ppdm()
 	{
 		$this->logo_db->select('*');
 		return $this->logo_db->get('ppdm');
 	}
 	
-	//³µÁ¾ÀàĞÍ
+	//è½¦è¾†ç±»å‹
 	function get_cllx()
 	{
 		$this->logo_db->select('*');
 		return $this->logo_db->get('cllx');
 	}
 	
-	//³µÁ¾ÀàĞÍ2
+	//è½¦è¾†ç±»å‹2
 	function get_d_cllx()
 	{
 		$this->logo_db->select('*');
 		return $this->logo_db->get('d_cllx');
 	}
 	
-	//¸ù¾İID²éÑ¯Æû³µÆ·ÅÆÀàĞÍ
+	//æ ¹æ®IDæŸ¥è¯¢æ±½è½¦å“ç‰Œç±»å‹
 	function get_caridmap_by_id($id)
 	{
 		$this->logo_db->select('*')->where('id',$id);
 		return $this->logo_db->get('caridmap');
 	}
 	
-	//³µÉíÀàĞÍ
+	//è½¦èº«ç±»å‹
 	function get_csys()
 	{
 		$this->logo_db->select('*');
@@ -79,46 +79,46 @@ class Mlogo extends CI_Model
 	function get_confirm_carinfo($offset=0, $limit=0, $data)
 	{
 		$this->logo_db->where('passtime >=',$data['starttime'])->where('passtime <=',$data['endtime']);
-		#µØµã
+		#åœ°ç‚¹
 		if($data['place']=='all'){
 			$this->logo_db->where('i.cltx_place >=',0);
 		}else{
 			$this->logo_db->where('cltx_place',$data['place']);
 		}
-		#·½Ïò
+		#æ–¹å‘
 		if($data['direction']=='all'){
 			$this->logo_db->where('cltx_dire >=',0);
 		}else{
 			$this->logo_db->where('cltx_dire',$data['direction']);
 		}
 		
-		#³µ±ê
+		#è½¦æ ‡
 		if($data['logo']=='all'){
 			$data['logo'] = $data['logo'];
 		}else{
 			$this->logo_db->where('m.code',$data['logo']);
 		}
 		
-		#È·ÈÏĞÅÏ¢
+		#ç¡®è®¤ä¿¡æ¯
 		if($data['confirm']=='all'){
 			$this->logo_db->where('confirmflag >=',0);
 		}else{
 			$this->logo_db->where('confirmflag',intval($data['confirm']));
 		}
-		#¶ÌĞÅÈ·ÈÏ
+		#çŸ­ä¿¡ç¡®è®¤
 		if($data['smsflag']=='all'){
 			$this->logo_db->where('smsflag >=',0);
 		}else{
 			$this->logo_db->where('smsflag',intval($data['smsflag']));
 		}
-		#³µÁ¾Æ·ÅÆÈ·ÈÏ
+		#è½¦è¾†å“ç‰Œç¡®è®¤
 		if($data['clppflag']=='all'){
 			$this->logo_db->where('clppflag >=',0);
 		}else{
 			$this->logo_db->where('clppflag',intval($data['clppflag']));
 		}		
 		
-		#ºÅÅÆºÅÂë
+		#å·ç‰Œå·ç 
 		if($data['number']=='R'){
 			$this->logo_db->where('length(cltx_hphm) >=',2);
 		}
@@ -151,20 +151,20 @@ class Mlogo extends CI_Model
 	function get_confirm_carinfo3($offset=0, $limit=0, $sort='i.id', $order='desc', $data)
 	{
 		$this->logo_db->where('passtime >=',$data['st'])->where('passtime <=',$data['et']);
-		#µØµã
-		$data['place'] == 0 ? $this->logo_db->where('i.cltx_place >=',0) : $this->logo_db->where('cltx_place',$data['place']);
-		#·½Ïò
-		$data['dire'] == 0 ? $this->logo_db->where('cltx_dire >=',0) : $this->logo_db->where('cltx_dire',$data['dire']);
-		#³µ±ê
-		$data['ppdm'] == '0' ? $this->logo_db->where('m.code >=',0) : $this->logo_db->where('m.code',$data['ppdm']);
-		#³µÁ¾ÀàĞÍ
+		#åœ°ç‚¹
+		$data['place'] == 'all' ? $this->logo_db->where('i.cltx_place >=',0) : $this->logo_db->where('cltx_place',$data['place']);
+		#æ–¹å‘
+		$data['dire'] == 'all' ? $this->logo_db->where('cltx_dire >=',0) : $this->logo_db->where('cltx_dire',$data['dire']);
+		#è½¦æ ‡
+		$data['ppdm'] == 'all' ? $this->logo_db->where('m.code >=',0) : $this->logo_db->where('m.code',$data['ppdm']);
+		#è½¦è¾†ç±»å‹
 		$data['confirm'] == 'all' ? $this->logo_db->where('i.confirmflag >=',0) : $this->logo_db->where('i.confirmflag',$data['confirm']);
-		#³µÉíÑÕÉ«
+		#è½¦èº«é¢œè‰²
 		$data['smsflag'] == 'all' ? $this->logo_db->where('i.smsflag >=',0) : $this->logo_db->where('i.smsflag',$data['smsflag']);
-		#³µÅÆÑÕÉ«
+		#è½¦ç‰Œé¢œè‰²
 		$data['clppflag'] == 'all' ? $this->logo_db->where('i.clppflag >=',0) : $this->logo_db->where('i.clppflag',$data['clppflag']);
 		
-		#ºÅÅÆÖÖÀà
+		#å·ç‰Œç§ç±»
 		$this->logo_db->where('i.hpzl >=',0);
 		
 		switch ($data['number']){
@@ -200,51 +200,51 @@ class Mlogo extends CI_Model
 	function get_carinfo($offset=0, $limit=0, $data)
 	{
 		$this->logo_db->where('passtime >=',$data['starttime'])->where('passtime <=',$data['endtime']);
-		#µØµã
+		#åœ°ç‚¹
 		if($data['place']=='all'){
 			$this->logo_db->where('i.cltx_place >=',0);
 		}else{
 			$this->logo_db->where('cltx_place',$data['place']);
 		}
-		#·½Ïò
+		#æ–¹å‘
 		if($data['direction']=='all'){
 			$this->logo_db->where('cltx_dire >=',0);
 		}else{
 			$this->logo_db->where('cltx_dire',$data['direction']);
 		}
-		#³µµÀ
+		#è½¦é“
 		if($data['lane']=='all'){
 			$this->logo_db->where('cltx_lane >=',0);
 		}else{
 			$this->logo_db->where('cltx_lane',$data['lane']);
 		}
-		#³µÅÆÑÕÉ«
+		#è½¦ç‰Œé¢œè‰²
 		if($data['platecolor']=='all'){
 			$this->logo_db->where('cltx_color >=',0);
 		}else{
 			$this->logo_db->where('cltx_color',$data['platecolor']);
 		}
 		
-		#³µ±ê
+		#è½¦æ ‡
 		if($data['logo']=='all'){
 			$data['logo'] = $data['logo'];
 		}else{
 			$this->logo_db->where('m.code',$data['logo']);
 		}
 		
-		#³µÁ¾ÀàĞÍ
+		#è½¦è¾†ç±»å‹
 		if($data['cllx']=='all'){
 			$this->logo_db->where('i.cllx >=',0);
 		}else{
 			$this->logo_db->where('i.cllx',$data['cllx']);
 		}
-		#³µÉíÑÕÉ«
+		#è½¦èº«é¢œè‰²
 		if($data['csys']=='all'){
 			$this->logo_db->where('csys >=',0);
 		}else{
 			$this->logo_db->where('csys',$data['csys']);
 		}
-		#ºÅÅÆÖÖÀà
+		#å·ç‰Œç§ç±»
 		$this->logo_db->where('i.hpzl >=',0);
 		
 		if($data['number']=='R'){
@@ -276,7 +276,7 @@ class Mlogo extends CI_Model
 		}
 	}
 	
-	#¸ù¾İID»ñÈ¡³µÁ¾ĞÅÏ¢
+	#æ ¹æ®IDè·å–è½¦è¾†ä¿¡æ¯
 	function get_carinfo_by_id($id)
 	{
 		$this->logo_db->select('i.*, m.code, m.name');
@@ -285,7 +285,7 @@ class Mlogo extends CI_Model
 		return $this->logo_db->get('carinfo as i');
 	}
 	
-	#¸ù¾İID»ñÈ¡³µÁ¾ĞÅÏ¢
+	#æ ¹æ®IDè·å–è½¦è¾†ä¿¡æ¯
 	function get_full_carinfo_by_id($id)
 	{
 		$this->logo_db->select('i.*, p.place, m.code, m.name');
@@ -308,7 +308,7 @@ class Mlogo extends CI_Model
 		return $this->logo_db->get('carinfo as i');
 	}
 	
-	#¸ù¾İ³µÅÆºÅÂë²éÑ¯¹ã¶«³µ¹ÜĞÅÏ¢
+	#æ ¹æ®è½¦ç‰Œå·ç æŸ¥è¯¢å¹¿ä¸œè½¦ç®¡ä¿¡æ¯
 	function get_vehicle_gd_by_hphm($hphm)
 	{
 		$this->logo_db->select('v.*');
@@ -362,27 +362,27 @@ class Mlogo extends CI_Model
 		$this->logo_db->query('UNLOCK TABLES');
 	}
 	
-	#¸ù¾İÓÃ»§ID»ñÈ¡ÓÃ»§È·ÈÏ±í
+	#æ ¹æ®ç”¨æˆ·IDè·å–ç”¨æˆ·ç¡®è®¤è¡¨
 	function get_userconfirm_by_userid($userid)
 	{
 		$this->logo_db->select('*')->where('userid',$userid);
 		return $this->logo_db->get('userconfirm');
 	}
 	
-	#±à¼­ÓÃ»§È·ÈÏ±í
+	#ç¼–è¾‘ç”¨æˆ·ç¡®è®¤è¡¨
 	function edit_userconfirm($userid,$data)
 	{
 		$this->logo_db->where('userid', $userid);
  		return $this->logo_db->update('userconfirm', $data);
 	}
 	
-	#Ìí¼ÓÓÃ»§È·ÈÏ±í
+	#æ·»åŠ ç”¨æˆ·ç¡®è®¤è¡¨
 	function add_userconfirm($data)
 	{
 		$this->logo_db->insert('userconfirm',$data);
 	}
 	
-	#ĞŞ¸Ä³µÁ¾È·ÈÏĞÅÏ¢
+	#ä¿®æ”¹è½¦è¾†ç¡®è®¤ä¿¡æ¯
 	function edit_confirm($id,$data)
 	{
 		$this->logo_db->where('id', $id);
@@ -392,51 +392,51 @@ class Mlogo extends CI_Model
 	function get_carinfo2($offset=0, $limit=0, $data, $sort='i.id', $order='desc')
 	{
 		$this->logo_db->where('passtime >=',$data['starttime'])->where('passtime <=',$data['endtime']);
-		#µØµã
+		#åœ°ç‚¹
 		if($data['place']=='all'){
 			$this->logo_db->where('i.cltx_place >=',0);
 		}else{
 			$this->logo_db->where('cltx_place',$data['place']);
 		}
-		#·½Ïò
+		#æ–¹å‘
 		if($data['direction']=='all'){
 			$this->logo_db->where('cltx_dire >=',0);
 		}else{
 			$this->logo_db->where('cltx_dire',$data['direction']);
 		}
-		#³µµÀ
+		#è½¦é“
 		if($data['lane']=='all'){
 			$this->logo_db->where('cltx_lane >=',0);
 		}else{
 			$this->logo_db->where('cltx_lane',$data['lane']);
 		}
-		#³µÅÆÑÕÉ«
+		#è½¦ç‰Œé¢œè‰²
 		if($data['platecolor']=='all'){
 			$this->logo_db->where('cltx_color >=',0);
 		}else{
 			$this->logo_db->where('cltx_color',$data['platecolor']);
 		}
 		
-		#³µ±ê
+		#è½¦æ ‡
 		if($data['logo']=='all'){
 			$data['logo'] = $data['logo'];
 		}else{
 			$this->logo_db->where('m.code',$data['logo']);
 		}
 		
-		#³µÁ¾ÀàĞÍ
+		#è½¦è¾†ç±»å‹
 		if($data['cllx']=='all'){
 			$this->logo_db->where('i.cllx >=',0);
 		}else{
 			$this->logo_db->where('i.cllx',$data['cllx']);
 		}
-		#³µÉíÑÕÉ«
+		#è½¦èº«é¢œè‰²
 		if($data['csys']=='all'){
 			$this->logo_db->where('csys >=',0);
 		}else{
 			$this->logo_db->where('csys',$data['csys']);
 		}
-		#ºÅÅÆÖÖÀà
+		#å·ç‰Œç§ç±»
 		$this->logo_db->where('i.hpzl >=',0);
 		
 		if($data['number']=='R'){
@@ -476,21 +476,21 @@ class Mlogo extends CI_Model
 	function get_carinfo3($offset=0, $limit=0, $sort='i.id', $order='desc', $data)
 	{
 		$this->logo_db->where('passtime >=',$data['st'])->where('passtime <=',$data['et']);
-		#µØµã
+		#åœ°ç‚¹
 		$data['place'] == 'all' ? $this->logo_db->where('i.cltx_place >=',0) : $this->logo_db->where('cltx_place',$data['place']);
-		#·½Ïò
+		#æ–¹å‘
 		$data['dire'] == 'all' ? $this->logo_db->where('cltx_dire >=',0) : $this->logo_db->where('cltx_dire',$data['dire']);
-		#³µµÀ
+		#è½¦é“
 		$data['lane'] == 'all' ? $this->logo_db->where('cltx_lane >=',0) : $this->logo_db->where('cltx_lane',$data['lane']);
-		#³µÅÆÑÕÉ«
+		#è½¦ç‰Œé¢œè‰²
 		$data['hpys'] == 'all' ? $this->logo_db->where('cltx_color >=',0) : $this->logo_db->where('cltx_color',$data['hpys']);
-		#³µ±ê
+		#è½¦æ ‡
 		$data['ppdm'] == 'all' ? $this->logo_db->where('m.code >=',0) : $this->logo_db->where('m.code',$data['ppdm']);
-		#³µÁ¾ÀàĞÍ
+		#è½¦è¾†ç±»å‹
 		$data['cllx'] == 'all' ? $this->logo_db->where('i.cllx >=',0) : $this->logo_db->where('i.cllx',$data['cllx']);
-		#³µÉíÑÕÉ«
+		#è½¦èº«é¢œè‰²
 		$data['csys'] == 'all' ? $this->logo_db->where('i.csys >=',0) : $this->logo_db->where('i.csys',$data['csys']);
-		#ºÅÅÆÖÖÀà
+		#å·ç‰Œç§ç±»
 		$this->logo_db->where('i.hpzl >=',0);
 		
 		switch ($data['number']){
