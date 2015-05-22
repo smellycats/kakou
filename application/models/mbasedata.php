@@ -38,6 +38,29 @@ class Mbasedata extends CI_Model
 		$this->logo_db->select('*');
 		return $this->logo_db->get('hpzl');
 	}
+
+	//方向
+	function get_directions()
+	{
+		$this->logo_db->select('*');
+		$this->logo_db->where('id >', 1);
+		return $this->logo_db->get('directions');
+	}
+
+	//方向
+	function get_fxbh()
+	{
+		$this->logo_db->select('*');
+		$this->logo_db->where('id >', 1);
+		return $this->logo_db->get('directions');
+	}
+
+	//方向
+	function get_hpys()
+	{
+		$this->logo_db->select('*');
+		return $this->logo_db->get('platecolor');
+	}
 	
 	//车标类型
 	function get_logos()
@@ -49,7 +72,7 @@ class Mbasedata extends CI_Model
 	//品牌代码
 	function get_ppdm()
 	{
-		$this->logo_db->select('*');
+		$this->logo_db->select('code,name');
 		return $this->logo_db->get('ppdm');
 	}
 	
@@ -135,10 +158,13 @@ class Mbasedata extends CI_Model
 		return $this->db->get('notice');
 	}
 	
-	function get_clpp2($clpp)
+	//根据品牌代码获取子品牌
+	function get_clpp2($clpp1)
 	{	
 		$this->logo_db->select('*');
-		$this->logo_db->where('clpp1',$clpp);
+		$this->logo_db->where('clpp1', $clpp1);
+		$this->logo_db->where('banned', 0);
+		$this->logo_db->order_by('order');
 
 		return $this->logo_db->get('clpp2_dict');
 	}
