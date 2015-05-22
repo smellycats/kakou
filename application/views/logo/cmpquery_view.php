@@ -1,16 +1,15 @@
 
 <script type="text/javascript">
 	$(function(){
-		$("#lgquery_view_page_num").val(<?php echo '"' . $rows . '"'?>);
-		$("#lgquery_view_place").val(<?php echo '"'. $place .'"'?>);
-		$("#lgquery_view_dire").val(<?php echo '"'. $dire .'"'?>);
-		$("#lgquery_view_hpys").val(<?php echo '"'. $hpys .'"'?>);
-		$("#lgquery_view_ppdm").val(<?php echo '"'. $ppdm .'"'?>);
-		$("#lgquery_view_ppdm2").val(<?php echo '"'. $ppdm2 .'"'?>);
-		$("#lgquery_view_st").val(<?php echo '"'. $st .'"'?>);
-		$("#lgquery_view_et").val(<?php echo '"'. $et .'"'?>);
-		$("#lgquery_view_number").val(<?php echo '"'. $number .'"'?>);
-		$("#lgquery_view_carnum").val(<?php echo '"'. $carnum .'"'?>);
+		$("#cmpquery_view_page_num").val(<?php echo '"' . $rows . '"'?>);
+		$("#cmpquery_view_place").val(<?php echo '"'. $place .'"'?>);
+		$("#cmpquery_view_dire").val(<?php echo '"'. $dire .'"'?>);
+		$("#cmpquery_view_ppdm").val(<?php echo '"'. $ppdm .'"'?>);
+		$("#cmpquery_view_ppdm2").val(<?php echo '"'. $ppdm2 .'"'?>);
+		$("#cmpquery_view_st").val(<?php echo '"'. $st .'"'?>);
+		$("#cmpquery_view_et").val(<?php echo '"'. $et .'"'?>);
+		$("#cmpquery_view_number").val(<?php echo '"'. $number .'"'?>);
+		$("#cmpquery_view_carnum").val(<?php echo '"'. $carnum .'"'?>);
 	});
 </script>
 
@@ -22,7 +21,6 @@
 
 	<input type="hidden" name="place" value="<?php echo $place; ?>" />
 	<input type="hidden" name="dire" value="<?php echo $dire; ?>" />
-	<input type="hidden" name="hpys" value="<?php echo $hpys; ?>" />
 	<input type="hidden" name="ppdm" value="<?php echo $ppdm; ?>" />
 	<input type="hidden" name="ppdm2" value="<?php echo $ppdm2; ?>" />
 	<input type="hidden" name="st" value="<?php echo $st; ?>" />
@@ -39,7 +37,7 @@
 			<tr>
 				<td>
 					<label>卡口地点：</label>
-					<select class="combox" id="lgquery_view_place" name="place" >
+					<select class="combox" id="cmpquery_view_place" name="place" >
 						<option value="all">所有</option>
 						<?php foreach ($sel_place as $row): ?>
 						<option value="<?php echo $row['id']; ?>"><?php echo $row['place']; ?></option>
@@ -48,7 +46,7 @@
 				</td>
 				<td>
 					<label>方向：</label>
-					<select class="combox" id="lgquery_view_dire" name="dire" >
+					<select class="combox" id="cmpquery_view_dire" name="dire" >
 						<option value="all">所有</option>
 						<?php foreach ($sel_dire as $row): ?>
 						<option value="<?php echo $row['id']; ?>"><?php echo $row['dire']; ?></option>
@@ -56,23 +54,14 @@
 					</select>
 				</td>
 				<td>
-					<label>号牌颜色：</label>
-					<select class="combox" id="lgquery_view_hpys" name="hpys" >
-						<option value="all">所有</option>
-						<?php foreach ($sel_hpys as $row): ?>
-						<option value="<?php echo $row['id']; ?>"><?php echo $row['color']; ?></option>
-						<?php endforeach; ?>
-					</select>
-				</td>
-				<td>
 					<label>车辆品牌：</label>
-					<select class="combox" id="lgquery_view_ppdm" name="ppdm" ref="lgquery_view_ppdm2" refUrl="<?php echo base_url('index.php/logo/get_ppdm2?ppdm=');?>{value}">
+					<select class="combox" id="cmpquery_view_ppdm" name="ppdm" ref="cmpquery_view_ppdm2" refUrl="<?php echo base_url('index.php/logo/get_ppdm2?ppdm=');?>{value}">
 						<option value="all">所有</option>
 						<?php foreach ($sel_ppdm as $row): ?>
 						<option value="<?php echo $row['code']; ?>"><?php echo $row['name']; ?></option>
 						<?php endforeach; ?>
 					</select>
-					<select class="combox" id="lgquery_view_ppdm2" name="ppdm2">
+					<select class="combox" id="cmpquery_view_ppdm2" name="ppdm2">
 						<option value="all">请选择主品牌</option>
 					</select>
 				</td>
@@ -80,22 +69,20 @@
 			<tr>
 				<td>
 					<span>开始时间：</span>
-					<input type="text" id="lgquery_view_st" name="st" class="date" dateFmt="yyyy-MM-dd HH:mm:ss" readonly="true"/>
+					<input type="text" id="cmpquery_view_st" name="st" class="date" dateFmt="yyyy-MM-dd HH:mm:ss" readonly="true"/>
 				</td>
 				<td>
 					<span>结束时间：</span>
-					<input type="text" id="lgquery_view_et" name="et" class="date" dateFmt="yyyy-MM-dd HH:mm:ss" readonly="true"/>
+					<input type="text" id="cmpquery_view_et" name="et" class="date" dateFmt="yyyy-MM-dd HH:mm:ss" readonly="true"/>
 				</td>
 				<td>
 					<label>车牌号码：</label>
-					<select class="combox" id="lgquery_view_number" name="number">
+					<select class="combox" id="cmpquery_view_number" name="number">
 						<?php foreach ($sel_number as $row): ?>
 						<option value="<?php echo $row; ?>"><?php echo $row; ?></option>
 						<?php endforeach; ?>
 					</select>
-				</td>
-				<td>
-					<input type="text" id="lgquery_view_carnum" name="carnum" value="" />
+					<input type="text" id="cmpquery_view_carnum" name="carnum" value="" />
 				</td>
 				<td>
 					<div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div>
@@ -127,7 +114,7 @@
 			<li class="line">line</li>
 		</ul>
 	</div>
-	<table class="table" width="100%" layoutH="145">
+	<table class="table" width="100%" layoutH="138">
 		<thead>
 			<tr>
 				<th width="20">#</th>
@@ -166,7 +153,7 @@
 	<div class="panelBar">
 		<div class="pages">
 			<span>显示</span>
-			<select class="combox" id="lgquery_view_page_num" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
+			<select class="combox" id="cmpquery_view_page_num" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
 				<option value="20">20</option>
 				<option value="50">50</option>
 			</select>
