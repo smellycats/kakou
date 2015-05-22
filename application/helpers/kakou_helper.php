@@ -65,11 +65,11 @@ if ( ! function_exists('showmessage3'))
 }
 
 /**
-  * Êı×é×ª»»³É×Ö·û´®
+  * æ•°ç»„è½¬æ¢æˆå­—ç¬¦ä¸²
   *
-  * @param array ÊäÈëÊı×é¡£
+  * @param array è¾“å…¥æ•°ç»„ã€‚
   * 
-  * @return string ·µ»Ø','Îª·Ö¸ô·ûµÄ×Ö·û´®¡£
+  * @return string è¿”å›','ä¸ºåˆ†éš”ç¬¦çš„å­—ç¬¦ä¸²ã€‚
   */
 if( ! function_exists('array_to_string'))
 {
@@ -87,11 +87,11 @@ if( ! function_exists('array_to_string'))
 }
 
 /**
- * IP×Ö·û´®×ª»»³É¸¡µãĞÍ
+ * IPå­—ç¬¦ä¸²è½¬æ¢æˆæµ®ç‚¹å‹
  *
- * @param string IP×Ö·û´®¡£
+ * @param string IPå­—ç¬¦ä¸²ã€‚
  * 
- * @return double ·µ»ØIPÊıÖµ¡£
+ * @return double è¿”å›IPæ•°å€¼ã€‚
  */
 if( ! function_exists('ip_to_double'))
 {
@@ -128,13 +128,13 @@ if( ! function_exists('ip_to_double'))
 	}
 
 /**
- * Éú³ÉÍ¼Æ¬Â·¾¶
+ * ç”Ÿæˆå›¾ç‰‡è·¯å¾„
  *
- * @param string $path1 Â·¾¶Ãû
- * @param string $path2 Â·¾¶Ãû
- * @param string $path3 Â·¾¶Ãû
+ * @param string $path1 è·¯å¾„å
+ * @param string $path2 è·¯å¾„å
+ * @param string $path3 è·¯å¾„å
  * 
- * @return string ·µ»ØÍ¼Æ¬urlÂ·¾¶¡£
+ * @return string è¿”å›å›¾ç‰‡urlè·¯å¾„ã€‚
  */
 if( ! function_exists('get_picurl'))
 {
@@ -148,13 +148,13 @@ if( ! function_exists('get_picurl'))
 }
 
 /**
- * Éú³ÉÍ¼Æ¬url
+ * ç”Ÿæˆå›¾ç‰‡url
  *
- * @param boolean $wm_open ÊÇ·ñ¿ªÆôË®Ó¡¡£
- * @param string $address Í¼Æ¬µØÖ·¡£
- * @param object $carinfo ³µÁ¾ĞÅÏ¢¶ÔÏó¡£
+ * @param boolean $wm_open æ˜¯å¦å¼€å¯æ°´å°ã€‚
+ * @param string $address å›¾ç‰‡åœ°å€ã€‚
+ * @param object $carinfo è½¦è¾†ä¿¡æ¯å¯¹è±¡ã€‚
  * 
- * @return string ·µ»ØÍ¼Æ¬urlÂ·¾¶¡£
+ * @return string è¿”å›å›¾ç‰‡urlè·¯å¾„ã€‚
  */
 if( ! function_exists('h_create_img'))
 {
@@ -172,7 +172,7 @@ if( ! function_exists('h_create_img'))
 }
 
 /**
- * ÅúÁ¿ÏÂÔØÍ¼Æ¬
+ * æ‰¹é‡ä¸‹è½½å›¾ç‰‡
  *
  * @access		public
  * @param	    array
@@ -210,11 +210,11 @@ if( ! function_exists('download_img'))
 }
 
 /**
- * Êı×é×ª»¯Îª¼Óµ¥ÒıºÅ×Ö·û´®
+ * æ•°ç»„è½¬åŒ–ä¸ºåŠ å•å¼•å·å­—ç¬¦ä¸²
  *
- * $param array $array ÊäÈëÊı×é
+ * $param array $array è¾“å…¥æ•°ç»„
  * 
- * $return string ·µ»Ø','·Ö¸îºóµÄ×Ö·û´®¡£
+ * $return string è¿”å›','åˆ†å‰²åçš„å­—ç¬¦ä¸²ã€‚
  * 
  */
 if( ! function_exists('arr_to_sigquostr'))
@@ -247,18 +247,18 @@ if( ! function_exists('change_to_quotes2'))
 }
 
 /**
- * °´,ºÅ·Ö¸ô×Ö·û´®Éú³ÉÊı×é²¢É¾³ı¿Õ°×·û
+ * æŒ‰,å·åˆ†éš”å­—ç¬¦ä¸²ç”Ÿæˆæ•°ç»„å¹¶åˆ é™¤ç©ºç™½ç¬¦
  * 
- * $param string $value ÊäÈë×Ö·û´®
+ * $param string $value è¾“å…¥å­—ç¬¦ä¸²
  * 
- * $return array ·µ»Ø','·Ö¸îºóµÄÊı×é¡£
+ * $return array è¿”å›','åˆ†å‰²åçš„æ•°ç»„ã€‚
  * 
  */
 if( ! function_exists('trim_arr'))
 {
 	function trim_arr($value)
 	{
-		$arr = explode(",", str_replace('£¬', ',', $value));
+		$arr = explode(",", str_replace('ï¼Œ', ',', $value));
 		foreach($arr as $id=>$item) {
 			$t_arr[$id] = trim($item);
 		}
@@ -267,12 +267,12 @@ if( ! function_exists('trim_arr'))
 }
 
 /**
- * ³µÅÆºÅÂë×ª»»³ÉÊı¾İ¿â²éÑ¯ÓÃµÄ×Ö·û¡£
+ * è½¦ç‰Œå·ç è½¬æ¢æˆæ•°æ®åº“æŸ¥è¯¢ç”¨çš„å­—ç¬¦ã€‚
  * 
- * $param string $value1 ³µÅÆºÅÂë1
- * $param string $value2 ³µÅÆºÅÂë2
+ * $param string $value1 è½¦ç‰Œå·ç 1
+ * $param string $value2 è½¦ç‰Œå·ç 2
  * 
- * $return string ·µ»ØÒ»¸öÍê³ÉµÄ³µÅÆºÅÂë¡£
+ * $return string è¿”å›ä¸€ä¸ªå®Œæˆçš„è½¦ç‰Œå·ç ã€‚
  */
 if( ! function_exists('format_carnum'))
 {
@@ -281,20 +281,42 @@ if( ! function_exists('format_carnum'))
 		$number = str_replace('?', '%', $value1);
        	$carnum = str_replace('*', '%', $number.$value2);
         $carnum = str_replace('?', '_', $carnum);
-        $carnum = str_replace('£¿', '_', $carnum);
+        $carnum = str_replace('ï¼Ÿ', '_', $carnum);
         
 		return $carnum;
 	}
 }
 
 /**
- * ·¢ËÍpostÇëÇó
+ * è½¦ç‰Œå·ç è½¬æ¢æˆæ•°æ®åº“æŸ¥è¯¢ç”¨çš„å­—ç¬¦ã€‚
  * 
- * @param string $url ÇëÇóµØÖ·
- * @param array $post_data POST¼üÖµ¶ÔÊı¾İ
- * @param int $timeout ³¬Ê±
+ * $param string $number è½¦ç‰Œå·ç 1
+ * $param string $carnum è½¦ç‰Œå·ç 2
  * 
- * @return string ·µ»ØÏìÓ¦ĞÅÏ¢»òÕßÔÚÊ§°ÜÊ±·µ»Ø FALSE¡£
+ * $return string è¿”å›ä¸€ä¸ªå®Œæ•´çš„è½¦ç‰Œå·ç ã€‚
+ */
+if( ! function_exists('h_create_platename'))
+{
+	function h_create_platename($number,$carnum)
+	{
+		$number = str_replace('?', '%', $number);
+		$number = str_replace('ï¼Ÿ', '%', $number);
+       	$carnum = str_replace('*', '%', $carnum);
+        $carnum = str_replace('?', '_', $carnum);
+        $carnum = str_replace('ï¼Ÿ', '_', $carnum);
+        
+		return $number . $carnum;
+	}
+}
+
+/**
+ * å‘é€postè¯·æ±‚
+ * 
+ * @param string $url è¯·æ±‚åœ°å€
+ * @param array $post_data POSTé”®å€¼å¯¹æ•°æ®
+ * @param int $timeout è¶…æ—¶
+ * 
+ * @return string è¿”å›å“åº”ä¿¡æ¯æˆ–è€…åœ¨å¤±è´¥æ—¶è¿”å› FALSEã€‚
  */
 if( ! function_exists('h_send_post'))
 {
@@ -306,7 +328,7 @@ if( ! function_exists('h_send_post'))
 				'method' => 'POST',
 				'header' => 'Content-type:application/x-www-form-urlencoded',
 				'content' => $postdata,
-				'timeout' => $timeout // ³¬Ê±Ê±¼ä£¨µ¥Î»:s£©
+				'timeout' => $timeout // è¶…æ—¶æ—¶é—´ï¼ˆå•ä½:sï¼‰
 			)
 		);
 		$context = stream_context_create($options);
@@ -317,13 +339,13 @@ if( ! function_exists('h_send_post'))
 }
 
 /**
- * ·¢ËÍpostÇëÇó
+ * å‘é€postè¯·æ±‚
  * 
- * @param string $url ÇëÇóµØÖ·
- * @param array $post_data POST¼üÖµ¶ÔÊı¾İ
- * @param int $timeout ³¬Ê±
+ * @param string $url è¯·æ±‚åœ°å€
+ * @param array $post_data POSTé”®å€¼å¯¹æ•°æ®
+ * @param int $timeout è¶…æ—¶
  * 
- * @return string ·µ»ØÏìÓ¦ĞÅÏ¢»òÕßÔÚÊ§°ÜÊ±·µ»Ø FALSE¡£
+ * @return string è¿”å›å“åº”ä¿¡æ¯æˆ–è€…åœ¨å¤±è´¥æ—¶è¿”å› FALSEã€‚
  */
 if( ! function_exists('h_send_json_post'))
 {
@@ -335,7 +357,7 @@ if( ! function_exists('h_send_json_post'))
 				'method' => 'POST',
 				'header' => 'Content-type:application/json',
 				'content' => $post_data,
-				'timeout' => $timeout // ³¬Ê±Ê±¼ä£¨µ¥Î»:s£©
+				'timeout' => $timeout // è¶…æ—¶æ—¶é—´ï¼ˆå•ä½:sï¼‰
 			)
 		);
 		$context = stream_context_create($options);
@@ -347,11 +369,11 @@ if( ! function_exists('h_send_json_post'))
 
 
 /**
- * ×Ö·û´®GBK×ªÂëÎªUTF-8£¬Êı×Ö×ª»»ÎªÊı×Ö¡£
+ * å­—ç¬¦ä¸²GBKè½¬ç ä¸ºUTF-8ï¼Œæ•°å­—è½¬æ¢ä¸ºæ•°å­—ã€‚
  * 
- * @param string $s GBK×Ö·ûÀàĞÍ
+ * @param string $s GBKå­—ç¬¦ç±»å‹
  * 
- * @return string ·µ»ØUTF-8×Ö·ûÀàĞÍ¡£
+ * @return string è¿”å›UTF-8å­—ç¬¦ç±»å‹ã€‚
  */
 if( ! function_exists('ct2'))
 {
@@ -365,11 +387,11 @@ if( ! function_exists('ct2'))
 }
 
 /**
- * ×Ö·ûÊı×éGBK×ªÂëÎªUTF-8¡£
+ * å­—ç¬¦æ•°ç»„GBKè½¬ç ä¸ºUTF-8ã€‚
  * 
- * @param array $s GBK×Ö·ûÊı×é
+ * @param array $s GBKå­—ç¬¦æ•°ç»„
  * 
- * @return array ·µ»ØUTF-8×Ö·ûÊı×é¡£
+ * @return array è¿”å›UTF-8å­—ç¬¦æ•°ç»„ã€‚
  */
 if( ! function_exists('icon_to_utf8'))
 {
