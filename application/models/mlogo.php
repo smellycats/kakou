@@ -389,93 +389,11 @@ class Mlogo extends CI_Model
  		return $this->logo_db->update('carinfo', $data);
 	}
 	
-	function get_carinfo2($offset=0, $limit=0, $data, $sort='i.id', $order='desc')
-	{
-		$this->logo_db->where('passtime >=',$data['starttime'])->where('passtime <=',$data['endtime']);
-		#地点
-		if($data['place']=='all'){
-			$this->logo_db->where('i.cltx_place >=',0);
-		}else{
-			$this->logo_db->where('cltx_place',$data['place']);
-		}
-		#方向
-		if($data['direction']=='all'){
-			$this->logo_db->where('cltx_dire >=',0);
-		}else{
-			$this->logo_db->where('cltx_dire',$data['direction']);
-		}
-		#车道
-		if($data['lane']=='all'){
-			$this->logo_db->where('cltx_lane >=',0);
-		}else{
-			$this->logo_db->where('cltx_lane',$data['lane']);
-		}
-		#车牌颜色
-		if($data['platecolor']=='all'){
-			$this->logo_db->where('cltx_color >=',0);
-		}else{
-			$this->logo_db->where('cltx_color',$data['platecolor']);
-		}
-		
-		#车标
-		if($data['logo']=='all'){
-			$data['logo'] = $data['logo'];
-		}else{
-			$this->logo_db->where('m.code',$data['logo']);
-		}
-		
-		#车辆类型
-		if($data['cllx']=='all'){
-			$this->logo_db->where('i.cllx >=',0);
-		}else{
-			$this->logo_db->where('i.cllx',$data['cllx']);
-		}
-		#车身颜色
-		if($data['csys']=='all'){
-			$this->logo_db->where('csys >=',0);
-		}else{
-			$this->logo_db->where('csys',$data['csys']);
-		}
-		#号牌种类
-		$this->logo_db->where('i.hpzl >=',0);
-		
-		if($data['number']=='R'){
-			$this->logo_db->where('length(cltx_hphm) >=',2);
-		}
-		elseif($data['number']=='?'){
-			if($data['carnum']==''){
-				$data['carnum'] = $data['carnum'];
-			}
-			else{
-				$this->logo_db->where('cltx_hphm like','%'.$data['carnum']);
-			}
-		}
-		else{
-			$this->logo_db->where('cltx_hphm like',$data['platename'].'%');
-		}
-		
-		$this->logo_db->join('ppdm as m','i.ppdm = m.code');
-		
-		if ($limit==0){
-			$this->logo_db->select('count(*) as sum');
-			
-			return $this->logo_db->get('carinfo as i');
-		}else{
-			$this->logo_db->select('i.*, m.code, m.name as clpp_name, p.place as place_name, s.color as color_name, c.name as cllx_name, d.dire as dire_name, y.name as csys_name');
-			$this->logo_db->join('places as p','i.cltx_place = p.id','left');
-			$this->logo_db->join('cllx as c','i.cllx = c.code','left');
-			$this->logo_db->join('platecolor as s','i.cltx_color = s.id','left');
-			$this->logo_db->join('directions as d','i.cltx_dire = d.id','left');
-			$this->logo_db->join('csys as y','i.csys = y.code','left');
-			$this->logo_db->order_by($sort,$order);
-			
-			return $this->logo_db->get('carinfo as i',$limit,$offset);
-		}
-	}
 
 	function get_carinfo3($offset=0, $limit=0, $sort='i.id', $order='desc', $data)
 	{
-		$this->logo_db->where('passtime >=',$data['st'])->where('passtime <=',$data['et']);
+		$this->logo_db->where('passtime >=',$data['st']); # 开始时间
+		$this->logo_db->where('passtime <=',$data['et']); # 结束时间
 		#地点
 		$data['place'] == 'all' ? $this->logo_db->where('i.cltx_place >=',0) : $this->logo_db->where('cltx_place',$data['place']);
 		#方向
@@ -484,8 +402,14 @@ class Mlogo extends CI_Model
 		$data['lane'] == 'all' ? $this->logo_db->where('cltx_lane >=',0) : $this->logo_db->where('cltx_lane',$data['lane']);
 		#车牌颜色
 		$data['hpys'] == 'all' ? $this->logo_db->where('cltx_color >=',0) : $this->logo_db->where('cltx_color',$data['hpys']);
-		#车标
-		$data['ppdm'] == 'all' ? $this->logo_db->where('m.code >=',0) : $this->logo_db->where('m.code',$data['ppdm']);
+		# 车辆品牌
+		if ($data['ppdm'] == 'all') {
+			$this->logo_db->where('ppdm2 >=','000000');
+		} elseif ($data['ppdm2'] == 'all') {
+			$this->logo_db->where('ppdm2 like',$data['ppdm'].'%');
+		} else {
+			$this->logo_db->where('ppdm2',$data['ppdm2']);
+		}
 		#车辆类型
 		$data['cllx'] == 'all' ? $this->logo_db->where('i.cllx >=',0) : $this->logo_db->where('i.cllx',$data['cllx']);
 		#车身颜色
@@ -497,7 +421,7 @@ class Mlogo extends CI_Model
 			case 'R':
 				$this->logo_db->where('length(cltx_hphm) >=',2);
 				break;
-			case '?':
+			case '?' || '？':
 				$data['carnum'] == '' ? $data['carnum'] = $data['carnum'] : $this->logo_db->where('cltx_hphm like','%'.$data['carnum']);
 				break;
 			default:

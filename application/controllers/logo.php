@@ -69,18 +69,20 @@ class Logo extends CI_Controller
 	    $data['order'] = $this->input->post('order') ? $this->input->post('order') : 'desc';
 		$data['offset'] = ($data['page'] - 1) * $data['rows'];
 
-		$data['number'] = $this->input->post('number') ? $this->input->post('number') : '?';
+		$data['number'] = $this->input->post('number') ? $this->input->post('number') : '？'; #‘？’是中文字体
 		$data['carnum'] = $this->input->post('carnum') ? $this->input->post('carnum') : '';
 		$data['place'] = $this->input->post('place') ? $this->input->post('place') : 'all';
 		$data['dire'] = $this->input->post('dire') ? $this->input->post('dire') : 'all';
 		$data['hpys'] = $this->input->post('hpys') ? $this->input->post('hpys') : 'all';
 		$data['ppdm'] = $this->input->post('ppdm') ? $this->input->post('ppdm') : 'all';
+		$data['ppdm2'] = $this->input->post('ppdm2') ? $this->input->post('ppdm2') : 'all';
 		$data['cllx'] = $this->input->post('cllx') ? $this->input->post('cllx') : 'all';
 		$data['csys'] = $this->input->post('csys') ? $this->input->post('csys') : 'all';
 		$data['hpys'] = $this->input->post('hpys') ? $this->input->post('hpys') : 'all';
 		$data['st'] = $this->input->post('st') ? $this->input->post('st') : mdate("%Y-%m-%d %H:%i:%s",strtotime("-2 hours"));;
 		$data['et'] = $this->input->post('et') ? $this->input->post('et') : mdate("%Y-%m-%d %H:%i:%s");
 		$data['lane'] = 'all';
+		$data['platename'] = h_create_platename($data['number'],$data['carnum']);
 
 		$_SESSION['lgquery'] = $data;
 
@@ -88,9 +90,6 @@ class Logo extends CI_Controller
 		$data['total'] = $this->Mlogo->get_carinfo3(0,0,$data['sort'],$data['order'],$data)->row()->sum;
 
 		$data['title'] = '品牌查询';
-		$data['orderField'] = $data['sort'];
-		$data['orderDirection'] = $data['order'];
-		$data['total_page'] = ceil($data['total'] / $data['rows']);  //向上取整
 
 		$data['sel_place'] = $this->Mbasedata->get_places()->result_array();
 		$data['sel_dire'] = $this->Mbasedata->get_directions()->result_array();
@@ -101,6 +100,7 @@ class Logo extends CI_Controller
 		$this->load->view('logo/lgquery_view', $data);
 	}
 
+	//获取子品牌类型
 	function get_ppdm2()
 	{
 		$ppdm = $this->input->get('ppdm', True);
@@ -108,7 +108,7 @@ class Logo extends CI_Controller
 		if ($ppdm == 'all') {
 			$result = array(array('all', '请选择主品牌'));
 		} else {
-			$result = array();
+			$result = array(array('all', '所有子品牌'));
 			$query = $this->Mbasedata->get_clpp2($ppdm);
 			#$ppdm_list = array();
 			foreach($query->result_array() as $row) {
