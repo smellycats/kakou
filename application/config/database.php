@@ -49,7 +49,7 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = '';
+$db['default']['password'] = 'root';
 $db['default']['database'] = 'kakou';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
@@ -101,7 +101,7 @@ $db['oracle_db']['stricton'] = FALSE;
 
 $db['logo_db']['hostname'] = '127.0.0.1';
 $db['logo_db']['username'] = 'root';
-$db['logo_db']['password'] = '';
+$db['logo_db']['password'] = 'root';
 $db['logo_db']['database'] = 'vehicle_logo';
 $db['logo_db']['dbdriver'] = 'mysql';
 $db['logo_db']['dbprefix'] = '';
