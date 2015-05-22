@@ -12,7 +12,7 @@ class Mbasedata extends CI_Model
 		$this->db = $this->load->database('default', TRUE);
 	}
 
-	//»ñÈ¡¼à¿ØµØµã
+	//èŽ·å–ç›‘æŽ§åœ°ç‚¹
 	function get_places()
 	{
 		$this->logo_db->select('*');
@@ -22,7 +22,7 @@ class Mbasedata extends CI_Model
 		return $this->logo_db->get('places');
 	}
 	
-	//»ñÈ¡¼à¿ØµØµã
+	//èŽ·å–ç›‘æŽ§åœ°ç‚¹
 	function get_places_by_perm($right)
 	{
 		$this->logo_db->select('*')->order_by('order','asc');
@@ -32,14 +32,14 @@ class Mbasedata extends CI_Model
 		return $this->logo_db->get('places');
 	}
 	
-	//³µÅÆÀàÐÍ
+	//è½¦ç‰Œç±»åž‹
 	function get_hpzl()
 	{
 		$this->logo_db->select('*');
 		return $this->logo_db->get('hpzl');
 	}
 
-	//·½Ïò
+	//æ–¹å‘
 	function get_directions()
 	{
 		$this->logo_db->select('*');
@@ -47,7 +47,7 @@ class Mbasedata extends CI_Model
 		return $this->logo_db->get('directions');
 	}
 
-	//·½Ïò
+	//æ–¹å‘
 	function get_fxbh()
 	{
 		$this->logo_db->select('*');
@@ -55,49 +55,49 @@ class Mbasedata extends CI_Model
 		return $this->logo_db->get('directions');
 	}
 
-	//·½Ïò
+	//æ–¹å‘
 	function get_hpys()
 	{
 		$this->logo_db->select('*');
 		return $this->logo_db->get('platecolor');
 	}
 	
-	//³µ±êÀàÐÍ
+	//è½¦æ ‡ç±»åž‹
 	function get_logos()
 	{
 		$this->logo_db->select('*');
 		return $this->logo_db->get('logos');
 	}
 	
-	//Æ·ÅÆ´úÂë
+	//å“ç‰Œä»£ç 
 	function get_ppdm()
 	{
 		$this->logo_db->select('code,name');
 		return $this->logo_db->get('ppdm');
 	}
 	
-	//³µÁ¾ÀàÐÍ
+	//è½¦è¾†ç±»åž‹
 	function get_cllx()
 	{
 		$this->logo_db->select('*');
 		return $this->logo_db->get('cllx');
 	}
 	
-	//³µÁ¾ÀàÐÍ2
+	//è½¦è¾†ç±»åž‹2
 	function get_d_cllx()
 	{
 		$this->logo_db->select('*');
 		return $this->logo_db->get('d_cllx');
 	}
 	
-	//¸ù¾ÝID²éÑ¯Æû³µÆ·ÅÆÀàÐÍ
+	//æ ¹æ®IDæŸ¥è¯¢æ±½è½¦å“ç‰Œç±»åž‹
 	function get_caridmap_by_id($id)
 	{
 		$this->logo_db->select('*')->where('id',$id);
 		return $this->logo_db->get('caridmap');
 	}
 	
-	//³µÉíÀàÐÍ
+	//è½¦èº«ç±»åž‹
 	function get_csys()
 	{
 		$this->logo_db->select('*');
@@ -106,7 +106,7 @@ class Mbasedata extends CI_Model
 	
 
 	
-	#¸ù¾ÝID»ñÈ¡³µÁ¾ÐÅÏ¢
+	#æ ¹æ®IDèŽ·å–è½¦è¾†ä¿¡æ¯
 	function get_carinfo_by_id($id)
 	{
 		$this->logo_db->select('i.*, m.code, m.name');
@@ -115,7 +115,7 @@ class Mbasedata extends CI_Model
 		return $this->logo_db->get('carinfo as i');
 	}
 	
-	#¸ù¾ÝID»ñÈ¡³µÁ¾ÐÅÏ¢
+	#æ ¹æ®IDèŽ·å–è½¦è¾†ä¿¡æ¯
 	function get_full_carinfo_by_id($id)
 	{
 		$this->logo_db->select('i.*, p.place, m.code, m.name');
@@ -125,7 +125,7 @@ class Mbasedata extends CI_Model
 		return $this->logo_db->get('carinfo as i');
 	}
 	
-	#¸ù¾Ý³µÅÆºÅÂë²éÑ¯¹ã¶«³µ¹ÜÐÅÏ¢
+	#æ ¹æ®è½¦ç‰Œå·ç æŸ¥è¯¢å¹¿ä¸œè½¦ç®¡ä¿¡æ¯
 	function get_vehicle_gd_by_hphm($hphm)
 	{
 		$this->logo_db->select('v.*');
@@ -135,7 +135,7 @@ class Mbasedata extends CI_Model
 		return $this->logo_db->get('vehicle_gd as v');
 	}
 	
-	#»ñÈ¡²Ëµ¥
+	#èŽ·å–èœå•
 	function get_menu($fid=0)
 	{
 		$this->db->select('*');
@@ -146,9 +146,9 @@ class Mbasedata extends CI_Model
 	}
 
 	/*
-	 * ¹«¸æº¯Êý
+	 * å…¬å‘Šå‡½æ•°
 	 */
-	//»ñÈ¡¹«¸æ
+	//èŽ·å–å…¬å‘Š
 	function get_notice()
 	{	
 		$this->db->select('id,created,modified,content,banned');
@@ -158,7 +158,7 @@ class Mbasedata extends CI_Model
 		return $this->db->get('notice');
 	}
 	
-	//¸ù¾ÝÆ·ÅÆ´úÂë»ñÈ¡×ÓÆ·ÅÆ
+	//æ ¹æ®å“ç‰Œä»£ç èŽ·å–å­å“ç‰Œ
 	function get_clpp2($clpp1)
 	{	
 		$this->logo_db->select('*');
