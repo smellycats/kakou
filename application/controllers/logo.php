@@ -184,4 +184,108 @@ class Logo extends CI_Controller
 		$this->load->view('logo/real_select_view', $data);
 	}
 
+	// 短信设置列表
+	function smsnum()
+	{
+		$data['page'] = $this->input->post('page') ? intval($this->input->post('page')) : 1;
+		$data['rows'] = $this->input->post('rows') ? intval($this->input->post('rows')) : 20;
+		$data['sort'] = $this->input->post('sort') ? $this->input->post('sort') : 'i.id';
+	    $data['order'] = $this->input->post('order') ? $this->input->post('order') : 'desc';
+		$data['offset'] = ($data['page'] - 1) * $data['rows'];
+
+		$data['result'] = $this->Msms->get_sms($data['offset'],$data['rows'],$data['sort'],$data['order'],$data)->result_array();
+		$data['total'] = $this->Msms->get_sms(0,0,$data['sort'],$data['order'],$data)->row()->sum;
+
+		$data['title'] = '短信编辑';
+
+		$this->load->view('sms/sms_view', $data);
+	}
+
+	// 短信添加dialog
+	function sms_add_view()
+	{
+		$this->load->view('sms/sms_add');
+	}
+
+	// 短信编辑dialog
+	function sms_edit_view()
+	{
+		$id = $this->input->get('id',True);
+		
+		$query = $this->Msms->get_sms_by_id($id);
+
+		$data['tel'] = $query->row()->tel;
+		$data['mark'] = $query->row()->mark;
+
+		$this->load->view('sms/sms_edit', $data);
+	}
+
+
+	// 添加短信
+	function sms_add() 
+	{
+		$data['tel'] = $this->input->post('tel', True);
+		$data['mark'] = $this->input->post('mark', True);
+
+		$data['tel'] = str_replace("，", ",", $data['tel']);
+		
+		$result = array();
+		if ($this->Msms->add_sms($data)) {
+			$result["statusCode"] = "200";
+			$result["message"] = "短信添加完成！";
+            $result["navTabId"] = "smsnum";
+            $result["forwardUrl"] = base_url() . "index.php/logo/smsnum";
+            $result["callbackType"] = "closeCurrent";
+		} else {
+			$result["statusCode"] = "300";
+			$result["message"] = "短信添加失败，请稍后再试！";
+		}
+		
+		echo json_encode($result);
+	}
+	
+	// 编辑短信
+	function sms_edit() 
+	{	
+		$id = $this->input->get('id',True);
+		
+		$data['tel'] = $this->input->post('tel', True);
+		$data['mark'] = $this->input->post('mark', True);
+		
+		$data['tel'] = str_replace("，", ",", $data['tel']);
+		
+		$result = array();
+		if ($this->Msms->edit_sms($id, $data)) {
+			$result["statusCode"] = "200";
+			$result["message"] = "短信编辑成功！";
+            $result["navTabId"] = "smsnum";
+            $result["forwardUrl"] = base_url() . "index.php/logo/smsnum";
+            $result["callbackType"] = "closeCurrent";
+		} else {
+			$result["statusCode"] = "300";
+			$result["message"] = "短信编辑失败，请稍后再试！";
+		}
+		
+		echo json_encode($result);
+	}
+	
+	// 删除短信
+	function sms_del()
+	{
+		$id = $this->input->get('id',True);
+		
+		$result = array();
+		$data['banned'] = 1;
+		if ($this->Msms->edit_sms($id, $data)) {
+			$result['statusCode'] = "200";
+			$result['message'] = "短信删除成功！";
+			$result["navTabId"] = "smsnum";
+		} else {
+			$result['statusCode'] = "300";
+			$result['message'] = "短信删除失败，请稍后再试！"; 
+		}
+
+		echo json_encode($result);
+	}
+
 }
