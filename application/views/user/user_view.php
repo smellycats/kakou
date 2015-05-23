@@ -6,12 +6,13 @@
 </script>
 
 <form id="pagerForm" method="post" action="<?php echo site_url('user/account_man'); ?>">
-	<input type="hidden" name="username" value="<?php echo $username; ?>">
-	<input type="hidden" name="department" value="<?php echo $department; ?>">
 	<input type="hidden" name="page" value="<?php echo $page; ?>" />
 	<input type="hidden" name="rows" value="<?php echo $rows; ?>" />
 	<input type="hidden" name="sort" value="<?php echo $sort; ?>" />
 	<input type="hidden" name="order" value="<?php echo $order; ?>" />
+
+	<input type="hidden" name="username" value="<?php echo $username; ?>">
+	<input type="hidden" name="department" value="<?php echo $department; ?>">
 </form>
 
 
@@ -63,7 +64,7 @@
 			<li class="line">line</li>
 		</ul>
 	</div>
-	<table class="table" width="100%" layoutH="138">
+	<table class="table" width="100%" layoutH="115">
 		<thead>
 			<tr>
 				<th width="20">#</th>
@@ -74,11 +75,11 @@
 					<?php if($sort == 'department'){echo 'class="'.$order.'"';}?>>部门</th>
 				<th width="40">登录模式</th>
 				<th width="60">最后登录IP</th>
-				<th width="120" orderField="last_login"
+				<th width="80" orderField="last_login"
 					<?php if($sort == 'last_login'){echo 'class="'.$order.'"';}?>>最后登录时间</th>
 				<th width="40" orderField="access_count"
 				    <?php if($sort == 'access_count'){echo 'class="'.$order.'"';}?>>登录次数</th>
-				<th width="40">冻结</th>
+				<th width="30">冻结</th>
 			</tr>
 		</thead>
 		<tbody>
