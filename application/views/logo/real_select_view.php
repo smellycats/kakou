@@ -55,7 +55,7 @@
 			<tr>
 				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
 				<th width="20">#</th>
-				<th width="100">卡口地点</th>
+				<th width="800">卡口地点</th>
 			</tr>
 		</thead>
 		<tbody>
