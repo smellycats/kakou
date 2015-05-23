@@ -8,7 +8,7 @@
 	<link href="<?php echo base_url('js/dwz/themes/css/core.css');?>" rel="stylesheet" type="text/css" />
 
 	<link href="<?php echo base_url('style/zTreeStyle/zTreeStyle.css');?>" rel="stylesheet" type="text/css" />
-
+	<link href="<?php echo base_url('js/jqzoom_ev-2.3/css/jquery.jqzoom.css'); ?>" rel="stylesheet" type="text/css" />
 	<!--[if IE]>
 	<link href="<?php echo base_url('js/dwz/themes/css/ieHack.css');?>" rel="stylesheet" type="text/css" />
 	<![endif]-->
@@ -23,6 +23,8 @@
 
 	<script src="<?php echo base_url('js/jquery.ztree.all-3.5.min.js');?>" type="text/javascript"></script>
 	
+	<script src="<?php echo base_url('js/jqzoom_ev-2.3/js/jquery.jqzoom-core-pack.js');?>"  type="text/javascript"></script>
+
 	<script type="text/javascript">
 		function fleshVerify(){
 			//重载验证码
