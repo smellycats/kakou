@@ -146,7 +146,8 @@
 				 	<?php if($sort == 'ppdm'){echo 'class="'.$order.'"';}?>>车辆主品牌</th>
 				<th width="100" orderField="clpp"
 					<?php if($sort == 'clpp'){echo 'class="'.$order.'"';}?>>车辆子品牌</th>
-				<th width="50">车辆类型</th>
+				<th width="50" orderField="cllx"
+					<?php if($sort == 'cllx'){echo 'class="'.$order.'"';}?>>车辆类型</th>
 				<th width="60">品牌是否匹配</th>
 				<th width="40">信息确认</th>
 			</tr>
