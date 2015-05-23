@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Kakou Êä³ö¿ØÖÆÆ÷
+ * Kakou è¾“å‡ºæŽ§åˆ¶å™¨
  * 
  * @package     Kakou
  * @subpackage  Controllers
@@ -54,26 +54,26 @@ class Export2 extends CI_Controller
 	}
 	
 	
-    //µ¼³öÊý¾Ýµ½Excel
-    function exportexcel()
+    //å¯¼å‡ºæ•°æ®åˆ°Excel
+    function export_excel()
     {
     	ob_clean();
           
         $query = $this->_get_excel_data(0, $this->config->item('kakou_xls_num'));
  
         $objPHPExcel = new PHPExcel();
-        $objPHPExcel->getProperties()->setTitle("¿¨¿ÚÏµÍ³Êý¾Ý")
-                                     ->setDescription("¿¨¿ÚÏµÍ³Éú³ÉµÄ³µÁ¾²éÑ¯Êý¾Ý");
+        $objPHPExcel->getProperties()->setTitle("å¡å£ç³»ç»Ÿæ•°æ®")
+                                     ->setDescription("å¡å£ç³»ç»Ÿç”Ÿæˆçš„è½¦è¾†æŸ¥è¯¢æ•°æ®");
  
         $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue('A1', iconv('gbk', 'utf-8', '¿¨¿ÚÏµÍ³ExcelÊý¾Ý±í'));
+                    ->setCellValue('A1', iconv('gbk', 'utf-8', 'å¡å£ç³»ç»ŸExcelæ•°æ®è¡¨'));
                     
         // Field names in the first row
-        //$fields_name = array('ºÅÅÆºÅÂë','ºÅÅÆÑÕÉ«','Í¨¹ýÊ±¼ä','¼à¿ØµãÃû³Æ','·½Ïò','³µµÀ');
+        //$fields_name = array('å·ç‰Œå·ç ','å·ç‰Œé¢œè‰²','é€šè¿‡æ—¶é—´','ç›‘æŽ§ç‚¹åç§°','æ–¹å‘','è½¦é“');
         $fields = array('hphm','hpys','passtime','place','dire','lane','clpp','clpp_son','cllx','csys');
         //$fields = $query->list_fields();
         
-        $fields_condition = array( '³µÅÆºÅÂë', 'ÑÕÉ«', 'Í¨¹ýÊ±¼ä', '¼à¿ØµãÃû³Æ', '·½Ïò', '³µµÀ','³µÁ¾±êÖ¾','³µÁ¾Æ·ÅÆ','³µÁ¾ÀàÐÍ','³µÉíÑÕÉ«');
+        $fields_condition = array( 'è½¦ç‰Œå·ç ', 'é¢œè‰²', 'é€šè¿‡æ—¶é—´', 'ç›‘æŽ§ç‚¹åç§°', 'æ–¹å‘', 'è½¦é“','è½¦è¾†æ ‡å¿—','è½¦è¾†å“ç‰Œ','è½¦è¾†ç±»åž‹','è½¦èº«é¢œè‰²');
         
         $col = 0;
         foreach ($fields_condition as $field)
@@ -102,7 +102,7 @@ class Export2 extends CI_Controller
         $to_date =  mdate("%Y-%m-%d %H-%i-%s");
  
         $file_name = "kakou_excel_" . (string)$to_date;
-        //·¢ËÍ±êÌâÇ¿ÖÆÓÃ»§ÏÂÔØÎÄ¼þ
+        //å‘é€æ ‡é¢˜å¼ºåˆ¶ç”¨æˆ·ä¸‹è½½æ–‡ä»¶
         header('Content-Type: application/vnd.ms-excel;charset=gbk');
         header('Content-Disposition: attachment;filename="'. $file_name .'"');
         header('Cache-Control: max-age=0');
@@ -110,8 +110,8 @@ class Export2 extends CI_Controller
         $objWriter->save('php://output');
     }
  	
-    //ÅúÁ¿µ¼³öÍ¼Æ¬
-    function exportimg()
+    //æ‰¹é‡å¯¼å‡ºå›¾ç‰‡
+    function export_img()
     {
     	#error_reporting(0); 
     	
@@ -136,7 +136,7 @@ class Export2 extends CI_Controller
         #echo json_encode($urls);
     }
 
-    //ÅúÁ¿µ¼³öÍ¼Æ¬
+    //æ‰¹é‡å¯¼å‡ºå›¾ç‰‡
     function test()
     {
         //$query = $this->_get_excel_data(0, 500);
