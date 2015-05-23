@@ -95,6 +95,7 @@ class Logo extends CI_Controller
 		$data['sel_dire'] = $this->Mbasedata->get_directions()->result_array();
 		$data['sel_hpys'] = $this->Mbasedata->get_hpys()->result_array();
 		$data['sel_ppdm'] = $this->Mbasedata->get_ppdm()->result_array();
+		$data['sel_cllx'] = $this->Mbasedata->get_cllx()->result_array();
 		$data['sel_number'] = $this->config->item('number');
 
 		$this->load->view('logo/lgquery_view', $data);
@@ -116,9 +117,9 @@ class Logo extends CI_Controller
 		$data['dire'] = $this->input->post('dire') ? $this->input->post('dire') : 'all';
 		$data['ppdm'] = $this->input->post('ppdm') ? $this->input->post('ppdm') : 'all';
 		$data['ppdm2'] = $this->input->post('ppdm2') ? $this->input->post('ppdm2') : 'all';
-		$data['confirm'] = $this->input->post('confirm') ? $this->input->post('confirm') : 'all';
-		$data['clppflag'] = $this->input->post('clppflag') ? $this->input->post('clppflag') : 'all';
-		$data['smsflag'] = $this->input->post('smsflag') ? $this->input->post('smsflag') : 'all';
+		$data['confirm'] = $this->input->post(NULL) ? $this->input->post('confirm') : 'all';
+		$data['clppflag'] = $this->input->post(NULL) ? $this->input->post('clppflag') : 'all';
+		$data['smsflag'] = $this->input->post(NULL) ?  $this->input->post('smsflag') : 'all';
 		$data['st'] = $this->input->post('st') ? $this->input->post('st') : mdate("%Y-%m-%d %H:%i:%s",strtotime("-2 hours"));;
 		$data['et'] = $this->input->post('et') ? $this->input->post('et') : mdate("%Y-%m-%d %H:%i:%s");
 		$data['lane'] = 'all';
