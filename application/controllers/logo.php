@@ -160,41 +160,28 @@ class Logo extends CI_Controller
 
 	}
 	
-	function lgquery2()
+	function real_select()
 	{
-		//var_dump($this->session->all_userdata());
-		session_start(); 
-		#echo $_SESSION['name'];  
-		if(isset($_SESSION["user"])){	
-			echo $_SESSION["user"];
-		}else {
-			echo "session为空";
-		}
-		if ($this->session->userdata('lgquery')) {
-			$data['lgquery'] = $this->session->userdata('lgquery');
-		}else {
-			$data['lgquery']['page']   = 1;
-			$data['lgquery']['rows']   = 10;
-			$data['lgquery']['sort']   = 'i.id';
-		    $data['lgquery']['order']  = 'desc';
-		    $data['lgquery']['offset'] = 0;
-			$data['lgquery']['number'] = '?';
-			$data['lgquery']['carnum'] = '';
-			$data['lgquery']['place']  = 0;
-			$data['lgquery']['dire']   = 0;
-			$data['lgquery']['lane']   = 0;
-			$data['lgquery']['hpys']   = 0;
-			$data['lgquery']['ppdm']   = '0';
-			$data['lgquery']['cllx']   = '0';
-			$data['lgquery']['csys']   = '0';
-			$data['lgquery']['st']     = mdate("%Y-%m-%d %H:%i:%s",strtotime("-2 hours"));
-			$data['lgquery']['et']     = mdate("%Y-%m-%d %H:%i:%s");
-			
-			$this->session->set_userdata('lgquery',$data['lgquery']);
-		}
-		
-		$data['title'] = '车标查询';
-		
-		$this->load->view('logo/lgquery',$data);
+		$data['page'] = $this->input->post('page') ? intval($this->input->post('page')) : 1;
+		$data['rows'] = $this->input->post('rows') ? intval($this->input->post('rows')) : 20;
+		$data['sort'] = $this->input->post('sort') ? $this->input->post('sort') : 'i.id';
+	    $data['order'] = $this->input->post('order') ? $this->input->post('order') : 'desc';
+		$data['offset'] = ($data['page'] - 1) * $data['rows'];
+
+		$data['clppflag'] = $this->input->post(NULL) ? $this->input->post('clppflag') : 'all';
+
+		$query = $this->Mbasedata->get_places();
+		$data['result'] = $query->result_array();
+		$data['total'] = $query->num_rows();
+
+		$data['title'] = '实时信息';
+
+		$data['sel_place'] = $this->Mbasedata->get_places()->result_array();
+		$data['sel_dire'] = $this->Mbasedata->get_directions()->result_array();
+		$data['sel_ppdm'] = $this->Mbasedata->get_ppdm()->result_array();
+		$data['sel_number'] = $this->config->item('number');
+
+		$this->load->view('logo/real_select_view', $data);
 	}
+
 }
