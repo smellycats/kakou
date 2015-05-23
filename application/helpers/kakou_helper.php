@@ -290,10 +290,10 @@ if( ! function_exists('format_carnum'))
 /**
  * 车牌号码转换成数据库查询用的字符。
  * 
- * $param string $number 车牌号码1
- * $param string $carnum 车牌号码2
+ * @param string $number 车牌号码1
+ * @param string $carnum 车牌号码2
  * 
- * $return string 返回一个完整的车牌号码。
+ * @return string 返回一个完整的车牌号码。
  */
 if( ! function_exists('h_create_platename'))
 {
