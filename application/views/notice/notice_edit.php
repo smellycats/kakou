@@ -1,8 +1,9 @@
 <script type="text/javascript">
 	$(function(){
+		$("#notice_edit_id").val(<?php echo '"'. $id .'"'?>);
 		$("#notice_edit_content").val(<?php echo '"'. $content .'"'?>);
 		$("#notice_edit_banned").attr("checked",<?php echo $banned == '1' ? 'true' : 'false'; ?>);
-	});	$("#notice_edit_id").val(<?php echo '"'. $id .'"'?>);
+	});
 </script>
 
 <div class="pageContent">
