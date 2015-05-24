@@ -15,7 +15,6 @@
 	<input type="hidden" name="department" value="<?php echo $department; ?>">
 </form>
 
-
 <div class="pageHeader">
 	<form onsubmit="return navTabSearch(this);" action="<?php echo site_url('user/account_man'); ?>" method="post">
 	<div class="searchBar">
@@ -68,17 +67,15 @@
 		<thead>
 			<tr>
 				<th width="20">#</th>
-				<th width="90">用户名</th>
+				<th width="80">用户名</th>
 				<th width="90">真实名</th>
-				<th width="90">所属角色</th>
+				<th width="80">所属角色</th>
 				<th width="90" orderField="department" 
 					<?php if($sort == 'department'){echo 'class="'.$order.'"';}?>>部门</th>
 				<th width="40">登录模式</th>
-				<th width="60">最后登录IP</th>
-				<th width="80" orderField="last_login"
-					<?php if($sort == 'last_login'){echo 'class="'.$order.'"';}?>>最后登录时间</th>
-				<th width="40" orderField="access_count"
-				    <?php if($sort == 'access_count'){echo 'class="'.$order.'"';}?>>登录次数</th>
+				<th width="80">身份证号码</th>
+				<th width="60">联系电话</th>
+				<th width="60">备注</th>
 				<th width="30">状态</th>
 			</tr>
 		</thead>
@@ -94,9 +91,9 @@
 				<td><?php echo $row['rolename']; ?></td>
 				<td><?php echo $row['department']; ?></td>
 				<td><?php echo $access_type_dict[$row['access_type']]; ?></td>
-				<td><?php echo $row['last_ip']; ?></td>
-				<td><?php echo $row['last_login']; ?></td>
-				<td><?php echo $row['access_count']; ?></td>
+				<td><?php echo $row['identity']; ?></td>
+				<td><?php echo $row['phone']; ?></td>
+				<td><?php echo $row['memo']; ?></td>
 				<td><?php echo $banned_dict[$row['banned']]; ?></td>
 			</tr>
 			<?php $index += 1;?>

@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Kakou ÏµÍ³ÉèÖÃ¿ØÖÆÆ÷
+ * Kakou ç³»ç»Ÿè®¾ç½®æŽ§åˆ¶å™¨
  * 
  * @package     Kakou
  * @subpackage  Controllers
@@ -23,41 +23,52 @@ class Log extends CI_Controller
 		$this->load->library('Lib_kakou');
 		//$this->load->library('DX_Auth');
 		//$this->load->library('form_validation');
-		
-		$this->load->model('Mlog2');
+		$this->load->model('Muser');
+		$this->load->model('Muserlog');
 				
 		$this->load->config('kakou');
 		//$this->output->enable_profiler(TRUE);
 	}
 	
-	//ÓÃ»§²Ù×÷ÈÕÖ¾ÁÐ±í
+	//æ“ä½œæ—¥å¿—åˆ—è¡¨
 	function oplog()
 	{
-		$data['title'] = '²Ù×÷ÈÕÖ¾';
-        $data['st'] = mdate("%Y-%m-%d %H:%i:%s",strtotime("-2 hours"));
-        $data['et'] = mdate("%Y-%m-%d %H:%i:%s");
+		$data['page'] = $this->input->post('page') ? intval($this->input->post('page')) : 1;
+		$data['rows'] = $this->input->post('rows') ? intval($this->input->post('rows')) : 20;
+		$data['sort'] = $this->input->post('sort') ? $this->input->post('sort') : 'czsj';
+	    $data['order'] = $this->input->post('order') ? $this->input->post('order') : 'desc';
+		$data['offset'] = ($data['page'] - 1) * $data['rows'];
+		
+		$data['st'] = $this->input->post('st') ? $this->input->post('st') : mdate("%Y-%m-%d %H:%i:%s",strtotime("-24 hours"));;
+		$data['et'] = $this->input->post('et') ? $this->input->post('et') : mdate("%Y-%m-%d %H:%i:%s");
+	    $data['uname'] = $this->input->post('uname') ? $this->input->post('uname') : '';
 
-		$this->load->view('log/oplog', $data);
+		$data['result'] = $this->Muserlog->get_userlogs($data['offset'],$data['rows'],$data['sort'],$data['order'],$data)->result_array();
+		$data['total'] = $this->Muserlog->get_userlogs(0,0,$data['sort'],$data['order'],$data)->row()->sum;
+
+		$data['title'] = 'æ“ä½œæ—¥å¿—åˆ—è¡¨';
+
+		$this->load->view('userlog/oplog_view', $data);
 	}
 	
-	function oplog_data()
+	//ç”¨æˆ·æ—¥å¿—åˆ—è¡¨
+	function userlog()
 	{
 		$data['page'] = $this->input->post('page') ? intval($this->input->post('page')) : 1;
-		$data['rows'] = $this->input->post('rows') ? intval($this->input->post('rows')) : 10;
-		$data['sort'] = $this->input->post('sort') ? strval($this->input->post('sort')) : 'id';
+		$data['rows'] = $this->input->post('rows') ? intval($this->input->post('rows')) : 20;
+		$data['sort'] = $this->input->post('sort') ? strval($this->input->post('sort')) : 'access_count';
 	    $data['order'] = $this->input->post('order') ? strval($this->input->post('order')) : 'desc';
-	    $data['offset'] = ($data['page']-1)*$data['rows'];
+		$data['offset'] = ($data['page'] - 1) * $data['rows'];
+		
+	    $data['username'] = $this->input->post('username') ? $this->input->post('username') : '';
+	    $data['department'] = '';
 
-	    $data['username']  = $this->input->post('username') ? $this->input->post('username'): '';
-		$data['starttime'] = $this->input->post('st')  ? $this->input->post('st') : mdate("%Y-%m-%d %H:%i:%s",strtotime("-2 hours"));
-		$data['endtime']   = $this->input->post('et')  ? $this->input->post('et') : mdate("%Y-%m-%d %H:%i:%s");
-		
-		$result['rows']  = $this->lib_kakou->icon_to_utf8($this->Mlog2->get_userlog($data['offset'],$data['rows'],$data['sort'],$data['order'],$data)->result_array());
-		$result['total'] = $this->Mlog2->get_userlog(0,0,$data['sort'],$data['order'],$data)->row()->sum;
-		
-		$data['total'] = $result["total"];
-		
-		echo json_encode($result);
+		$data['result'] = $this->Muser->get_users($data['offset'],$data['rows'],$data['sort'],$data['order'],$data)->result_array();
+		$data['total'] = $this->Muser->get_users(0,0,$data['sort'],$data['order'],$data)->row()->sum;
+
+		$data['title'] = 'ç”¨æˆ·åˆ—è¡¨';
+
+		$this->load->view('userlog/userlog_view', $data);
 	}
 
 
