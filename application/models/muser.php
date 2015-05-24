@@ -31,8 +31,7 @@ class Muser extends CI_Model
 		if ($offset == 0 and $limit == 0){
 			$this->db->select('count(*) as sum');
 		}else{
-			$this->db->select('u.id,r.name as rolename,b.boolean_name as bannedname,role_id,username,realname,department,banned,last_ip,last_login,identity,phone,access_type,access_count,limit_login_address,memo');
-			$this->db->join('boolname as b', 'u.banned=b.num', 'left');
+			$this->db->select('u.id,r.name as rolename,role_id,username,realname,department,banned,last_ip,last_login,identity,phone,access_type,access_count,limit_login_address,memo');
 			$this->db->limit($limit, $offset);
 			$this->db->order_by($sort,$order);
 		}
