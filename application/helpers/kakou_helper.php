@@ -128,6 +128,48 @@ if( ! function_exists('ip_to_double'))
 	}
 
 /**
+ * IP字符串转换成浮点型
+ *
+ * @param string IP字符串。
+ * 
+ * @return double 返回IP数值。
+ */
+if( ! function_exists('h_ip_to_double'))
+{
+	function h_ip_to_double($ip)
+	{
+		$CI =& get_instance();
+		
+    	if($ip != '' AND $CI->input->valid_ip($ip))
+    	{
+     	    $str_ip = '';
+        	$arr_ip = explode('.', $ip);
+    	
+        	foreach ($arr_ip as $part)
+        	{
+        		if(strlen($part) == 1)
+        		{
+    	    		$str_ip = $str_ip . '00' . $part;
+        		}
+        		elseif(strlen($part) == 2)
+        	    {
+    	    		$str_ip = $str_ip . '0' . $part;
+        		}
+    	    	else 
+    	    	{
+    	    		$str_ip = $str_ip . $part;
+    	    	}
+        	}
+        	return (double)$str_ip;
+    	}
+    	else 
+    	{
+    		return (double)0;
+    	}
+	}
+}
+
+/**
  * 生成图片路径
  *
  * @param string $path1 路径名
