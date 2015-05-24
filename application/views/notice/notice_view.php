@@ -43,7 +43,7 @@
 			<li class="line">line</li>
 		</ul>
 	</div>
-	<table class="table" width="100%" layoutH="115">
+	<table class="table" width="100%" layoutH="88">
 		<thead>
 			<tr>
 				<th width="20">#</th>
