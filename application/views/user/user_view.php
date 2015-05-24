@@ -86,7 +86,7 @@
 			<?php $index = $offset + 1;?>
 			<?php foreach ($result as $row): ?>
 			<?php $access_type_dict = array('0'=>'账号密码','1'=>'<span style="color:green">数字证书</span>','2'=>'<span style="color:purple">混合模式</span>');?>
-			<?php $banned_dict = array('0'=>'<span style="color:royalblue">启用</span>','1'=>'<span style="color:orange">禁用</span>','2'=>'<span style="color:blue">混合模式</span>');?>
+			<?php $banned_dict = array('0'=>'<span style="color:green">启用</span>','1'=>'<span style="color:orange">禁用</span>','2'=>'<span style="color:blue">混合模式</span>');?>
 			<tr target="user_id" rel="<?php echo $row['id']; ?>">
 				<td><?php echo $index; ?></td>
 				<td><?php echo $row['username']; ?></td>
