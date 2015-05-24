@@ -21,12 +21,12 @@
 			<li>
 				<a class="add" href="<?php echo base_url(); ?>index.php/logo/sms_add_view" 
 					target="dialog" minable="true" rel="user_index_add" max="false" drawable="false" resizable="false" 
-					maxable="true" mask="true" width="600" height="500" title="短信添加"><span>添加</span></a>
+					maxable="true" mask="true" width="420" height="300" title="短信添加"><span>添加</span></a>
 			</li>
 			<li>
 				<a class="edit" href="<?php echo base_url(); ?>index.php/logo/sms_edit_view?id={sms_id}" 
 					target="dialog" minable="true" rel="user_index_edit" max="false" drawable="false" resizable="false" 
-					maxable="true" mask="true" width="600" height="500" title="短信编辑"><span>编辑</span></a>
+					maxable="true" mask="true" width="420" height="300" title="短信编辑"><span>编辑</span></a>
 			</li>
 			<li>
 				<a class="delete" href="<?php echo base_url(); ?>index.php/logo/sms_del?id={sms_id}" 

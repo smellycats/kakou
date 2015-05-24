@@ -101,6 +101,12 @@ class Logo extends CI_Controller
 		$this->load->view('logo/lgquery_view', $data);
 	}
 
+	// 短信添加dialog
+	function lgquery_detail()
+	{
+		$this->load->view('logo/lgquery_detail');
+	}
+
 
 	//比对查询
 	function cmpquery()
@@ -214,8 +220,7 @@ class Logo extends CI_Controller
 		
 		$query = $this->Msms->get_sms_by_id($id);
 
-		$data['tel'] = $query->row()->tel;
-		$data['mark'] = $query->row()->mark;
+		$data = $query->row_array();
 
 		$this->load->view('sms/sms_edit', $data);
 	}
@@ -247,7 +252,7 @@ class Logo extends CI_Controller
 	// 编辑短信
 	function sms_edit() 
 	{	
-		$id = $this->input->get('id',True);
+		$id = $this->input->post('id',True);
 		
 		$data['tel'] = $this->input->post('tel', True);
 		$data['mark'] = $this->input->post('mark', True);

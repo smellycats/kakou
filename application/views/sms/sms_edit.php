@@ -1,5 +1,6 @@
 <script type="text/javascript">
 	$(function(){
+		$("#sms_edit_id").val(<?php echo '"'. $id .'"'?>);
 		$("#sms_edit_tel").val(<?php echo '"'. $tel .'"'?>);
 		$("#sms_edit_mark").val(<?php echo '"'. $mark .'"'?>);
 	});
@@ -10,12 +11,13 @@
 		onsubmit="return iframeCallback(this, dialogAjaxDone);">
 		<div id="pollxxPanel" class="pageFormContent" layoutH="58">
 			<div class="unit">
+				<input id="sms_edit_id" name="id" type="hidden" />
 				<label>电话号码：</label>
-				<textarea id="sms_edit_tel" name="tel" style="height:60px;" ></textarea>
+				<textarea id="sms_edit_tel" name="tel" style="width:180px;height:80px;" ></textarea>
 			</div>
 			<div class="unit">
 				<label>备注：</label>
-				<textarea id="sms_edit_mark" name="mark" style="height:60px;" ></textarea>
+				<textarea id="sms_edit_mark" name="mark" style="width:180px;height:80px;" ></textarea>
 			</div>
 		</div>
 		<div class="formBar">
