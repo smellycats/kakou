@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Kakou ÏµÍ³ÉèÖÃ¿ØÖÆÆ÷
+ * Kakou ç³»ç»Ÿè®¾ç½®æŽ§åˆ¶å™¨
  * 
  * @package     Kakou
  * @subpackage  Controllers
@@ -10,20 +10,20 @@
  *
  */
 
-class Syst extends Admin_Controller
+class Syst extends CI_Controller
 {
 	function __construct()
 	{
 		parent::__construct();
 		
 		$this->load->helper('url');
-		//$this->load->helper('form');
+		$this->load->helper('date');
 		//$this->load->helper('news');
 		
 		//$this->load->library('DX_Auth');
 		//$this->load->library('form_validation');
 		
-		$this->load->model('Msyst2');
+		$this->load->model('Mnotice');
 				
 		//$this->output->enable_profiler(TRUE);
 	}
@@ -35,210 +35,97 @@ class Syst extends Admin_Controller
 	
 	function sysset()
 	{
-		$data['title'] = '¿¨¿ÚµØµãÉèÖÃ';
+		$data['title'] = 'å¡å£åœ°ç‚¹è®¾ç½®'; 
 		
 		$this->load->view('syst/sysset',$data);
 	}
 	
-	function config_data()
-	{
-		
-	}
-	
-	function config_add()
-	{
-		$data['name']  = $this->input->post('name',True);
-		$data['alias']  = $this->input->post('alias',True);
-		$data['kk_type']  = sha1($this->input->post('kk_type',True));
-	}
-	
-	function config_edit()
-	{
-		$id = $this->input->get('id',True);
-		
-		$data['name']  = $this->input->post('name',True);
-		$data['alias']  = $this->input->post('alias',True);
-		$data['kk_type']  = sha1($this->input->post('kk_type',True));	
-	}
-	
-	function config_del()
-	{		
-		$result['success'] = $this->Muser2->edit_user($id,$data);
-		$result['msg']     = $result['success'] ? iconv('GBK','UTF-8','É¾³ý¿¨¿Ú³É¹¦'): iconv('GBK','UTF-8','²Ù×÷Ê§°Ü:Êý¾Ý¿â»òÎ´Öª´íÎó');
-		
-		echo json_encode($result);
-	}
-	
-	function ip_access()
-	{
-		$data['title'] = 'IPµØÖ·ÉèÖÃ';
-		
-		$this->load->view('syst/ip_access',$data);
-	}
-	
-	function ip_data()
-	{
-		$page = $this->input->post('page') ? intval($this->input->post('page')) : 1;
-		$rows = $this->input->post('rows') ? intval($this->input->post('rows')) : 10;
-		$sort = $this->input->post('sort') ? strval($this->input->post('sort')) : 'id';
-	    $order = $this->input->post('order') ? strval($this->input->post('order')) : 'asc';
-	    $offset = ($page-1)*$rows;
-
-		$result['rows']  = $this->Msyst2->get_ip_access2($offset,$rows,$data=array())->result_array();
-		$result['total'] = $this->Msyst2->get_ip_access2(0,0,$data=array())->row()->sum;
-		
-		echo json_encode($result);
-	}
-	
-	function ip_add()
-	{
-		$data['minip']  = $this->input->post('minip',True);
-		$data['maxip']  = $this->input->post('maxip',True);
-		$data['banned'] = $this->input->post('banned',True);
-		
-		$result['success'] = $this->Msyst2->add_ip_access2($data);
-		$result['msg']     = $result['success'] ? iconv('GBK','UTF-8','Ìí¼ÓIPÉèÖÃ³É¹¦'): iconv('GBK','UTF-8','²Ù×÷Ê§°Ü:Êý¾Ý¿â»òÎ´Öª´íÎó');
-		
-		echo json_encode($result);
-	}
-	
-	function ip_edit()
-	{
-		$id = $this->input->get('id',True);
-		
-		$data['minip']  = $this->input->post('minip',True);
-		$data['maxip']  = $this->input->post('maxip',True);
-		$data['banned']   = $this->input->post('banned') ? $this->input->post('banned',True) : 0;
-	
-		$result['success'] = $this->Msyst2->edit_ip_access2($id,$data);
-		$result['msg']     = $result['success'] ? iconv('GBK','UTF-8','±à¼­IP³É¹¦'): iconv('GBK','UTF-8','²Ù×÷Ê§°Ü:Êý¾Ý¿â»òÎ´Öª´íÎó');
-		
-		echo json_encode($result);
-	}
-	
-	function ip_del()
-	{
-		$id = $this->input->post('id',True);
-		$data['del'] = 1;
-		$result['success'] = $this->Msyst2->edit_ip_access2($id,$data);
-		$result['msg']     = $result['success'] ? iconv('GBK','UTF-8','É¾³ýIP³É¹¦'): iconv('GBK','UTF-8','²Ù×÷Ê§°Ü:Êý¾Ý¿â»òÎ´Öª´íÎó');
-		
-		echo json_encode($result);
-	}
-	
 	function notice()
 	{
-		$data['title'] = '¹«¸æÉèÖÃ';
-		
-		$this->load->view('syst/notice',$data);
-	}
-	
-	function notice_data()
-	{
-		$page = $this->input->post('page') ? intval($this->input->post('page')) : 1;
-		$rows = $this->input->post('rows') ? intval($this->input->post('rows')) : 10;
-		$sort = $this->input->post('sort') ? strval($this->input->post('sort')) : 'id';
-	    $order = $this->input->post('order') ? strval($this->input->post('order')) : 'asc';
-	    $offset = ($page-1)*$rows;
+		$data['page'] = $this->input->post('page') ? intval($this->input->post('page')) : 1;
+		$data['rows'] = $this->input->post('rows') ? intval($this->input->post('rows')) : 20;
+		$data['sort'] = $this->input->post('sort') ? strval($this->input->post('sort')) : 'created';
+	    $data['order'] = $this->input->post('order') ? strval($this->input->post('order')) : 'desc';
+		$data['offset'] = ($data['page'] - 1) * $data['rows'];
 
-		$result['rows']  = $this->lib_kakou->icon_to_utf8($this->Msyst2->get_notice($offset,$rows,$data=array())->result_array());
-		$result['total'] = $this->Msyst2->get_notice(0,0,$data=array())->row()->sum;
-		
-		echo json_encode($result);
+		$data['result'] = $this->Mnotice->get_notices($data['offset'],$data['rows'],$data['sort'],$data['order'],$data)->result_array();
+		$data['total'] = $this->Mnotice->get_notices(0,0,$data['sort'],$data['order'],$data)->row()->sum;
+
+		$data['title'] = 'å…¬å‘Šåˆ—è¡¨';
+
+		$this->load->view('notice/notice_view', $data);
 	}
 	
+	function notice_add_view()
+	{	
+		$this->load->view('notice/notice_add');
+	}
+	
+	function notice_edit_view()
+	{
+		$id = $this->input->get('id',True);
+		
+		$query = $this->Mnotice->get_notice_by_id($id);
+
+		$data = $query->row_array();
+		
+		$this->load->view('notice/notice_edit', $data);	
+	}
+
 	function notice_add()
 	{
-		$data['created']  = mdate("%Y-%m-%d %H:%i:%s");
-		$data['modified'] = $data['created'];
-		$data['content']  = $this->input->post('content',True);
-		$data['banned']   = $this->input->post('banned') ? $this->input->post('banned',True) : 0;
-		
-		$result['success'] = $this->Msyst2->add_notice($data);
-		$result['msg']     = $result['success'] ? iconv('GBK','UTF-8','Ìí¼Ó¹«¸æ³É¹¦'): iconv('GBK','UTF-8','²Ù×÷Ê§°Ü:Êý¾Ý¿â»òÎ´Öª´íÎó');
+		$data['content'] = $this->input->post('content', True);
+		$data['banned'] = $this->input->post('banned') ? $this->input->post('banned') : 0;
+
+		$data['created'] = mdate("%Y-%m-%d %H:%i:%s");
+		$data['modified'] = mdate("%Y-%m-%d %H:%i:%s");
+
+		$result = array();
+		if ($this->Mnotice->add_notice($data)) {
+			$result["statusCode"] = "200";
+			$result["message"] = "å…¬å‘Šæ·»åŠ å®Œæˆï¼";
+            $result["navTabId"] = "notice";
+            $result["forwardUrl"] = base_url() . "index.php/syst/notice";
+            $result["callbackType"] = "closeCurrent";
+		} else {
+			$result["statusCode"] = "300";
+			$result["message"] = "å…¬å‘Šæ·»åŠ å¤±è´¥ï¼Œè¯·ç¨åŽå†è¯•ï¼";
+		}
 		
 		echo json_encode($result);
 	}
 	
+
 	function notice_edit()
 	{
-		$id = $this->input->get('id',True);
-		
-		$data['modified'] = mdate("%Y-%m-%d %H:%i:%s");
-		$data['content']  = $this->input->post('content',True);
-		$data['banned']   = $this->input->post('banned') ? $this->input->post('banned',True) : 0;
-	
-		$result['success'] = $this->Msyst2->edit_notice($id,$data);
-		$result['msg']     = $result['success'] ? iconv('GBK','UTF-8','±à¼­¹«¸æ³É¹¦'): iconv('GBK','UTF-8','²Ù×÷Ê§°Ü:Êý¾Ý¿â»òÎ´Öª´íÎó');
-		
-		echo json_encode($result);
-	}
-	
-	function notice_del()
-	{
 		$id = $this->input->post('id',True);
-		$data['del'] = 1;
-		$result['success'] = $this->Msyst2->edit_notice($id,$data);
-		$result['msg']     = $result['success'] ? iconv('GBK','UTF-8','É¾³ý¹«¸æ³É¹¦'): iconv('GBK','UTF-8','²Ù×÷Ê§°Ü:Êý¾Ý¿â»òÎ´Öª´íÎó');
-		
-		echo json_encode($result);
-	}
-	
-	function alarm_point()
-	{
-		$data['title'] = '±¨¾¯µãÉèÖÃ';
-		
-		$this->load->view('syst/alarm_point',$data);
-	}
-	
-	function alarm_point_data()
-	{
-		$page = $this->input->post('page') ? intval($this->input->post('page')) : 1;
-		$rows = $this->input->post('rows') ? intval($this->input->post('rows')) : 10;
-		$sort = $this->input->post('sort') ? strval($this->input->post('sort')) : 'id';
-	    $order = $this->input->post('order') ? strval($this->input->post('order')) : 'asc';
-	    $offset = ($page-1)*$rows;
 
-		$result['rows']  = $this->lib_kakou->icon_to_utf8($this->Msyst2->get_notice($offset,$rows,$data=array())->result_array());
-		$result['total'] = $this->Msyst2->get_notice(0,0,$data=array())->row()->sum;
-		
-		echo json_encode($result);
-	}
-	
-	function alarm_point_add()
-	{
-		$data['created']  = mdate("%Y-%m-%d %H:%i:%s");
-		$data['modified'] = $data['created'];
-		$data['content']  = $this->input->post('content',True);
-		$data['banned']   = $this->input->post('banned') ? $this->input->post('banned',True) : 0;
-		
-		$result['success'] = $this->Msyst2->add_notice($data);
-		$result['msg']     = $result['success'] ? iconv('GBK','UTF-8','Ìí¼Ó¹«¸æ³É¹¦'): iconv('GBK','UTF-8','²Ù×÷Ê§°Ü:Êý¾Ý¿â»òÎ´Öª´íÎó');
-		
-		echo json_encode($result);
-	}
-	
-	function alarm_point_edit()
-	{
-		$id = $this->input->get('id',True);
-		
+		$data['content'] = $this->input->post('content', True);
+		$data['banned'] = $this->input->post('banned') ? $this->input->post('banned') : 0;
+
 		$data['modified'] = mdate("%Y-%m-%d %H:%i:%s");
-		$data['content']  = $this->input->post('content',True);
-		$data['banned']   = $this->input->post('banned') ? $this->input->post('banned',True) : 0;
-	
-		$result['success'] = $this->Msyst2->edit_notice($id,$data);
-		$result['msg']     = $result['success'] ? iconv('GBK','UTF-8','±à¼­¹«¸æ³É¹¦'): iconv('GBK','UTF-8','²Ù×÷Ê§°Ü:Êý¾Ý¿â»òÎ´Öª´íÎó');
+
+		$result = array();
+		if ($this->Mnotice->edit_notice($id, $data)) {
+			$result["statusCode"] = "200";
+			$result["message"] = "å…¬å‘Šç¼–è¾‘æˆåŠŸï¼";
+            $result["navTabId"] = "notice";
+            $result["forwardUrl"] = base_url() . "index.php/syst/notice";
+            $result["callbackType"] = "closeCurrent";
+		} else {
+			$result["statusCode"] = "300";
+			$result["message"] = "å…¬å‘Šç¼–è¾‘å¤±è´¥ï¼Œè¯·ç¨åŽå†è¯•ï¼";
+		}
+		
+		echo json_encode($result);
+	}
+
+	function notice_del()
+	{		
+		$result['success'] = $this->Muser2->edit_user($id,$data);
+		$result['msg']     = $result['success'] ? iconv('GBK','UTF-8','åˆ é™¤å¡å£æˆåŠŸ'): iconv('GBK','UTF-8','æ“ä½œå¤±è´¥:æ•°æ®åº“æˆ–æœªçŸ¥é”™è¯¯');
 		
 		echo json_encode($result);
 	}
 	
-	function alarm_point_del()
-	{
-		$id = $this->input->post('id',True);
-		$data['del'] = 1;
-		$result['success'] = $this->Msyst2->edit_notice($id,$data);
-		$result['msg']     = $result['success'] ? iconv('GBK','UTF-8','É¾³ý¹«¸æ³É¹¦'): iconv('GBK','UTF-8','²Ù×÷Ê§°Ü:Êý¾Ý¿â»òÎ´Öª´íÎó');
-		
-		echo json_encode($result);
-	}
 }
