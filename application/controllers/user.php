@@ -397,34 +397,34 @@ class User extends CI_Controller
 	// 编辑用户
 	function user_edit() 
 	{	
-		$id = $this->input->get('id',True);
+		$id = $this->input->post('id',True);
 		
 		#$data['username'] = $this->input->post('user_edit_username', True);
-		$data['realname'] = $this->input->post('user_edit_realname', True);
-		$data['role_id'] = $this->input->post('user_edit_role_id', True);
-		$data['identity'] = $this->input->post('user_edit_identity', True);
-		$data['phone'] = $this->input->post('user_edit_phone', True);
+		$data['realname'] = $this->input->post('realname', True);
+		$data['role_id'] = $this->input->post('role_id', True);
+		$data['identity'] = $this->input->post('identity', True);
+		$data['phone'] = $this->input->post('phone', True);
 		#$data['password'] = sha1($this->input->post('user_edit_pwd'));
-		$data['department'] = $this->input->post('user_edit_department', True);
-		$data['banned'] = $this->input->post('user_edit_banned', True) ? $this->input->post('user_edit_banned', True) : 0;
-		$data['access_type'] = $this->input->post('user_edit_access_type', True);
-		$data['limit_login_address'] = $this->input->post('user_edit_limit_login_address', True);
-		$data['memo'] = $this->input->post('user_edit_memo', True);
-		
+		$data['department'] = $this->input->post('department', True);
+		$data['banned'] = $this->input->post('banned') ? $this->input->post('banned', True) : 0;
+		$data['access_type'] = $this->input->post('access_type', True);
+		$data['limit_login_address'] = $this->input->post('limit_login_address', True);
+		$data['memo'] = $this->input->post('memo', True);
+
 		$query = $this->Muser->get_user_by_id($id);
-		
+
 		$result = array();
 		if ($id == '1') {
 			$result['statusCode'] = "300";
-			$result['message'] = "Admin用户无法编辑！"; 
+			$result['message'] = "admin用户无法编辑！"; 
 		} elseif ($query->num_rows() <= 0) {
 			$result['statusCode'] = "300";
 			$result['message'] = "用户不存在！";
-		} elseif ($query->row()->disabled == '0') {
+		} elseif ($query->row()->disabled == '1') {
 			$result['statusCode'] = "300";
 			$result['message'] = "用户不存在！"; 
 		} else {
-			if ($this->Muser->edit_user($data)) {
+			if ($this->Muser->edit_user($id, $data)) {
 				$result["statusCode"] = "200";
 				$result["message"] = "用户编辑成功！";
 	            $result["navTabId"] = "account_man";

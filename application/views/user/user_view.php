@@ -50,12 +50,12 @@
 			<li>
 				<a class="add" href="<?php echo base_url(); ?>index.php/user/user_add_view" 
 					target="dialog" minable="true" rel="user_index_add" max="false" drawable="false" resizable="false" 
-					maxable="true" mask="true" width="600" height="500" title="用户添加"><span>添加</span></a>
+					maxable="true" mask="true" width="600" height="450" title="用户添加"><span>添加</span></a>
 			</li>
 			<li>
 				<a class="edit" href="<?php echo base_url(); ?>index.php/user/user_edit_view?id={user_id}" 
 					target="dialog" minable="true" rel="user_index_edit" max="false" drawable="false" resizable="false" 
-					maxable="true" mask="true" width="600" height="500" title="用户编辑"><span>编辑</span></a>
+					maxable="true" mask="true" width="600" height="450" title="用户编辑"><span>编辑</span></a>
 			</li>
 			<li>
 				<a class="delete" href="<?php echo base_url(); ?>index.php/user/user_del?id={user_id}" 
@@ -79,13 +79,14 @@
 					<?php if($sort == 'last_login'){echo 'class="'.$order.'"';}?>>最后登录时间</th>
 				<th width="40" orderField="access_count"
 				    <?php if($sort == 'access_count'){echo 'class="'.$order.'"';}?>>登录次数</th>
-				<th width="30">冻结</th>
+				<th width="30">状态</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php $index = $offset + 1;?>
 			<?php foreach ($result as $row): ?>
-			<?php $access_type_dict = array('0'=>'账号密码','1'=>'<span style="color:green">数字证书</span>','2'=>'<span style="color:blue">混合模式</span>');?>
+			<?php $access_type_dict = array('0'=>'账号密码','1'=>'<span style="color:green">数字证书</span>','2'=>'<span style="color:purple">混合模式</span>');?>
+			<?php $banned_dict = array('0'=>'<span style="color:royalblue">启用</span>','1'=>'<span style="color:orange">禁用</span>','2'=>'<span style="color:blue">混合模式</span>');?>
 			<tr target="user_id" rel="<?php echo $row['id']; ?>">
 				<td><?php echo $index; ?></td>
 				<td><?php echo $row['username']; ?></td>
@@ -96,7 +97,7 @@
 				<td><?php echo $row['last_ip']; ?></td>
 				<td><?php echo $row['last_login']; ?></td>
 				<td><?php echo $row['access_count']; ?></td>
-				<td><?php echo $row['bannedname']; ?></td>
+				<td><?php echo $banned_dict[$row['banned']]; ?></td>
 			</tr>
 			<?php $index += 1;?>
 			<?php endforeach; ?>
