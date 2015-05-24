@@ -1,4 +1,5 @@
 
+
 <div class="pageContent">
 	<form method="post" action="<?php echo base_url(); ?>index.php/syst/notice_add" class="pageForm required-validate" 
 		onsubmit="return iframeCallback(this, dialogAjaxDone);">
