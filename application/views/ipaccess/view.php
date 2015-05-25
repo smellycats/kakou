@@ -47,7 +47,7 @@
 			<tr target="this_id" rel="<?php echo $row['id']; ?>">
 				<td><?php echo $index; ?></td>
 				<td><?php echo $row['minip'] . ' - ' . $row['maxip']; ?></td>
-				<td><?php $banned_dict = array('0'=>'<span style="color:green">启用</span>','1'=>'<span style="color:orange">禁用</span>'); echo $banned_dict[$row['banned']]; ?></td>
+				<td><?php $banned_dict = array('0'=>'<span style="color:green">启用</span>','1'=>'<span style="color:brown">禁用</span>'); echo $banned_dict[$row['banned']]; ?></td>
 			</tr>
 			<?php $index += 1;?>
 			<?php endforeach; ?>
