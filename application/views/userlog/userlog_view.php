@@ -1,11 +1,11 @@
 
 <script type="text/javascript">
 	$(function(){
-		$("#user_view_page_num").val(<?php echo '"' . $rows . '"'?>);
+		$("#user_view_page_num").val("<?php echo $rows; ?>");
 	});
 </script>
 
-<form id="pagerForm" method="post" action="<?php echo site_url('log/userlog'); ?>">
+<form id="pagerForm" method="post" action="<?php echo site_url('userlog/view'); ?>">
 	<input type="hidden" name="page" value="<?php echo $page; ?>" />
 	<input type="hidden" name="rows" value="<?php echo $rows; ?>" />
 	<input type="hidden" name="sort" value="<?php echo $sort; ?>" />
@@ -17,13 +17,13 @@
 
 
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="<?php echo site_url('log/userlog'); ?>" method="post">
+	<form onsubmit="return navTabSearch(this);" action="<?php echo site_url('userlog/view'); ?>" method="post">
 	<div class="searchBar">
 		<table class="searchContent">
 			<tr>
 				<td>
 					<label>用户名：</label>
-					<input type="text" id="userlog_view_username" name="username" value="<?php echo $username;?>" />
+					<input type="text" id="userlog_view_username" name="username" value="<?php echo $username; ?>" />
 				</td>
 				<td>
 					<div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div>
@@ -53,7 +53,7 @@
 		<tbody>
 			<?php $index = $offset + 1;?>
 			<?php foreach ($result as $row): ?>
-			<?php $banned_dict = array('0'=>'<span style="color:green">启用</span>','1'=>'<span style="color:orange">禁用</span>','2'=>'<span style="color:blue">混合模式</span>');?>
+			<?php $banned_dict = array('0'=>'<span style="color:green">启用</span>','1'=>'<span style="color:brown">禁用</span>');?>
 			<tr target="user_id" rel="<?php echo $row['id']; ?>">
 				<td><?php echo $index; ?></td>
 				<td><?php echo $row['username']; ?></td>

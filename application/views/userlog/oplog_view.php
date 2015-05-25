@@ -8,7 +8,7 @@
 	});
 </script>
 
-<form id="pagerForm" method="post" action="<?php echo site_url('log/oplog'); ?>">
+<form id="pagerForm" method="post" action="<?php echo site_url('oplog/view'); ?>">
 	<input type="hidden" name="page" value="<?php echo $page; ?>" />
 	<input type="hidden" name="rows" value="<?php echo $rows; ?>" />
 	<input type="hidden" name="sort" value="<?php echo $sort; ?>" />
@@ -21,7 +21,7 @@
 
 
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="<?php echo site_url('log/oplog'); ?>" method="post">
+	<form onsubmit="return navTabSearch(this);" action="<?php echo site_url('oplog/view'); ?>" method="post">
 	<div class="searchBar">
 		<table class="searchContent">
 			<tr>
