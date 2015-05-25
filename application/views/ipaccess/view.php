@@ -17,17 +17,17 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<li>
-				<a class="add" href="<?php echo base_url(); ?>index.php/syst/ipaccess_add_view" 
+				<a class="add" href="<?php echo base_url(); ?>index.php/ipaccess/add_view" 
 					target="dialog" minable="true" rel="ipaccess_index_add" max="false" drawable="false" resizable="false" 
 					maxable="true" mask="true" width="440" height="260" title="IP添加"><span>添加</span></a>
 			</li>
 			<li>
-				<a class="edit" href="<?php echo base_url(); ?>index.php/syst/ipaccess_edit_view?id={ipaccess_id}" 
+				<a class="edit" href="<?php echo base_url(); ?>index.php/ipaccess/edit_view?id={this_id}" 
 					target="dialog" minable="true" rel="ipaccess_index_edit" max="false" drawable="false" resizable="false" 
 					maxable="true" mask="true" width="440" height="260" title="IP编辑"><span>编辑</span></a>
 			</li>
 			<li>
-				<a class="delete" href="<?php echo base_url(); ?>index.php/syst/ipaccess_del?id={ipaccess_id}" 
+				<a class="delete" href="<?php echo base_url(); ?>index.php/ipaccess/del?id={this_id}" 
 					target="ajaxTodo" title="确定要删除吗?" ><span>删除</span></a>
 			</li>
 			<li class="line">line</li>
@@ -44,7 +44,7 @@
 		<tbody>
 			<?php $index = $offset + 1;?>
 			<?php foreach ($result as $row): ?>
-			<tr target="ipaccess_id" rel="<?php echo $row['id']; ?>">
+			<tr target="this_id" rel="<?php echo $row['id']; ?>">
 				<td><?php echo $index; ?></td>
 				<td><?php echo $row['minip'] . ' - ' . $row['maxip']; ?></td>
 				<td><?php $banned_dict = array('0'=>'<span style="color:green">启用</span>','1'=>'<span style="color:orange">禁用</span>'); echo $banned_dict[$row['banned']]; ?></td>
