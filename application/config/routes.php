@@ -41,6 +41,18 @@
 $route['default_controller'] = "home";
 $route['404_override'] = '';
 
+$route['syst/alarm_point'] = "alarmpoint/view";
+$route['syst/alarm_rel'] = "alarmrel/view";
+$route['syst/notice'] = "notice/view";
+$route['syst/ip_access'] = "ipaccess/view";
+$route['syst/systset'] = "kakouset/view";
+$route['syst/sysstate'] = "sysstate/view";
+
+$route['user/account_man'] = "user/view";
+$route['user/role_man'] = "role/view";
+
+
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
