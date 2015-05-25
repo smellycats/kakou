@@ -69,7 +69,7 @@ class Ipaccess extends Admin_Controller
 			$result["statusCode"] = "200";
 			$result["message"] = "添加成功！";
             $result["navTabId"] = "ip_access";
-            $result["forwardUrl"] = base_url() . "index.php/syst/ip_access";
+            $result["forwardUrl"] = base_url() . "index.php/ipaccess/view";
             $result["callbackType"] = "closeCurrent";
 		} else {
 			$result["statusCode"] = "300";
@@ -93,7 +93,7 @@ class Ipaccess extends Admin_Controller
 			$result["statusCode"] = "200";
 			$result["message"] = "编辑成功！";
             $result["navTabId"] = "ip_access";
-            $result["forwardUrl"] = base_url() . "index.php/syst/ip_access";
+            $result["forwardUrl"] = base_url() . "index.php/ipaccess/view";
             $result["callbackType"] = "closeCurrent";
 		} else {
 			$result["statusCode"] = "300";
@@ -101,16 +101,6 @@ class Ipaccess extends Admin_Controller
 		}
 		
 		echo json_encode($result);
-	}
-
-	function delete()
-	{
-		$this->del();
-	}
-
-	function remove()
-	{
-		$this->del();
 	}
 
 	function del()
