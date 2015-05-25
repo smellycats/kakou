@@ -24,11 +24,6 @@ class Notice extends Admin_Controller
 				
 		//$this->output->enable_profiler(TRUE);
 	}
-
-	function index()
-	{
-		$this->view();
-	}
 	
 	function view()
 	{
@@ -75,7 +70,7 @@ class Notice extends Admin_Controller
 			$result["statusCode"] = "200";
 			$result["message"] = "添加成功！";
             $result["navTabId"] = "notice";
-            $result["forwardUrl"] = base_url() . "index.php/syst/notice";
+            $result["forwardUrl"] = base_url() . "index.php/notice/view";
             $result["callbackType"] = "closeCurrent";
 		} else {
 			$result["statusCode"] = "300";
@@ -100,7 +95,7 @@ class Notice extends Admin_Controller
 			$result["statusCode"] = "200";
 			$result["message"] = "编辑成功！";
             $result["navTabId"] = "notice";
-            $result["forwardUrl"] = base_url() . "index.php/syst/notice";
+            $result["forwardUrl"] = base_url() . "index.php/notice/view";
             $result["callbackType"] = "closeCurrent";
 		} else {
 			$result["statusCode"] = "300";
@@ -108,16 +103,6 @@ class Notice extends Admin_Controller
 		}
 		
 		echo json_encode($result);
-	}
-
-	function delete()
-	{
-		$this->del();
-	}
-
-	function remove()
-	{
-		$this->del();
 	}
 
 	function del()
