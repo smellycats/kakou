@@ -5,7 +5,7 @@
 	});
 </script>
 
-<form id="pagerForm" method="post" action="<?php echo site_url('syst/ip_access'); ?>">
+<form id="pagerForm" method="post" action="<?php echo site_url('ipaccess/view'); ?>">
 	<input type="hidden" name="page" value="<?php echo $page; ?>" />
 	<input type="hidden" name="rows" value="<?php echo $rows; ?>" />
 	<input type="hidden" name="sort" value="<?php echo $sort; ?>" />
