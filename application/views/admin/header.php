@@ -30,23 +30,11 @@
 			//重载验证码
 			$('#verifyImg').attr("src", "<?php echo base_url('application/Public/verify/');?>"+(new Date().getTime()));
 		}
-		// function dialogAjaxMenu(json){
-		// 	dialogAjaxDone(json);
-		// 	if (json.statusCode == DWZ.statusCode.ok){
-		// 		$("#sidebar").loadUrl("<?php echo base_url('application/Public/menu');?>");
-		// 	}
-		// }
-		// function navTabAjaxMenu(json){
-		// 	navTabAjaxDone(json);
-		// 	if (json.statusCode == DWZ.statusCode.ok){
-		// 		$("#sidebar").loadUrl("<?php echo base_url('application/Public/menu');?>");
-		// 	}
-		// }
 
 		$(function(){
 			DWZ.init("<?php echo base_url('js/dwz/dwz.frag.xml');?>", {
-				loginUrl:"<?php echo base_url('application/Public/login_dialog');?>", loginTitle:"登录",	// 弹出登录对话框
-//		loginUrl:"__APP__/Public/login",	//跳到登录页面
+				//loginUrl:"<?php echo base_url('application/Public/login_dialog');?>", loginTitle:"登录",	// 弹出登录对话框
+				loginUrl:"<?php echo base_url('index.php/home/login'); ?>",	//跳到登录页面
 				// statusCode:{ok:1,error:0},
 				statusCode:{ok:200, error:300, timeout:301},
 				// keys:{statusCode:"status", message:"info"},
