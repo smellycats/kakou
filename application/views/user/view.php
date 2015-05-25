@@ -22,11 +22,11 @@
 			<tr>
 				<td>
 					<label>用户名：</label>
-					<input type="text" id="username" name="username" value="<?php echo $username;?>" />
+					<input type="text" id="username" name="username" value="<?php echo $username; ?>" />
 				</td>
 				<td>
 					<label>部门名称：</label>
-					<input type="text" id="department" name="department" value="<?php echo $department;?>" />
+					<input type="text" id="department" name="department" value="<?php echo $department; ?>" />
 				</td>
 				<td>
 					<div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div>
@@ -40,12 +40,12 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<li>
-				<a class="add" href="<?php echo base_url(); ?>index.php/user/add_view" 
+				<a class="add" href="<?php echo base_url(); ?>index.php/user/addView" 
 					target="dialog" minable="true" rel="user_index_add" max="false" drawable="false" resizable="false" 
 					maxable="true" mask="true" width="600" height="450" title="用户添加"><span>添加</span></a>
 			</li>
 			<li>
-				<a class="edit" href="<?php echo base_url(); ?>index.php/user/edit_view?id={this_id}" 
+				<a class="edit" href="<?php echo base_url(); ?>index.php/user/editView?id={this_id}" 
 					target="dialog" minable="true" rel="user_index_edit" max="false" drawable="false" resizable="false" 
 					maxable="true" mask="true" width="600" height="450" title="用户编辑"><span>编辑</span></a>
 			</li>
@@ -64,7 +64,7 @@
 				<th width="90">真实名</th>
 				<th width="80">所属角色</th>
 				<th width="90" orderField="department" 
-					<?php if($sort == 'department'){echo 'class="'.$order.'"';}?>>部门</th>
+					<?php if($sort == 'department'){echo 'class="' . $order . '"';} ?>>部门</th>
 				<th width="40">登录模式</th>
 				<th width="80">身份证号码</th>
 				<th width="60">联系电话</th>
@@ -75,8 +75,8 @@
 		<tbody>
 			<?php $index = $offset + 1;?>
 			<?php foreach ($result as $row): ?>
-			<?php $access_type_dict = array('0'=>'账号密码','1'=>'<span style="color:green">数字证书</span>','2'=>'<span style="color:purple">混合模式</span>');?>
-			<?php $banned_dict = array('0'=>'<span style="color:green">启用</span>','1'=>'<span style="color:orange">禁用</span>','2'=>'<span style="color:blue">混合模式</span>');?>
+			<?php $access_type_dict = array('0' => '账号密码','1'=>'<span style="color:green">数字证书</span>', '2' => '<span style="color:purple">混合模式</span>');?>
+			<?php $banned_dict = array('0' => '<span style="color:green">启用</span>', '1' => '<span style="color:brown">禁用</span>'); ?>
 			<tr target="this_id" rel="<?php echo $row['id']; ?>">
 				<td><?php echo $index; ?></td>
 				<td><?php echo $row['username']; ?></td>
@@ -100,10 +100,10 @@
 				<option value="20">20</option>
 				<option value="50">50</option>
 			</select>
-			<span>条，共<?php echo ceil($total/$rows);?>页，共<?php echo $total;?>条</span>
+			<span>条，共<?php echo ceil($total / $rows);?>页，共<?php echo $total; ?>条</span>
 		</div>
 		
-		<div class="pagination" targetType="navTab" totalCount="<?php echo $total;?>" 
+		<div class="pagination" targetType="navTab" totalCount="<?php echo $total; ?>" 
 				numPerPage="<?php echo $rows; ?>" pageNumShown="5" currentPage="<?php echo $page; ?>">
 		</div>
 

@@ -14,7 +14,7 @@
 			<div class="unit">
 				<label>角色：</label>
 				<select id="user_add_role_id" name="role_id" class="required combox">
-					<?php foreach ($roles as $row): ?>
+					<?php foreach ($sel_roles as $row): ?>
 					<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
 					<?php endforeach; ?>
 				</select>

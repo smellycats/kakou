@@ -1,16 +1,16 @@
 <script type="text/javascript">
 	$(function(){
-		$("#user_edit_id").val(<?php echo '"'. $user['id'] .'"'?>);
-		$("#user_edit_username").val(<?php echo '"'. $user['username'] .'"'?>);
-		$("#user_edit_realname").val(<?php echo '"'. $user['realname'] .'"'?>);
-		$("#user_edit_role_id").val(<?php echo '"'. $user['role_id'] .'"'?>);
-		$("#user_edit_identity").val(<?php echo '"'. $user['identity'] .'"'?>);
-		$("#user_edit_phone").val(<?php echo '"'. $user['phone'] .'"'?>);
-		$("#user_edit_department").val(<?php echo '"'. $user['department'] .'"'?>);
+		$("#user_edit_id").val("<?php echo $user['id']; ?>");
+		$("#user_edit_username").val("<?php echo $user['username']; ?>");
+		$("#user_edit_realname").val("<?php echo $user['realname']; ?>");
+		$("#user_edit_role_id").val("<?php echo $user['role_id']; ?>");
+		$("#user_edit_identity").val("<?php echo $user['identity']; ?>");
+		$("#user_edit_phone").val("<?php echo $user['phone']; ?>");
+		$("#user_edit_department").val("<?php echo $user['department']; ?>");
 		$("#user_edit_banned").attr("checked",<?php echo $user['banned'] == '1' ? 'true' : 'false'; ?>);
-		$(<?php echo '"'.'#at'.$user['access_type'].'"';?>).attr("checked","checked");
-		$("#user_edit_limit_login_address").val(<?php echo '"'. $user['limit_login_address'] .'"'?>);
-		$("#user_edit_memo").val(<?php echo '"'. $user['memo'] .'"'?>);
+		$("<?php echo "#at$user[access_type]";?>").attr("checked","checked");
+		$("#user_edit_limit_login_address").val("<?php echo $user['limit_login_address']; ?>");
+		$("#user_edit_memo").val("<?php echo $user['memo']; ?>");
 	});
 </script>
 
@@ -30,7 +30,7 @@
 			<div class="unit">
 				<label>角色：</label>
 				<select id="user_edit_role_id" name="role_id" class="required combox">
-					<?php foreach ($roles as $row): ?>
+					<?php foreach ($sel_roles as $row): ?>
 					<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
 					<?php endforeach; ?>
 				</select>
