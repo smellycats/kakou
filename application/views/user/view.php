@@ -1,12 +1,19 @@
+
+<script type="text/javascript">
+	$(function(){
+		$("#user_view_page_num").val(<?php echo '"' . $rows . '"'?>);
+	});
+</script>
+
 <form id="pagerForm" method="post" action="<?php echo site_url('user/view'); ?>">
+	<input type="hidden" name="page" value="<?php echo $page; ?>" />
+	<input type="hidden" name="rows" value="<?php echo $rows; ?>" />
+	<input type="hidden" name="sort" value="<?php echo $sort; ?>" />
+	<input type="hidden" name="order" value="<?php echo $order; ?>" />
+
 	<input type="hidden" name="username" value="<?php echo $username; ?>">
 	<input type="hidden" name="department" value="<?php echo $department; ?>">
-	<input type="hidden" name="pageNum" value="<?php echo $page; ?>" />
-	<input type="hidden" name="numPerPage" value="<?php echo $numPerPage; ?>" />
-	<input type="hidden" name="_order" value="<?php echo $orderField; ?>" />
-	<input type="hidden" name="_sort" value="<?php echo $orderDirection; ?>" />
 </form>
-
 
 <div class="pageHeader">
 	<form onsubmit="return navTabSearch(this);" action="<?php echo site_url('user/view'); ?>" method="post">
@@ -21,13 +28,11 @@
 					<label>部门名称：</label>
 					<input type="text" id="department" name="department" value="<?php echo $department;?>" />
 				</td>
+				<td>
+					<div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div>
+				</td>
 			</tr>
 		</table>
-		<div class="subBar">
-			<ul>
-				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div></li>
-			</ul>
-		</div>
 	</div>
 	</form>
 </div>
@@ -35,59 +40,72 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<li>
-				<a class="add" href="<?php echo base_url(); ?>index.php/user/add" 
-					target="dialog" mask="false" height="250" width="300"><span>添加</span></a>
+				<a class="add" href="<?php echo base_url(); ?>index.php/user/add_view" 
+					target="dialog" minable="true" rel="user_index_add" max="false" drawable="false" resizable="false" 
+					maxable="true" mask="true" width="600" height="450" title="用户添加"><span>添加</span></a>
 			</li>
 			<li>
-				<a class="delete" href="<?php echo base_url(); ?>index.php/user/delete/{sid_user}" 
-					target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a>
+				<a class="edit" href="<?php echo base_url(); ?>index.php/user/edit_view?id={this_id}" 
+					target="dialog" minable="true" rel="user_index_edit" max="false" drawable="false" resizable="false" 
+					maxable="true" mask="true" width="600" height="450" title="用户编辑"><span>编辑</span></a>
 			</li>
 			<li>
-				<a class="edit" href="<?php echo base_url(); ?>index.php/usdr/edit/{sid_user}" 
-					target="navTab"><span>修改</span></a>
+				<a class="delete" href="<?php echo base_url(); ?>index.php/user/del?id={this_id}" 
+					target="ajaxTodo" title="确定要删除吗?" ><span>删除</span></a>
 			</li>
 			<li class="line">line</li>
 		</ul>
 	</div>
-	<table class="table" width="100%" layoutH="138">
+	<table class="table" width="100%" layoutH="115">
 		<thead>
 			<tr>
 				<th width="20">#</th>
-				<th width="90" 
-					orderField="u.id" 
-					<?php if($orderField == 'u.id'){ ?>class="<?php echo $orderDirection; ?>"<?php } ?>>用户名</th>
-				<th width="90">真实名sds</th>
+				<th width="80">用户名</th>
+				<th width="90">真实名</th>
+				<th width="80">所属角色</th>
+				<th width="90" orderField="department" 
+					<?php if($sort == 'department'){echo 'class="'.$order.'"';}?>>部门</th>
+				<th width="40">登录模式</th>
+				<th width="80">身份证号码</th>
+				<th width="60">联系电话</th>
+				<th width="60">备注</th>
+				<th width="30">状态</th>
 			</tr>
 		</thead>
 		<tbody>
-			<?php
-				$js_var = 0;
-				foreach ($result as $v) {
-					$js_var ++;
-			?>
-			<tr target="sid_user" rel="<?php echo $v['id']; ?>">
-				<td><?php echo $js_var; ?></td>
-				<td><?php echo $v['username']; ?></td>
-				<td><?php echo $v['realname']; ?></td>
+			<?php $index = $offset + 1;?>
+			<?php foreach ($result as $row): ?>
+			<?php $access_type_dict = array('0'=>'账号密码','1'=>'<span style="color:green">数字证书</span>','2'=>'<span style="color:purple">混合模式</span>');?>
+			<?php $banned_dict = array('0'=>'<span style="color:green">启用</span>','1'=>'<span style="color:orange">禁用</span>','2'=>'<span style="color:blue">混合模式</span>');?>
+			<tr target="this_id" rel="<?php echo $row['id']; ?>">
+				<td><?php echo $index; ?></td>
+				<td><?php echo $row['username']; ?></td>
+				<td><?php echo $row['realname']; ?></td>
+				<td><?php echo $row['rolename']; ?></td>
+				<td><?php echo $row['department']; ?></td>
+				<td><?php echo $access_type_dict[$row['access_type']]; ?></td>
+				<td><?php echo $row['identity']; ?></td>
+				<td><?php echo $row['phone']; ?></td>
+				<td><?php echo $row['memo']; ?></td>
+				<td><?php echo $banned_dict[$row['banned']]; ?></td>
 			</tr>
-			<?php
-				}
-			?>
+			<?php $index += 1;?>
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 	<div class="panelBar">
 		<div class="pages">
 			<span>显示</span>
-			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
+			<select class="combox" id="user_view_page_num" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
 				<option value="20">20</option>
 				<option value="50">50</option>
 			</select>
-			<span>条，共<?php echo $total;?>条</span>
+			<span>条，共<?php echo ceil($total/$rows);?>页，共<?php echo $total;?>条</span>
 		</div>
 		
 		<div class="pagination" targetType="navTab" totalCount="<?php echo $total;?>" 
-				numPerPage="<?php echo $numPerPage; ?>" pageNumShown="5" 
-				currentPage="<?php echo $page; ?>"></div>
+				numPerPage="<?php echo $rows; ?>" pageNumShown="5" currentPage="<?php echo $page; ?>">
+		</div>
 
 	</div>
 </div>
