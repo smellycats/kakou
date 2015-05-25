@@ -32,11 +32,6 @@ class User extends Admin_Controller
 		//$this->output->enable_profiler(TRUE);
 	}
 	
-	function index()
-	{
-		$this->view();
-	}
-	
 	//加载用户列表视图
 	function view()
 	{
@@ -101,7 +96,7 @@ class User extends Admin_Controller
 				$result["statusCode"] = "200";
 				$result["message"] = "添加成功！";
 	            $result["navTabId"] = "account_man";
-	            $result["forwardUrl"] = base_url()."index.php/user/account_man";
+	            $result["forwardUrl"] = base_url()."index.php/user/view";
 	            $result["callbackType"] = "closeCurrent";
 			} else {
 				$result["statusCode"] = "300";
@@ -146,7 +141,7 @@ class User extends Admin_Controller
 				$result["statusCode"] = "200";
 				$result["message"] = "编辑成功！";
 	            $result["navTabId"] = "account_man";
-	            $result["forwardUrl"] = base_url()."index.php/user/account_man";
+	            $result["forwardUrl"] = base_url()."index.php/user/view";
 	            $result["callbackType"] = "closeCurrent";
 			} else {
 				$result["statusCode"] = "300";
@@ -155,16 +150,6 @@ class User extends Admin_Controller
 		}
 		
 		echo json_encode($result);
-	}
-	
-	function delete()
-	{
-		$this->del();
-	}
-
-	function remove()
-	{
-		$this->del();
 	}
 
 	// 删除用户
