@@ -15,12 +15,13 @@ class Admin_Controller extends CI_Controller {
 		
 		//$this->output->enable_profiler(TRUE);
 		session_start();
-		$this->_check_login();
+        //$this->_timeout();
+		#$this->_check_login();
 		
      }
      
     /**
-     * ����û��Ƿ��¼
+     * 检查用户是否登录
      *
      * @access  protected
      * @return  void
@@ -30,7 +31,7 @@ class Admin_Controller extends CI_Controller {
      	//Check if user has logon status of manager, redirect to home page if not
         if(isset($_SESSION['timestamp'])){
      		$time_lags = time() - $_SESSION['timestamp'];
-     		if ($time_lags <= 1800){    //��Сʱ
+     		if ($time_lags <= 1800){    //半小时
      			$_SESSION['timestamp'] = time();
      			$this->_check_rights();
      		} else {
@@ -41,7 +42,7 @@ class Admin_Controller extends CI_Controller {
      	}
      }
     /**
-     * ����û�Ȩ��
+     * 检查用户权限
      *
      * @access  protected
      * @return  void
@@ -59,4 +60,16 @@ class Admin_Controller extends CI_Controller {
 			show_error('No Right to Access',500);
 		}
      }
+
+    function _timeout()
+    {
+        $result["statusCode"] = "301";
+        $result["message"] = "会话超时，请重新登录";
+        $result["navTabId"] = "";
+        $result["callbackType"] = "";
+        $result["forwardUrl"] = "";
+        
+        echo json_encode($result);
+        exit;
+    }
  }
