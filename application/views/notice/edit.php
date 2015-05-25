@@ -7,7 +7,7 @@
 </script>
 
 <div class="pageContent">
-	<form method="post" action="<?php echo base_url(); ?>index.php/syst/notice_edit" class="pageForm required-validate" 
+	<form method="post" action="<?php echo base_url(); ?>index.php/notice/edit" class="pageForm required-validate" 
 		onsubmit="return iframeCallback(this, dialogAjaxDone);">
 		<div id="pollxxPanel" class="pageFormContent" layoutH="58">
 			<div class="unit">

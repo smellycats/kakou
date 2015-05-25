@@ -27,17 +27,17 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<li>
-				<a class="add" href="<?php echo base_url(); ?>index.php/syst/notice_add_view" 
+				<a class="add" href="<?php echo base_url(); ?>index.php/notice/add_view" 
 					target="dialog" minable="true" rel="user_index_add" max="false" drawable="false" resizable="false" 
 					maxable="true" mask="true" width="440" height="260" title="公告添加"><span>添加</span></a>
 			</li>
 			<li>
-				<a class="edit" href="<?php echo base_url(); ?>index.php/syst/notice_edit_view?id={notice_id}" 
+				<a class="edit" href="<?php echo base_url(); ?>index.php/notice/edit_view?id={this_id}" 
 					target="dialog" minable="true" rel="user_index_edit" max="false" drawable="false" resizable="false" 
 					maxable="true" mask="true" width="440" height="260" title="公告编辑"><span>编辑</span></a>
 			</li>
 			<li>
-				<a class="delete" href="<?php echo base_url(); ?>index.php/syst/notice_del?id={notice_id}" 
+				<a class="delete" href="<?php echo base_url(); ?>index.php/notice/del?id={this_id}" 
 					target="ajaxTodo" title="确定要删除吗?" ><span>删除</span></a>
 			</li>
 			<li class="line">line</li>
@@ -58,7 +58,7 @@
 		<tbody>
 			<?php $index = $offset + 1;?>
 			<?php foreach ($result as $row): ?>
-			<tr target="notice_id" rel="<?php echo $row['id']; ?>">
+			<tr target="this_id" rel="<?php echo $row['id']; ?>">
 				<td><?php echo $index; ?></td>
 				<td><?php echo $row['created']; ?></td>
 				<td><?php echo $row['modified']; ?></td>
