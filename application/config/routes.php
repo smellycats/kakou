@@ -28,7 +28,7 @@
 |	$route['default_controller'] = 'welcome';
 |
 | This route indicates which controller class should be loaded if the
-| URI contains no data. In the above example, the "welcome" class
+| URI contains no data. In the above example, the 'welcome' class
 | would be loaded.
 |
 |	$route['404_override'] = 'errors/page_missing';
@@ -38,18 +38,21 @@
 |
 */
 
-$route['default_controller'] = "home";
+$route['default_controller'] = 'home';
 $route['404_override'] = '';
 
-$route['syst/alarm_point'] = "alarmpoint/view";
-$route['syst/alarm_rel'] = "alarmrel/view";
-$route['syst/notice'] = "notice/view";
-$route['syst/ip_access'] = "ipaccess/view";
-$route['syst/systset'] = "kakouset/view";
-$route['syst/sysstate'] = "sysstate/view";
+$route['log/oplog'] = 'oplog/view';
+$route['log/userlog'] = 'userlog/view';
 
-$route['user/account_man'] = "user/view";
-$route['user/role_man'] = "role/view";
+$route['syst/alarm_point'] = 'alarmpoint/view';
+$route['syst/alarm_rel'] = 'alarmrel/view';
+$route['syst/notice'] = 'notice/view';
+$route['syst/ip_access'] = 'ipaccess/view';
+$route['syst/systset'] = 'kakouset/view';
+$route['syst/sysstate'] = 'sysstate/view';
+
+$route['user/account_man'] = 'user/view';
+$route['user/role_man'] = 'role/view';
 
 
 
