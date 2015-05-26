@@ -1,26 +1,27 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Test extends CI_Controller {
- 
-function __construct()
+class Test extends CI_Controller
 {
-parent::__construct();
+ 
+	function __construct()
+	{
+		parent::__construct();
 
-$this->load->helper('url');
-//$this->output->enable_profiler(TRUE);
-#$this->load->model('Mgate');
-$this->load->helper('date');
-$this->load->helper('kakou');
-#$this->load->model('Msyst');
-#$this->load->model('Muser');
+		$this->load->helper('url');
+		//$this->output->enable_profiler(TRUE);
+		#$this->load->model('Mgate');
+		$this->load->helper('date');
+		$this->load->helper('kakou');
+		#$this->load->model('Msyst');
+		#$this->load->model('Muser');
 
-$this->load->library('PHPExcel');
-$this->load->library('PHPExcel/IOFactory');
-$this->load->library('Lib_kakou');
+		$this->load->library('PHPExcel');
+		$this->load->library('PHPExcel/IOFactory');
+		$this->load->library('Lib_kakou');
 
-//$this->test_db = $this->load->database('test_db', TRUE);
-//$this->ora_db = $this->load->database('oracle_db', TRUE);
-}
+	//$this->test_db = $this->load->database('test_db', TRUE);
+	//$this->ora_db = $this->load->database('oracle_db', TRUE);
+	}
 
 	//³¬Ê±
 	function time_out()
@@ -366,6 +367,12 @@ function _get_excel_data()
     	header('Content-Type: image/jpeg');
     	$this->lib_kakou->create_wm2('http://news.xinhuanet.com/ent/2012-12/08/124065861_11n.jpg','123','ËÀ·Ê×Ğ','127.0.0.1');
 		
+	}
+
+	function helper_test()
+	{
+		$data = array('Âí´Ì','Å£ËŞ','ÈÈ»ğ');
+		echo h_arr_to_str($data);
 	}
 
 }
