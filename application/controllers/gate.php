@@ -40,20 +40,21 @@ class Gate extends Admin_Controller
 
 	public function carquery_view()
 	{
-		$data['page']   = $this->input->post('page') ? intval($this->input->post('page')) : 1;
-		$data['rows']   = $this->input->post('rows') ? intval($this->input->post('rows')) : 20;
-		$data['sort']   = $this->input->post('sort') ? $this->input->post('sort') : 'jgsj';
-	    $data['order']  = $this->input->post('order') ? $this->input->post('order') : 'desc';
+		$data['page']   = $this->input->post('page') ? intval($this->input->post('page', True)) : 1;
+		$data['rows']   = $this->input->post('rows') ? intval($this->input->post('rows', True)) : 20;
+		$data['sort']   = $this->input->post('sort') ? $this->input->post('sort', True) : 'jgsj';
+	    $data['order']  = $this->input->post('order') ? $this->input->post('order', True) : 'desc';
 		$data['offset'] = ($data['page'] - 1) * $data['rows'];
 		
-		$data['st']     = $this->input->post('st') ? $this->input->post('st') : mdate("%Y-%m-%d %H:%i:%s",strtotime("-2 hours"));;
-		$data['et']     = $this->input->post('et') ? $this->input->post('et') : mdate("%Y-%m-%d %H:%i:%s");
-	    $data['place']  = $this->input->post('place') ? $this->input->post('place') : 'all';
-	    $data['fxbh']   = $this->input->post('fxbh') ? $this->input->post('fxbh') : 'all';
-		$data['cdbh']   = $this->input->post('cdbh') ? $this->input->post('cdbh') : 'all';
-		$data['hpys']   = $this->input->post('hpys') ? $this->input->post('hpys') : 'all';
-	    $data['number'] = $this->input->post('number') ? $this->input->post('number') : '？';
-	    $data['carnum'] = $this->input->post('carnum') ? $this->input->post('carnum') : '';
+		$data['st']     = $this->input->post('st') ? $this->input->post('st', True) : mdate("%Y-%m-%d %H:%i:%s",strtotime("-2 hours"));;
+		$data['et']     = $this->input->post('et') ? $this->input->post('et', True) : mdate("%Y-%m-%d %H:%i:%s");
+	    $data['place']  = $this->input->post('place') ? $this->input->post('place', True) : 'all';
+	    $data['fxbh']   = $this->input->post('fxbh') ? $this->input->post('fxbh', True) : 'all';
+		$data['cdbh']   = $this->input->post('cdbh') ? $this->input->post('cdbh', True) : 'all';
+		$data['hpys']   = $this->input->post('hpys') ? $this->input->post('hpys', True) : 'all';
+	    $data['number'] = $this->input->post('number') ? strtoupper($this->input->post('number'), True) : '？';
+	    $data['carnum'] = $this->input->post('carnum') ? $this->input->post('carnum', True) : '';
+	    $data['platename'] = h_create_platename($data['number'], $data['carnum']);
 
 		$data['result'] = $this->Mgate->getCltx($data['offset'], $data['rows'], $data['sort'], $data['order'], $data)->result_array();
 		$data['total']  = $this->Mgate->getCltx(0, 0, $data['sort'], $data['order'], $data)->row()->SUM;
