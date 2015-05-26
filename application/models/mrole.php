@@ -2,91 +2,124 @@
 
 class Mrole extends CI_Model
 {
-	
 	function __construct()
 	{
 		parent::__construct();
+		
+		$this->db = $this->load->database('default', TRUE);
 	}
 
-	
-	function get_user_by_name($username)
+    /**
+     * ¸ñÊ½»¯Êý×é³ÉASSOC·½Ê½
+     *
+     * @access  private
+     * @param   array
+     * @param   string
+     * @param   string
+     * @return  array
+     */
+	private function _re_parse_array($array, $key, $value)
 	{
-		return $this->db->where('username',$username)->get('users');
+		$data = array();
+		foreach ($array as $v)
+		{
+			$data[$v->$key] = $v->$value;	
+		}
+		return $data;
 	}
 	
-	
-	//èŽ·å–ç”¨æˆ·åˆ—è¡¨
-	function get_users($offset=0, $limit=0, $sort='u.id', $order='asc', $data)
-	{	
-		if ($data['username'] != ''){
-			$this->db->like('username', $data['username']); 
-		}
-		if ($data['department'] != ''){
-			$this->db->like('department', $data['department']); 
-		}
-		$this->db->where('disabled',0);
-		$this->db->where('r.del',0);
-		$this->db->join('roles as r', 'u.role_id=r.id');
+	//»ñÈ¡½ÇÉ«ÁÐ±í
+	// function get_roles($offset=0, $limit=0, $data)
+	// {	
+	// 	if ($data['rolename'] != ''){
+	// 		$this->db->like('name', $data['rolename']); 
+	// 	}
+	// 	$this->db->where('del',0);
+	// 	$this->db->join('boolname as b', 'r.disable=b.num', 'left');
 		
+	// 	if ($offset == 0 and $limit == 0){
+	// 		$this->db->select('count(*) as sum');
+	// 	}else{
+	// 		$this->db->select('r.id,b.boolean_name as bannedname,name as rolename,rights,openkakou,disable');
+	// 		$this->db->limit($limit, $offset);
+	// 		$this->db->order_by('r.id','asc');
+	// 	}
+	// 	return $this->db->get('roles as r');
+	// }
+
+	//»ñÈ¡½ÇÉ«ÁÐ±í
+	function get_roles($offset=0, $limit=0, $sort='r.id', $order='asc', $data)
+	{	
+		if ($data['role_name'] != ''){
+			$this->db->like('name', $data['role_name']); 
+		}
+		$this->db->where('del',0);
+		$this->db->join('boolname as b', 'r.disable=b.num', 'left');
 		if ($offset == 0 and $limit == 0){
 			$this->db->select('count(*) as sum');
 		}else{
-			$this->db->select('u.id,r.name as rolename,role_id,username,realname,department,created,banned,last_ip,last_login,identity,phone,access_type,access_count,limit_login_address,memo');
+			$this->db->select('r.id,b.boolean_name as bannedname,name as rolename,rights,openkakou,disable');
 			$this->db->limit($limit, $offset);
-			$this->db->order_by($sort,$order);
+			$this->db->order_by($sort, $order);
 		}
+		return $this->db->get('roles as r');
+	}
+	
+	
+	function get_roles_data()
+	{
+		$this->db->select('id,name as text');
 		
-		return $this->db->get('users as u');
+		return $this->db->where('del',0)->get('roles');
 	}
-	
-	//æ ¹æ®IDèŽ·å–ç”¨æˆ·ä¿¡æ¯
-	function get_user_by_id($id)
-	{
-		return $this->db->where('id',$id)->get('users');
-	}
-	
-	//æ ¹æ®æ¡ä»¶èŽ·å–ç”¨æˆ·ä¿¡æ¯
-	function get_user_by_condition($array)
-	{
-		return $this->db->where($array)->get('users');
-	}
-	
-	//æ·»åŠ æ–°ç”¨æˆ·
-	function add_user($data)
-	{
-		return $this->db->insert('users',$data);
-	}
-	
-	//ç¼–è¾‘ç”¨æˆ·
-	function edit_user($id, $data)
-	{
-		$this->db->where('id',$id);
-		return $this->db->update('users',$data);
-	}
-	
 	/*
-	//æ ¹æ®IDåˆ é™¤ç”¨æˆ·
-	function del_user_by_id($id)
+	function get_roles_num()
 	{
-		return $this->db->where('id',$id)->set('disabled',1)->update('users');
+		return $this->db->where('del',0)->get('roles');
+	}*/
+	
+	//Ìí¼Ó½ÇÉ«
+	function add_role($data)
+	{
+		return $this->db->insert('roles', $data);
 	}
 	
-	//æ ¹æ®IDç¦ç”¨ç”¨æˆ·
-	function bann_user_by_id($id)
+	//ÐÞ¸Ä½ÇÉ«ÐÅÏ¢
+	function edit_role($id, $data)
 	{
-		return $this->set('banned', 1)->update('users')->where('id',$id);
-	} */
+		return $this->db->where('id', $id)->update('roles', $data);
+	}
 	
-	//èŽ·å–è§’è‰²åˆ—è¡¨
-	function get_roles()
+	//É¾³ý½ÇÉ«
+	function del_role($id)
 	{
-		$this->db->select('id, name');
-		$this->db->where('del',0);
+		return $this->db->where('id',$id)->set('del',1)->update('roles');
+	}
+	
+    /**
+     * ¸ù¾ÝÓÃ»§×éID»ñÈ¡ÓÃ»§ÐÅÏ¢
+     *
+     * @access  public
+     * @param   int
+     * @return  object
+     */
+	function get_role_by_id($id)
+	{
+		return $this->db->where('id', $id)->get('roles')->row();
+	}
+	
+	function get_role_by_condition($array)
+	{
+		return $this->db->where($array)->get('roles');
+	}
+	
+	//¸ù¾Ý½ÇÉ«id¼ì²éÓÃ»§Ãû×ÖÓÐÃ»ÖØ¸´£¨³ýÁË×ÔÉí£©
+    function is_rolename_available($role_id, $role_name)
+    {
+		$roid = $this->db->query("select * from roles where id !='$role_id' and name='$role_name' and del=0");
 		
-		return $this->db->get('roles');
-	} 
-	
-
+		return $roid->num_rows() == 0;
+    }
 }
 ?>
 

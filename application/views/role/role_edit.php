@@ -1,7 +1,7 @@
 <script type="text/javascript">
 
-	var roleeditmenu_zTree;
-	var roleeditmenu_setting = {
+	var role_editmenu_zTree;
+	var role_editmenu_setting = {
 		check: {
 			enable: true
 			},
@@ -13,12 +13,12 @@
 			}
 		},
 		callback: {
-			onCheck: roleeditmenu_zTreeOnCheck
+			onCheck: role_editmenu_zTreeOnCheck
 		}
 	}
 
-	function roleeditmenu_zTreeOnCheck(event, treeId, treeNode) { 
-		var nodes = roleeditmenu_zTree.getCheckedNodes(true);
+	function role_editmenu_zTreeOnCheck(event, treeId, treeNode) { 
+		var nodes = role_editmenu_zTree.getCheckedNodes(true);
 	    var strId = "";
 	    for(var i=0; i<nodes.length; i++){
 	    	if (strId == "") {
@@ -27,10 +27,10 @@
 	    		strId += "," + nodes[i].id;
 	    	}
 	    }
-	    $("#roleedit_menulimit").val(strId); 
+	    $("#role_edit_menulimit").val(strId); 
 	}
 	
-	var roleeditmenu_zNodes =[
+	var role_editmenu_zNodes =[
 			<?php
 				if (!empty($data_menus)) {
 					for ($i=0; $i < count($data_menus); $i++) { 
@@ -50,8 +50,8 @@
 			?>
 			];
 
-	var roleeditplace_zTree;
-	var roleeditplace_setting = {
+	var role_editplace_zTree;
+	var role_editplace_setting = {
 		check: {
 			enable: true
 			},
@@ -63,12 +63,12 @@
 			}
 		},
 		callback: {
-			onCheck: roleeditplace_zTreeOnCheck
+			onCheck: role_editplace_zTreeOnCheck
 		}
 	}
 
-	function roleeditplace_zTreeOnCheck(event, treeId, treeNode) { 
-		var nodes = roleeditplace_zTree.getCheckedNodes(true);
+	function role_editplace_zTreeOnCheck(event, treeId, treeNode) { 
+		var nodes = role_editplace_zTree.getCheckedNodes(true);
 	    var strId = "";
 	    for(var i=0; i<nodes.length; i++){
 	    	if (strId == "") {
@@ -77,10 +77,10 @@
 	    		strId += "," + nodes[i].id;
 	    	}
 	    }
-	    $("#roleedit_placelimit").val(strId); 
+	    $("#role_edit_placelimit").val(strId); 
 	}
 	
-	var roleeditplace_zNodes =[
+	var role_editplace_zNodes =[
 			<?php
 				if (!empty($data_places)) {
 					for ($i=0; $i < count($data_places); $i++) { 
@@ -101,33 +101,33 @@
 			];		
 
 	$(document).ready(function(){
-		$("#roleedit_Name").val('<?php echo $role['name']; ?>');
+		$("#role_edit_Name").val('<?php echo $role['name']; ?>');
 
 
-		$.fn.zTree.init($("#roleeditmenu_zTree"), roleeditmenu_setting, roleeditmenu_zNodes);
-		roleeditmenu_zTree = $.fn.zTree.getZTreeObj('roleeditmenu_zTree');
+		$.fn.zTree.init($("#role_editmenu_zTree"), role_editmenu_setting, role_editmenu_zNodes);
+		role_editmenu_zTree = $.fn.zTree.getZTreeObj('role_editmenu_zTree');
 
-		$.fn.zTree.init($("#roleeditplace_zTree"), roleeditplace_setting, roleeditplace_zNodes);
-		roleeditplace_zTree = $.fn.zTree.getZTreeObj('roleeditplace_zTree');
+		$.fn.zTree.init($("#role_editplace_zTree"), role_editplace_setting, role_editplace_zNodes);
+		role_editplace_zTree = $.fn.zTree.getZTreeObj('role_editplace_zTree');
 	});
 
 </script>
 
 <div class="pageContent">
-	<form method="post" action="<?php echo base_url(); ?>index.php/user/role_edit" class="pageForm required-validate" 
+	<form method="post" action="<?php echo base_url(); ?>index.php/role/role_edit" class="pageForm required-validate" 
 		onsubmit="return iframeCallback(this, dialogAjaxDone);">
 		<div id="pollxxPanel" class="pageFormContent" layoutH="58">
 			<dl>
 				<dt style="width: 100px; text-align: right;">角色名：</dt>
 				<dd>
-					<input id="roleedit_Name" name="roleedit_Name" class="required" type="text" style="width: 280px;" maxlength="30"/>
-					<input id="roleedit_Id" name="roleedit_Id" type="hidden" value="<?php echo $role['id']; ?>" />
+					<input id="role_edit_Name" name="role_edit_Name" class="required" type="text" style="width: 280px;" maxlength="30"/>
+					<input id="role_edit_Id" name="role_edit_Id" type="hidden" value="<?php echo $role['id']; ?>" />
 				</dd>
 			</dl>
 			<dl style="width: 550px;" class="nowrap">
 				<dt style="width: 100px; text-align: right;">锁定：</dt>
 				<dd style="width: 400px;">
-					<input id="roleedit_Disable" name="roleedit_Disable" type="checkbox" 
+					<input id="role_edit_Disable" name="role_edit_Disable" type="checkbox" 
 						<?php if ($role['disable'] == '1') { ?>checked="checked"<?php } ?> 
 						value="1" />
 				</dd>
@@ -136,9 +136,9 @@
 				<dt style="width: 100px; text-align: right;">菜单权限：</dt>
 				<dd style='width: 350px;'>
 					<div style="width: 280px; overflow:auto; border:solid 1px #CCC; line-height:21px; background:#fff; height: 160px;">
-						<ul id="roleeditmenu_zTree" class="ztree"></ul>		
+						<ul id="role_editmenu_zTree" class="ztree"></ul>		
 					</div>
-					<input id="roleedit_menulimit" name="roleedit_menulimit" type="hidden" 
+					<input id="role_edit_menulimit" name="role_edit_menulimit" type="hidden" 
 						value="<?php echo $role['rights']; ?>" />
 				</dd>
 			</dl>
@@ -147,9 +147,9 @@
 				<dt style="width: 100px; text-align: right;">卡口权限：</dt>
 				<dd style='width: 350px;'>
 					<div style="width: 280px; overflow:auto; border:solid 1px #CCC; line-height:21px; background:#fff; height: 160px;">
-						<ul id="roleeditplace_zTree" class="ztree"></ul>		
+						<ul id="role_editplace_zTree" class="ztree"></ul>		
 					</div>
-					<input id="roleedit_placelimit" name="roleedit_placelimit" class="" type="hidden" 
+					<input id="role_edit_placelimit" name="role_edit_placelimit" class="" type="hidden" 
 						value="<?php echo $role['openkakou']; ?>" />
 				</dd>
 			</dl>

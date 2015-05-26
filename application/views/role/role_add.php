@@ -1,7 +1,7 @@
 <script type="text/javascript">
 
-	var roleaddmenu_zTree;
-	var roleaddmenu_setting = {
+	var role_addmenu_zTree;
+	var role_addmenu_setting = {
 		check: {
 			enable: true
 			},
@@ -13,12 +13,12 @@
 			}
 		},
 		callback: {
-			onCheck: roleaddmenu_zTreeOnCheck
+			onCheck: role_addmenu_zTreeOnCheck
 		}
 	}
 
-	function roleaddmenu_zTreeOnCheck(event, treeId, treeNode) { 
-		var nodes = roleaddmenu_zTree.getCheckedNodes(true);
+	function role_addmenu_zTreeOnCheck(event, treeId, treeNode) { 
+		var nodes = role_addmenu_zTree.getCheckedNodes(true);
 	    var strId = "";
 	    for(var i=0; i<nodes.length; i++){
 	    	if (strId == "") {
@@ -27,10 +27,10 @@
 	    		strId += "," + nodes[i].id;
 	    	}
 	    }
-	    $("#roleadd_menulimit").val(strId); 
+	    $("#role_add_menulimit").val(strId); 
 	}
 	
-	var roleaddmenu_zNodes =[
+	var role_addmenu_zNodes =[
 			<?php
 				if (!empty($data_menus)) {
 					for ($i=0; $i < count($data_menus); $i++) { 
@@ -45,8 +45,8 @@
 			?>
 			];
 
-	var roleaddplace_zTree;
-	var roleaddplace_setting = {
+	var role_addplace_zTree;
+	var role_addplace_setting = {
 		check: {
 			enable: true
 			},
@@ -58,12 +58,12 @@
 			}
 		},
 		callback: {
-			onCheck: roleaddplace_zTreeOnCheck
+			onCheck: role_addplace_zTreeOnCheck
 		}
 	}
 
-	function roleaddplace_zTreeOnCheck(event, treeId, treeNode) { 
-		var nodes = roleaddplace_zTree.getCheckedNodes(true);
+	function role_addplace_zTreeOnCheck(event, treeId, treeNode) { 
+		var nodes = role_addplace_zTree.getCheckedNodes(true);
 	    var strId = "";
 	    for(var i=0; i<nodes.length; i++){
 	    	if (strId == "") {
@@ -72,10 +72,10 @@
 	    		strId += "," + nodes[i].id;
 	    	}
 	    }
-	    $("#roleadd_placelimit").val(strId); 
+	    $("#role_add_placelimit").val(strId); 
 	}
 	
-	var roleaddplace_zNodes =[
+	var role_addplace_zNodes =[
 			<?php
 				if (!empty($data_places)) {
 					for ($i=0; $i < count($data_places); $i++) { 
@@ -91,39 +91,39 @@
 			];		
 
 	$(document).ready(function(){
-		$.fn.zTree.init($("#roleaddmenu_zTree"), roleaddmenu_setting, roleaddmenu_zNodes);
-		roleaddmenu_zTree = $.fn.zTree.getZTreeObj('roleaddmenu_zTree');
+		$.fn.zTree.init($("#role_addmenu_zTree"), role_addmenu_setting, role_addmenu_zNodes);
+		role_addmenu_zTree = $.fn.zTree.getZTreeObj('role_addmenu_zTree');
 
-		$.fn.zTree.init($("#roleaddplace_zTree"), roleaddplace_setting, roleaddplace_zNodes);
-		roleaddplace_zTree = $.fn.zTree.getZTreeObj('roleaddplace_zTree');
+		$.fn.zTree.init($("#role_addplace_zTree"), role_addplace_setting, role_addplace_zNodes);
+		role_addplace_zTree = $.fn.zTree.getZTreeObj('role_addplace_zTree');
 	});
 
 </script>
 
 <div class="pageContent">
-	<form method="post" action="<?php echo base_url(); ?>index.php/user/role_add" class="pageForm required-validate" 
+	<form method="post" action="<?php echo base_url(); ?>index.php/role/role_add" class="pageForm required-validate" 
 		onsubmit="return iframeCallback(this, dialogAjaxDone);">
 		<div id="pollxxPanel" class="pageFormContent" layoutH="58">
 			<dl>
 				<dt style="width: 100px; text-align: right;">角色名：</dt>
 				<dd>
-					<input id="roleadd_Name" name="roleadd_Name" class="required" type="text" style="width: 280px;" maxlength="30"/>
+					<input id="role_add_Name" name="role_add_Name" class="required" type="text" style="width: 280px;" maxlength="30"/>
 					
 				</dd>
 			</dl>
 			<dl style="width: 550px;" class="nowrap">
 				<dt style="width: 100px; text-align: right;">锁定：</dt>
 				<dd style="width: 400px;">
-					<input id="roleadd_Disable" name="roleadd_Disable" type="checkbox" value="1" />
+					<input id="role_add_Disable" name="role_add_Disable" type="checkbox" value="1" />
 				</dd>
 			</dl>
 			<dl style='width:500px;' class="nowrap">
 				<dt style="width: 100px; text-align: right;">菜单权限：</dt>
 				<dd style='width: 350px;'>
 					<div style="width: 280px; overflow:auto; border:solid 1px #CCC; line-height:21px; background:#fff; height: 160px;">
-						<ul id="roleaddmenu_zTree" class="ztree"></ul>		
+						<ul id="role_addmenu_zTree" class="ztree"></ul>		
 					</div>
-					<input id="roleadd_menulimit" name="roleadd_menulimit" type="hidden" />
+					<input id="role_add_menulimit" name="role_add_menulimit" type="hidden" />
 				</dd>
 			</dl>
 
@@ -131,9 +131,9 @@
 				<dt style="width: 100px; text-align: right;">卡口权限：</dt>
 				<dd style='width: 350px;'>
 					<div style="width: 280px; overflow:auto; border:solid 1px #CCC; line-height:21px; background:#fff; height: 160px;">
-						<ul id="roleaddplace_zTree" class="ztree"></ul>		
+						<ul id="role_addplace_zTree" class="ztree"></ul>		
 					</div>
-					<input id="roleadd_placelimit" name="roleadd_placelimit" class="" type="hidden" />
+					<input id="role_add_placelimit" name="role_add_placelimit" class="" type="hidden" />
 				</dd>
 			</dl>
 
