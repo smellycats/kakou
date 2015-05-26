@@ -126,6 +126,7 @@ if( ! function_exists('ip_to_double'))
     		return (double)0;
     	}
 	}
+}
 
 /**
  * IP字符串转换成浮点型
@@ -447,6 +448,4 @@ if( ! function_exists('icon_to_utf8'))
 	    }
 	    return $s;
 	}
-}
-
 }
