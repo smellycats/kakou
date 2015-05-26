@@ -17,7 +17,8 @@ class Admin_Controller extends CI_Controller {
 		session_start();
 
         //$this->_timeout();
-		#$this->_check_login();
+		//$this->_check_login();
+		//$this->_check_rights();
 		
      }
      
@@ -34,12 +35,11 @@ class Admin_Controller extends CI_Controller {
      		$time_lags = time() - $_SESSION['timestamp'];
      		if ($time_lags <= 1800){    //半小时
      			$_SESSION['timestamp'] = time();
-     			$this->_check_rights();
      		} else {
-     			redirect('home/time_out');
+     			$this->_timeout();
      		}
      	} else{
-     		redirect('home/time_out');
+     		$this->_timeout();
      	}
      }
     /**
