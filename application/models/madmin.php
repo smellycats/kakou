@@ -67,7 +67,7 @@ class Madmin extends CI_Model
 	}
 	
 	//根据ID获取用户信息
-	function get_user_by_id($id)
+	function getUserById($id)
 	{
 		return $this->db->where('id',$id)->get('users');
 	}
