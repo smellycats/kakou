@@ -14,17 +14,15 @@ class Mgate extends CI_Model
 	//根据条件获取车辆信息
 	public function getCltx($offset = 0, $limit = 0, $sort = 'id', $order = 'desc', $data)
 	{
-		$data['carnum'] = trim(strtoupper($data['carnum']));
-		
 		$sqlstr = '';
-		
-		if ($data['place'] == 'all') {                            //监控点-must
+		// 卡口地点
+		if ($data['place'] == 'all') {
 			$sqlstr = $sqlstr;
 		}else {
 			$sqlstr = $sqlstr . " AND KKBH = '$data[place]'";
 		}
-		
-		if (isset($data['cdbh'])) {  //车道编号
+		// 车道编号
+		if (isset($data['cdbh'])) {
 			switch ($data['cdbh']) {
 				case 'all':
 					$sqlstr = $sqlstr;
@@ -34,8 +32,8 @@ class Mgate extends CI_Model
 					break;
 			}
 		}
-		
-		if (isset($data['fxbh'])) {                        //方向
+		// 方向
+		if (isset($data['fxbh'])) {
 			switch ($data['fxbh']) {
 				case 'all':
 					$sqlstr = $sqlstr;
@@ -45,8 +43,8 @@ class Mgate extends CI_Model
 					break;
 			}
 		}
-
-		if (isset($data['hpys'])) {        //车牌颜色-must
+		//车牌颜色
+		if (isset($data['hpys'])) {
 			switch ($data['hpys']) {
 				case 'all':
 					$sqlstr = $sqlstr;
@@ -56,8 +54,8 @@ class Mgate extends CI_Model
 					break;
 			}
 		}
-	
-		if (isset($data['spcarnum'])) {      //特殊车牌号 
+		//特殊车牌号
+		if (isset($data['spcarnum'])) {
 			switch ($data['spcarnum']) {
 				case '':
 					$sqlstr = $sqlstr;
@@ -67,8 +65,8 @@ class Mgate extends CI_Model
 					break;
 			}
 		}
-		
-		if (isset($data['record'])) {                                     //记录状态
+		// 记录状态
+		if (isset($data['record'])) {
 			switch ($data['record']) {
 				case 'all':
 					break;
@@ -86,8 +84,8 @@ class Mgate extends CI_Model
 					break;					
 			}
 		}
-		
-		if(isset($data['breakrule'])) {                                 //违法类型
+		// 违法类型
+		if (isset($data['breakrule'])) {
 			switch ($data['breakrule']) {
 				case 'all':
 					$sqlstr = $sqlstr . " AND (CLBJ='O' OR JLLX='2' OR JLLX='3' OR JLLX='4')";
@@ -109,8 +107,8 @@ class Mgate extends CI_Model
 					break;
 			}
 		}
-		
-		if(isset($data['alarmtype'])) {                          //报警类型
+		// 报警类型
+		if (isset($data['alarmtype'])) {
 			switch ($data['alarmtype']) {
 				case '被盗抢车辆':
 					$sqlstr = $sqlstr . " AND CLBJ='D'";
@@ -132,8 +130,8 @@ class Mgate extends CI_Model
 					break;
 			}
 		}
-			
-		if (isset($data['dispose'])) {     //案情处理
+		// 案情处理
+		if (isset($data['dispose'])) {
 			switch ($data['dispose']) {
 				case 'all':
 					$sqlstr = $sqlstr;
@@ -158,8 +156,8 @@ class Mgate extends CI_Model
 					break;
 			}
 		}	
-		
-		if(isset($data['minspeed'])) {            //最小速度
+		// 最小速度
+		if (isset($data['minspeed'])) {
 			switch ($data['minspeed']) {
 				case '':
 					$sqlstr = $sqlstr;
@@ -168,9 +166,9 @@ class Mgate extends CI_Model
 					$sqlstr = $sqlstr . " AND CLSD >= '$data[minspeed]'";
 					break;
 			}
-			//$sqlstr = $sqlstr . " AND CLSD >= '$data[minspeed]'";
 		}
-		if(isset($data['maxspeed'])) {            //最大速度
+		// 最大速度
+		if (isset($data['maxspeed'])) {
 			switch ($data['maxspeed']) {
 				case '':
 					$sqlstr = $sqlstr;
@@ -179,68 +177,32 @@ class Mgate extends CI_Model
 					$sqlstr = $sqlstr . " AND CLSD <= '$data[maxspeed]'";
 					break;
 			}
-			//$sqlstr = $sqlstr . " AND CLSD <= '$data[maxspeed]'";
 		}
-		
-		//开始时间
+		// 开始时间
 		$sqlstr = $sqlstr . " AND jgsj > to_date('$data[st]','yyyy-mm-dd hh24:mi:ss')";
-         //结束时间
+         // 结束时间
 		$sqlstr = $sqlstr . " AND jgsj < to_date('$data[et]','yyyy-mm-dd hh24:mi:ss')";
 
-        //车牌号码
-		if(strlen($data['carnum'])>=1 AND $data['number'] != '-' AND $data['number'] != 'R')  
-        {
-        	$data['number'] = str_replace('?', '%', $data['number']);
-        	$data['number'] = str_replace('？', '%', $data['number']);
-        	$data['number'] = str_replace('R', '%', $data['number']);
-        	$data['carnum'] = str_replace('*', '%', $data['carnum']);
-            $data['carnum'] = str_replace('?', '_', $data['carnum']);
-            $data['carnum'] = str_replace('？', '_', $data['carnum']);
-            
-            if($data['number'] == 'all')
-            {
-            	$data['number'] = '%';
-            }
-            $carnum = "$data[number]" . "$data[carnum]";
-            
-            $sqlstr = $sqlstr . " AND HPHM LIKE '$carnum'";
-        }
-        elseif($data['carnum'] == '' AND $data['number'] == '？')
-        {
-        	$sqlstr = $sqlstr;
-        }
-        elseif($data['carnum'] == '' AND $data['number'] != '-' AND $data['number'] != 'R')
-        {
-        	$sqlstr = $sqlstr . " AND HPHM LIKE '$data[number]%'";
-        }
-        elseif($data['number'] == '-')       
-		{
-			$sqlstr = $sqlstr . " AND (HPHM='' OR HPHM='-')";
+		switch ($data['number']) {
+			case 'R':
+				$sqlstr = $sqlstr . " and length(hphm) >= 2";
+				break;
+			case '?' || '？':
+				$data['carnum'] == '' ? $sqlstr = $sqlstr : $sqlstr = $sqlstr . " AND HPHM LIKE '$data[platename]'";
+				break;
+			case '-':
+				$sqlstr = $sqlstr . " AND (HPHM = '' OR HPHM = '-')";
+			default:
+				$sqlstr = $sqlstr . " AND HPHM LIKE '$data[platename]'";
 		}
-		elseif($data['number'] == 'R')
-		{
-			$sqlstr = $sqlstr . " and length(hphm)>=2";
-		}
-		
 
-		if ($limit == 0)
-		{
-			$query = $this->ora_db->query("SELECT count(1) AS sum  FROM cltx WHERE 1=1 " . $sqlstr);
+		if ($limit == 0) {
+			return $this->ora_db->query("SELECT count(1) AS sum  FROM cltx WHERE 1=1 " . $sqlstr);
 		} else {
 			$max_count = $limit + $offset;
 			
-			$query = $this->ora_db->query("SELECT t.*, to_char(jgsj, 'yyyy-mm-dd hh24:mi:ss')as passtime FROM (SELECT A.*, ROWNUM RN FROM (SELECT * FROM cltx WHERE 1=1 $sqlstr ORDER BY $sort $order) A WHERE ROWNUM <= $max_count)t WHERE RN > $offset" );
+			return $this->ora_db->query("SELECT t.*, to_char(jgsj, 'yyyy-mm-dd hh24:mi:ss')as passtime FROM (SELECT A.*, ROWNUM RN FROM (SELECT * FROM cltx WHERE 1=1 $sqlstr ORDER BY $sort $order) A WHERE ROWNUM <= $max_count)t WHERE RN > $offset" );
 		}
-		/*
-		else
-		{
-			//返回查询结果行数
-			$query = $this->ora_db->query("select count(1) as sum  from cltx where 1=1 " . $sqlstr);
-			$query = $this->ora_db->query("SELECT t.* , to_char(jgsj, 'yyyy-mm-dd hh24:mi:ss')as passtime FROM cltx t where 1=1 $sqlstr order by jgsj desc");
-		} */
-		
-		return $query;
-
 	}
 		
 	//根据ID号获取卡口号
