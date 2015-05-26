@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Kakou ÖÎ°²¿¨¿Ú¹ÜÀí¿ØÖÆÆ÷
+ * Kakou æ²»å®‰å¡å£ç®¡ç†æŽ§åˆ¶å™¨
  * 
  * @package     Kakou
  * @subpackage  Controllers
@@ -13,48 +13,60 @@
 class Gate extends Admin_Controller
 {
 		
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		
 		$this->load->helper('url');
 		//$this->load->helper('form');
 		$this->load->helper('date');
-		//$this->load->helper('news');     //×Ô¶¨Òånews_helper
-		$this->load->helper('kakou');    //×Ô¶¨Òåkakou_helper
+		//$this->load->helper('news');     //è‡ªå®šä¹‰news_helper
+		$this->load->helper('kakou');    //è‡ªå®šä¹‰kakou_helper
 		
 		//$this->load->library('DX_Auth');
 		//$this->load->library('form_validation');
 
-		//$this->load->model('Mgate');
-		//$this->load->model('Msyst');
+		$this->load->model('Mgate');
+		$this->load->model('Mbasedata2');
 		//$this->load->model('Muser');
 		
-		//$this->load->config('kakou');
+		$this->load->config('kakou');
+		$this->load->config('basedata');
 
 	}
 	
 
-	function carquery()
+	
+
+	public function carquery_view()
 	{
-		if ($this->session->userdata('carquery')) {
-			$data['carquery'] = $this->session->userdata('carquery');
-		}else {
-			$data['carquery']['number'] = '?';
-			$data['carquery']['carnum'] = '';
-			$data['carquery']['place']  = 0;
-			$data['carquery']['dire']   = 0;
-			$data['carquery']['lane']   = 0;
-			$data['carquery']['hpys']   = 0;
-			$data['carquery']['st']     = mdate("%Y-%m-%d %H:%i:%s",strtotime("-2 hours"));
-			$data['carquery']['et']     = mdate("%Y-%m-%d %H:%i:%s");
-			
-			$this->session->set_userdata('carquery',$data['carquery']);
-		}
+		$data['page']   = $this->input->post('page') ? intval($this->input->post('page')) : 1;
+		$data['rows']   = $this->input->post('rows') ? intval($this->input->post('rows')) : 20;
+		$data['sort']   = $this->input->post('sort') ? $this->input->post('sort') : 'jgsj';
+	    $data['order']  = $this->input->post('order') ? $this->input->post('order') : 'desc';
+		$data['offset'] = ($data['page'] - 1) * $data['rows'];
 		
-		$data['title'] = '³µÁ¾²éÑ¯';
-		
-		$this->load->view('gate/carquery',$data);
+		$data['st']     = $this->input->post('st') ? $this->input->post('st') : mdate("%Y-%m-%d %H:%i:%s",strtotime("-2 hours"));;
+		$data['et']     = $this->input->post('et') ? $this->input->post('et') : mdate("%Y-%m-%d %H:%i:%s");
+	    $data['place']  = $this->input->post('place') ? $this->input->post('place') : 'all';
+	    $data['fxbh']   = $this->input->post('fxbh') ? $this->input->post('fxbh') : 'all';
+		$data['cdbh']   = $this->input->post('cdbh') ? $this->input->post('cdbh') : 'all';
+		$data['hpys']   = $this->input->post('hpys') ? $this->input->post('hpys') : 'all';
+	    $data['number'] = $this->input->post('number') ? $this->input->post('number') : 'ï¼Ÿ';
+	    $data['carnum'] = $this->input->post('carnum') ? $this->input->post('carnum') : '';
+
+		$data['result'] = $this->Mgate->getCltx($data['offset'], $data['rows'], $data['sort'], $data['order'], $data)->result_array();
+		$data['total']  = $this->Mgate->getCltx(0, 0, $data['sort'], $data['order'], $data)->row()->SUM;
+
+		$data['title'] = 'è½¦è¾†æŸ¥è¯¢';
+
+		$data['sel_place'] = $this->Mbasedata2->getCfgKakou()->result_array();
+		$data['sel_fxbh'] = $this->config->item('fxbh');
+		$data['sel_cdbh'] = $this->config->item('cdbh');
+		$data['sel_hpys'] = $this->config->item('hpys');
+		$data['sel_number'] = $this->config->item('number');
+
+		$this->load->view('gate/carquery_view', $data);
 	}
 	
 	function load_carquery()
@@ -101,7 +113,7 @@ class Gate extends Admin_Controller
 			$this->session->set_userdata('wzquery',$data['wzquery']);
 		}
 		
-		$data['title'] = 'Î¥ÕÂ²éÑ¯';
+		$data['title'] = 'è¿ç« æŸ¥è¯¢';
 		
 		$this->load->view('gate/wzquery',$data);
 	}
@@ -150,7 +162,7 @@ class Gate extends Admin_Controller
 			$this->session->set_userdata('bjquery',$data['bjquery']);
 		}
 		
-		$data['title'] = '±¨¾¯²éÑ¯';
+		$data['title'] = 'æŠ¥è­¦æŸ¥è¯¢';
 		
 		$this->load->view('gate/bjquery',$data);
 	}
@@ -184,13 +196,13 @@ class Gate extends Admin_Controller
 	
 	function test1()
 	{
-		$data['test'] = 'Õâ¸öÊÇ²âÊÔ';
+		$data['test'] = 'è¿™ä¸ªæ˜¯æµ‹è¯•';
 		$this->load->view('gate/test1', $data);
 	}
 	
 	function get_clpp2()
 	{
-		$data = array('Æ·ÅÆ1','Æ·ÅÆ2');
+		$data = array('å“ç‰Œ1','å“ç‰Œ2');
 	}
 	
 	function test2()
@@ -204,10 +216,8 @@ class Gate extends Admin_Controller
 	
 	function test3()
 	{
-		$this->load->model('Muser');
-		$data['name'] = iconv("GBK","UTF-8",'²âÊÔ');
-		$this->Muser->edit_role(10,$data);
-
+		$data['sel_place'] = $this->Mbasedata2->getCfgKakou()->result_array();
+		echo json_encode($data['sel_place']);
 	}
 	
 }
