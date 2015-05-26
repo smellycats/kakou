@@ -86,6 +86,7 @@ if( ! function_exists('array_to_string'))
 	}
 }
 
+
 /**
  * IP字符串转换成浮点型
  *
@@ -252,20 +253,22 @@ if( ! function_exists('download_img'))
 	}
 }
 
+
 /**
  * 数组转化为加单引号字符串
  *
  * $param array $array 输入数组
  * 
- * $return string 返回','分割后的字符串。
+ * $return string 返回','分割后的字符串(e.g, "'小学','中学','大学'")
  * 
  */
-if( ! function_exists('arr_to_sigquostr'))
+if( ! function_exists('h_arr2str'))
 {
-	function arr_to_sigquostr($array)
+	function h_arr_to_str($array)
 	{
-		$str = join(",",$array);
-		return "'".str_replace(",","','",$str)."'";
+		$str = join("','",$array);
+
+		return "'$str'";
 	}
 }
 
@@ -340,7 +343,7 @@ if( ! function_exists('format_carnum'))
  */
 if( ! function_exists('h_create_platename'))
 {
-	function h_create_platename($number,$carnum)
+	function h_create_platename($number, $carnum)
 	{
 		$number = str_replace('?', '%', $number);
 		$number = str_replace('？', '%', $number);
