@@ -15,6 +15,7 @@ class Admin_Controller extends CI_Controller {
 		
 		//$this->output->enable_profiler(TRUE);
 		session_start();
+
         //$this->_timeout();
 		#$this->_check_login();
 		
