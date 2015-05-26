@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Kakou ç™»å½•ç®¡ç†æŽ§åˆ¶å™¨
+ * Kakou µÇÂ¼¹ÜÀí¿ØÖÆÆ÷
  * 
  * @package     Kakou
  * @subpackage  Controllers
@@ -28,7 +28,7 @@ class Home extends CI_Controller
 	}
 
     /**
-     * ç™»å½•é¡µé¢
+     * µÇÂ¼Ò³Ãæ
      * 
      * @return void
      */
@@ -44,15 +44,15 @@ class Home extends CI_Controller
 	
 	public function login_ok()
 	{
-		$data['page_title'] = 'å¡å£ç³»ç»Ÿ';
+		$data['page_title'] = '¿¨¿ÚÏµÍ³';
 		
 		$val = $this->form_validation;
 				
-		$val->set_rules('username', 'ç”¨æˆ·å', 'trim|required|xss_clean|');
-		$val->set_rules('password', 'å¯†ç ', 'trim|required|xss_clean');
-		$val->set_rules('remember', 'è®°ä½ç™»å½•çŠ¶æ€', 'integer');
+		$val->set_rules('username', 'ÓÃ»§Ãû', 'trim|required|xss_clean|');
+		$val->set_rules('password', 'ÃÜÂë', 'trim|required|xss_clean');
+		$val->set_rules('remember', '¼Ç×¡µÇÂ¼×´Ì¬', 'integer');
 		    	
-		$val->set_message('required', '%sä¸èƒ½ä¸ºç©º.');
+		$val->set_message('required', '%s²»ÄÜÎª¿Õ.');
 	
 		$val->set_error_delimiters('<span>', '</span>');
 			    
@@ -65,38 +65,38 @@ class Home extends CI_Controller
 			exit;
 		} 
 		if ($query->num_rows() == 0) {
-			$data['message'] = 'ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯';
+			$data['message'] = 'ÓÃ»§Ãû»òÃÜÂë´íÎó';
 			$this->load->view('admin/login', $data);
 			exit;
 		}
 		if ($this->input->post('password') != sha1($query->row->password)) {
-			$data['message'] = 'ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯';
+			$data['message'] = 'ÓÃ»§Ãû»òÃÜÂë´íÎó';
 			$this->load->view('admin/login', $data);
 			exit;
 		}
-		// æ£€æŸ¥ç”¨æˆ·IP
+		// ¼ì²éÓÃ»§IP
 		if ($this->_checkIpAccess($this->session->userdata('ip_address')) == False) {
-			$data['message'] = 'é™åˆ¶IPç™»é™†';
+			$data['message'] = 'ÏÞÖÆIPµÇÂ½';
 			$this->load->view('admin/login', $data);
 			exit;
 		}
 		if ($query->row()->r_banned == 1) {
-			$data['message'] = 'ç”¨æˆ·æ‰€å±žè§’è‰²å·²è¢«å†»ç»“';	
+			$data['message'] = 'ÓÃ»§ËùÊô½ÇÉ«ÒÑ±»¶³½á';	
 			$this->load->view('admin/login', $data);
 			exit;
 		}
 		if($query->row()->u_banned == 1){
-			$data['message'] = 'ç”¨æˆ·å·²è¢«å†»ç»“';
+			$data['message'] = 'ÓÃ»§ÒÑ±»¶³½á';
 			$this->load->view('admin/login', $data);
 			exit;
 		}
-		// ä¿å­˜session
+		// ±£´æsession
 		$this->_setSession($query->row());
-		// ä¿®æ”¹ç”¨æˆ·ç™»å½•ä¿¡æ¯
+		// ÐÞ¸ÄÓÃ»§µÇÂ¼ÐÅÏ¢
 		$da['last_ip']    = $this->session->userdata('ip_address');
 		$da['last_login'] = mdate("%Y-%m-%d %H:%i:%s");
 		$this->Mhome->loginPlus($query->row()->id, $da);
-		// æ·»åŠ ç™»å½•æ—¥å¿—
+		// Ìí¼ÓµÇÂ¼ÈÕÖ¾
 		$da2['ip'] = $this->session->userdata('ip_address');
 		$da2['user_id'] = $query->row()->id;
 		$da2['user_name'] = $query->row()->username;
@@ -113,9 +113,9 @@ class Home extends CI_Controller
 	}
     
     /**
-     * ç™»å½•é¡µé¢
+     * µÇÂ¼Ò³Ãæ
      * 
-     * @param string $ip IPåœ°å€
+     * @param string $ip IPµØÖ·
      * @return bool
      */
     private function _checkIpAccess($ip)
@@ -147,9 +147,9 @@ class Home extends CI_Controller
     }
 
     /**
-     * è®¾ç½®session
+     * ÉèÖÃsession
      * 
-     * @param object $data ç”¨æˆ·å¯¹è±¡
+     * @param object $data ÓÃ»§¶ÔÏó
      * @return void
      */
 	private function _setSession($data)
@@ -164,13 +164,13 @@ class Home extends CI_Controller
 		$_SESSION['user_name']  = $data->username;
 	}
 	
-	//è¶…æ—¶é€€å‡º
+	//³¬Ê±ÍË³ö
 	function time_out()
 	{
-		showmessage3('ç™»å½•è¶…æ—¶ï¼Œè¯·é‡æ–°ç™»å½•', 'home/exit_system');
+		showmessage3('µÇÂ¼³¬Ê±£¬ÇëÖØÐÂµÇÂ¼', 'home/exit_system');
 	}
 
-	/* é€€å‡ºç³»ç»Ÿ  */
+	/* ÍË³öÏµÍ³  */
 	function exit_system()
 	{	
 		//$this->dx_auth->logout();
