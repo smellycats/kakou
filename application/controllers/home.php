@@ -97,9 +97,9 @@ class Home extends CI_Controller
 		$da['last_login'] = mdate("%Y-%m-%d %H:%i:%s");
 		$this->Mhome->loginPlus($query->row()->id, $da);
 		// 添加登录日志
-		$da2['ip'] = $this->session->userdata('ip_address');
-		$da2['user_id'] = $query->row()->id;
-		$da2['user_name'] = $query->row()->username;
+		$da2['ip']        = $this->session->userdata('ip_address');
+		$da2['user_id']   = $query->row()->id;
+		$da2['user_name'] = $query->row()->user_name;
 		$this->Mhome->addAccessLog($da2);
 				
 		redirect('admin/index');
@@ -160,8 +160,9 @@ class Home extends CI_Controller
 		$_SESSION['role_id']    = $data->role_id;
 		$_SESSION['role_name']  = $data->role_name;
 		$_SESSION['role_right'] = explode(',', $data->role_right);
+		$_SESSION['role_openkk']= explode(',', $data->role_openkk);
 		$_SESSION['user_id']    = $data->user_id;
-		$_SESSION['user_name']  = $data->username;
+		$_SESSION['user_name']  = $data->user_name;
 	}
 	
 	//超时退出

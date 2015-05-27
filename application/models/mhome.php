@@ -38,7 +38,7 @@ class Mhome extends CI_Model
 		$this->db->select('r.id as role_id');
 		$this->db->select('r.name as role_name');
 		$this->db->select('r.rights as role_right');
-		$this->db->select('r.openkakou as role_openkakou');
+		$this->db->select('r.openkakou as role_openkk');
 		$this->db->select('u.banned as u_banned');
 		$this->db->select('u.disabled as u_del');
 		$this->db->select('r.disable as r_banned');
