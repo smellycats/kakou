@@ -9,7 +9,6 @@ class Mbasedata extends CI_Model
 		parent::__construct();
 		
 		$this->logo_db = $this->load->database('logo_db', TRUE);
-		$this->db = $this->load->database('default', TRUE);
 	}
 
 	//获取监控地点
@@ -167,6 +166,24 @@ class Mbasedata extends CI_Model
 		$this->logo_db->order_by('order');
 
 		return $this->logo_db->get('clpp2_dict');
+	}
+
+    /**
+     * 根据权限获取卡口地点
+     * 
+     * @param array $place_array 卡口地点ID数组
+     * @return object
+     */
+	function getPlaces($place_array)
+	{
+		if (!empty($place_array)) {
+			$this->logo_db->where_in('config_id', $place_array);
+		}
+		$this->logo_db->select('*');
+		$this->logo_db->where('banned', 0);
+		$this->logo_db->order_by('order', 'asc');
+		
+		return $this->logo_db->get('places');
 	}
 }
 ?>
