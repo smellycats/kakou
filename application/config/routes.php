@@ -41,20 +41,21 @@
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
 
-$route['log/oplog'] = 'oplog/view';
+$route['log/oplog']   = 'oplog/view';
 $route['log/userlog'] = 'userlog/view';
 
 $route['syst/alarm_point'] = 'alarmpoint/view';
-$route['syst/alarm_rel'] = 'alarmrel/view';
-$route['syst/notice'] = 'notice/view';
-$route['syst/ip_access'] = 'ipaccess/view';
-$route['syst/systset'] = 'kakouset/view';
-$route['syst/sysstate'] = 'sysstate/view';
+$route['syst/alarm_rel']   = 'alarmrel/view';
+$route['syst/notice']      = 'notice/view';
+$route['syst/ip_access']   = 'ipaccess/view';
+$route['syst/systset']     = 'kakouset/view';
+$route['syst/sysstate']    = 'sysstate/view';
 
 $route['user/account_man'] = 'user/view';
-$route['user/role_man'] = 'role/view';
+$route['user/role_man']    = 'role/view';
 
-$route['logo/smsnum'] = 'sms/view';
+$route['logo/smsnum']      = 'sms/view';
+$route['logo/real_select'] = 'logo/realSelectView';
 
 
 
