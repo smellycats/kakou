@@ -3,51 +3,75 @@
 class Msms extends CI_Model
 {
 	private $logo_db;
-	
-	function __construct()
+    /**
+     * Construct a muser instance
+     *
+     */
+	public function __construct()
 	{
 		parent::__construct();
 		
 		$this->logo_db = $this->load->database('logo_db', TRUE);
 	}
 
-	//»ñÈ¡¶ÌĞÅ·¢ËÍºÅÂë
-	function get_sms($offset,$rows,$sort,$order,$data)
+    /**
+     * è·å–çŸ­ä¿¡å‘é€å·ç 
+     * 
+     * @param int $offset åç§»é‡
+     * @param int $limit è¡Œæ•°
+     * @param string $sort æ’åºå­—æ®µ
+     * @param string $order æ’åºæ–¹å‘
+     * @param array $data æŸ¥è¯¢æ•°ç»„
+     * @return object
+     */
+	function getSms($offset = 0 ,$limit = 0, $sort = 'id' ,$order = 'desc', $data)
 	{
-		if ($offset == 0 and $rows == 0){
+		if ($limit == 0){
 			$this->logo_db->select('count(*) as sum');
 		} else {
 			$this->logo_db->select('*');
-			$this->logo_db->where('banned',0);
-			$this->logo_db->limit($rows, $offset);
+			$this->logo_db->where('banned', 0);
+			$this->logo_db->limit($limit, $offset);
 		}
+
 		return $this->logo_db->get('sms');
 	}
 
-	//Ìí¼Ó¶ÌĞÅ·¢ËÍºÅÂë
-	function add_sms($data)
+    /**
+     * æ·»åŠ çŸ­ä¿¡å‘é€å·ç 
+     * 
+     * @param array $data çŸ­ä¿¡ä¿¡æ¯
+     * @return object
+     */
+	function addSms($data)
 	{
-		return $this->logo_db->insert('sms',$data);
-	}
-	
-	//ĞŞ¸Ä¶ÌĞÅ·¢ËÍºÅÂë
-	function edit_sms($id, $data)
-	{
-		return $this->logo_db->where('id', $id)->update('sms', $data);
+		return $this->logo_db->insert('sms', $data);
 	}
 
-	//Ìí¼Ó¶ÌĞÅ·¢ËÍºÅÂë
-	function del_sms($id)
+    /**
+     * ç¼–è¾‘çŸ­ä¿¡å‘é€å·ç 
+     * 
+     * @param int $id idç¼–å·
+     * @param array $data çŸ­ä¿¡ä¿¡æ¯
+     * @return object
+     */
+	function setSms($id, $data)
 	{
-		$data['banned'] = 1;
 		return $this->logo_db->where('id', $id)->update('sms', $data);
 	}
 	
-	//¸ù¾İID»ñÈ¡¶ÌĞÅĞÅÏ¢
-	function get_sms_by_id($id)
+    /**
+     * æ ¹æ®IDè·å–çŸ­ä¿¡ä¿¡æ¯
+     * 
+     * @param int $id idç¼–å·
+     * @return object
+     */
+	function getSmsById($id)
 	{
 		$this->logo_db->select('*');
-		$this->logo_db->where('banned',0)->where('id',$id);
+		$this->logo_db->where('banned', 0);
+		$this->logo_db->where('id', $id);
+
 		return $this->logo_db->get('sms');
 	}
 	
