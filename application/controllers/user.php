@@ -13,7 +13,7 @@
 class User extends Admin_Controller
 {
     /**
-     * Construct a muser instance
+     * Construct a user instance
      *
      */
 	public function __construct()
@@ -27,10 +27,9 @@ class User extends Admin_Controller
 		$this->load->library('Lib_kakou');
 
 		$this->load->model('Muser');
+		$this->load->model('Mbasedata');
 		
 		$this->load->config('kakou');
-			
-		$this->load->model('Mbasedata');
 		//$this->output->enable_profiler(TRUE);
 	}
 	
@@ -51,7 +50,7 @@ class User extends Admin_Controller
 	    $data['department'] = $this->input->post('department') ? $this->input->post('department') : '';
 
 		$data['result'] = $this->Muser->getUsers($data['offset'], $data['rows'], $data['sort'], $data['order'], $data)->result_array();
-		$data['total']  = $this->Muser->getUsers(0,0,$data['sort'], $data['order'], $data)->row()->sum;
+		$data['total']  = $this->Muser->getUsers(0, 0, $data['sort'], $data['order'], $data)->row()->sum;
 
 		$data['title'] = '用户列表';
 
@@ -75,7 +74,7 @@ class User extends Admin_Controller
      * @return void
      */
 	public function editView() {
-		$id = $this->input->get('id',True);
+		$id = $this->input->get('id', True);
 		
 		$data['sel_roles'] = $this->Muser->getSelRoles()->result_array();
 		$data['user']      = $this->Muser->getUserById($id)->row_array();
@@ -160,7 +159,7 @@ class User extends Admin_Controller
 				$result['statusCode']   = '200';
 				$result['message']      = '编辑成功！';
 	            $result['navTabId']     = 'account_man';
-	            $result['forwardUrl']   = base_url().'index.php/user/view';
+	            $result['forwardUrl']   = base_url() . 'index.php/user/view';
 	            $result['callbackType'] = 'closeCurrent';
 			} else {
 				$result['statusCode'] = '300';
