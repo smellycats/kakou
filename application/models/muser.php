@@ -29,17 +29,32 @@ class Muser extends CI_Model
 		if ($data['department'] != ''){
 			$this->db->like('department', $data['department']); 
 		}
-		$this->db->where('disabled', 0);
-		$this->db->where('r.del', 0);
-		$this->db->join('roles as r', 'u.role_id=r.id');
 		
 		if ($offset == 0 and $limit == 0){
 			$this->db->select('count(*) as sum');
 		} else {
-			$this->db->select('u.id,r.name as rolename,role_id,username,realname,department,created,banned,last_ip,last_login,identity,phone,access_type,access_count,limit_login_address,memo');
+			$this->db->select('u.id');
+			$this->db->select('r.name as rolename');
+			$this->db->select('role_id');
+			$this->db->select('username');
+			$this->db->select('realname');
+			$this->db->select('department');
+			$this->db->select('created');
+			$this->db->select('banned');
+			$this->db->select('last_ip');
+			$this->db->select('identity');
+			$this->db->select('phone');
+			$this->db->select('access_type');
+			$this->db->select('access_count');
+			$this->db->select('limit_login_address');
+			$this->db->select('memo');
+
 			$this->db->limit($limit, $offset);
 			$this->db->order_by($sort, $order);
 		}
+		$this->db->where('disabled', 0);
+		$this->db->where('r.del', 0);
+		$this->db->join('roles as r', 'u.role_id=r.id');
 		
 		return $this->db->get('users as u');
 	}
