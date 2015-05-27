@@ -54,6 +54,8 @@ $route['syst/sysstate'] = 'sysstate/view';
 $route['user/account_man'] = 'user/view';
 $route['user/role_man'] = 'role/view';
 
+$route['logo/smsnum'] = 'sms/view';
+
 
 
 

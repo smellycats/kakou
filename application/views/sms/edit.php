@@ -1,15 +1,23 @@
+<script type="text/javascript">
+	$(function(){
+		$("#sms_edit_id").val("<?php echo $id; ?>");
+		$("#sms_edit_tel").val("<?php echo $tel; ?>");
+		$("#sms_edit_mark").val("<?php echo $mark; ?>");
+	});
+</script>
 
 <div class="pageContent">
-	<form method="post" action="<?php echo base_url(); ?>index.php/logo/sms_add" class="pageForm required-validate" 
+	<form method="post" action="<?php echo base_url(); ?>index.php/sms/edit" class="pageForm required-validate" 
 		onsubmit="return iframeCallback(this, dialogAjaxDone);">
 		<div id="pollxxPanel" class="pageFormContent" layoutH="58">
 			<div class="unit">
+				<input id="sms_edit_id" name="id" type="hidden" />
 				<label>电话号码：</label>
-				<textarea id="sms_add_tel" name="tel" style="width:180px;height:80px;" ></textarea>
+				<textarea id="sms_edit_tel" name="tel" style="width:180px;height:80px;" ></textarea>
 			</div>
 			<div class="unit">
 				<label>备注：</label>
-				<textarea id="sms_add_mark" name="mark" style="width:180px;height:80px;" ></textarea>
+				<textarea id="sms_edit_mark" name="mark" style="width:180px;height:80px;" ></textarea>
 			</div>
 		</div>
 		<div class="formBar">
