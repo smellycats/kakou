@@ -18,13 +18,9 @@ class Admin extends CI_Controller
 
 		$this->load->helper('url');
 		$this->load->helper('form');
-		$this->load->helper('news');
 		$this->load->helper('string');
 		
-		$this->load->model('Madmin');
-		
-		$this->load->library('DX_Auth');			
-		$this->load->library('form_validation');
+		$this->load->model('Madmin');		
 		
 		$this->load->config('kakou');
 		#$this->load->library('MY_Session');
@@ -32,7 +28,11 @@ class Admin extends CI_Controller
 		
 	}
 
-	/* 后台首页  */
+    /**
+     * 后台首页
+     * 
+     * @return void
+     */
 	function index()
 	{
 		$role_id = 1;
@@ -51,62 +51,51 @@ class Admin extends CI_Controller
 		$this->load->view('admin/footer');
 	}
 	
-	// 修改密码dialog
+    /**
+     * 修改密码dialog
+     * 
+     * @return void
+     */
 	function password()
 	{
 		$this->load->view('admin/password');
 	}
 	
-	// 修改密码
-	function change_pwd()
+    /**
+     * 修改密码
+     * 
+     * @return json
+     */
+	function setPassword()
 	{
 		$id = 1;
 		$password_old = sha1($this->input->post('password_old'));
-		$query = $this->Madmin->get_user_by_id($id);
+		$query = $this->Madmin->getUserById($id);
 		if ($query->row()->password != $password_old) {
-			$result["statusCode"] = "300";
-			$result["message"] = "旧密码错误！";
+			$result['statusCode'] = '300';
+			$result['message']    = '旧密码错误！';
 		} else {
 			$data['password'] = sha1($this->input->post('password_new'));
 			if ($this->Madmin->edit_user($id, $data)) {
-				$result["statusCode"] = "200";
-				$result["message"] = "修改密码完成！";
-	            #$result["navTabId"] = "passwor";
-	            #$result["forwardUrl"] = base_url()."index.php/admin/passwor";
-	            $result["callbackType"] = "closeCurrent";
+				$result['statusCode']   = '200';
+				$result['message']      = '修改密码完成！';
+	            $result['callbackType'] = 'closeCurrent';
 			} else {
-				$result["statusCode"] = "300";
-				$result["message"] = "修改密码失败，请稍后再试！";
+				$result['statusCode'] = '300';
+				$result['message']    = '修改密码失败，请稍后再试！';
 			}
-		}		
+		}
+
 		echo json_encode($result);
 	}
 
-	/* 登陆验证页面  */
-	function check_login()
-	{
-
-		$query = $this->Madmin->login_ok();
-
-		if ($query)
-		{
-			$this->session->set_userdata('manager', $this->input->post('user'));
-			showmessage('登陆成功', 'admin/index');
-		}
-		else
-		{
-			showmessage('登陆失败，系统繁忙或着填写错误', 'home/index');
-		}
-	}
-	
-	/* 退出系统  */
+    /**
+     * 退出系统
+     * 
+     * @return void
+     */
 	function logout()
 	{
-		//$array_items = array('manager' => '');
-
-		//$this->session->unset_userdata($array_items);
-		
-		#$this->dx_auth->logout();
 		session_start();
 		session_unset(); 
 		session_destroy();
@@ -117,11 +106,6 @@ class Admin extends CI_Controller
 	/* 退出系统  */
 	function exit_system()
 	{
-		//$array_items = array('manager' => '');
-
-		//$this->session->unset_userdata($array_items);
-		
-		#$this->dx_auth->logout();
 		session_start();
 		session_unset(); 
 		session_destroy();

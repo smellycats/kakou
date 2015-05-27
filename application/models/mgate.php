@@ -4,462 +4,244 @@ class Mgate extends CI_Model
 {
 	private $ora_db;
 	
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		
 		$this->ora_db = $this->load->database('oracle_db', TRUE);
 	}
 
-	function get_car_all($offset = 0, $row_count = 0)
+	//æ ¹æ®æ¡ä»¶è·å–è½¦è¾†ä¿¡æ¯
+	public function getCltx($offset = 0, $limit = 0, $sort = 'id', $order = 'desc', $data)
 	{
-		if ($offset >= 0 AND $row_count > 0)
-	    {
-			$max_count = $row_count+$offset;
-			
-			$query = $this->ora_db->query("SELECT t.*, to_char(jgsj, 'yyyy-mm-dd hh24:mi:ss')as passtime FROM (SELECT A.*, ROWNUM RN FROM (SELECT * FROM cltx order by jgsj desc) A WHERE ROWNUM <= $max_count)t WHERE RN > $offset" );
-		}
-		else
-		{
-			//·µ»Ø²éÑ¯½á¹ûĞĞÊı
-			$query = $this->ora_db->query("select count(1) as sum  from cltx");
-		}
-
-		return $query;
-		
-	}
-	
-	//¸ù¾İÌõ¼ş»ñÈ¡³µÁ¾ĞÅÏ¢
-	function get_car_by_condition($offset = 0, $row_count = 0, $data)
-	{
-		$data['carnum'] = strtoupper($data['carnum']);
-		
 		$sqlstr = '';
-		
-		if($data['okkval'] != '')   //¼à¿Øµã
-		{
-			$sqlstr = $sqlstr . " AND KKBH IN ($data[okkval])";
+		// å¡å£åœ°ç‚¹
+		if ($data['place'] == 'all') {
+			$sqlstr = $sqlstr;
+		}else {
+			$sqlstr = $sqlstr . " AND KKBH = '$data[place]'";
 		}
-		if ($data['lane'] != '')      //³µµÀ±àºÅ
-		{
-			if($data['lane'] == 'all')
-			{
-				$sqlstr = $sqlstr;
-			}else
-			{
-				$sqlstr = $sqlstr . " AND CDBH='$data[lane]'";
+		// è½¦é“ç¼–å·
+		if (isset($data['cdbh'])) {
+			switch ($data['cdbh']) {
+				case 'all':
+					$sqlstr = $sqlstr;
+					break;
+				default:
+					$sqlstr = $sqlstr . " AND CDBH='$data[cdbh]'";
+					break;
 			}
 		}
-		if ($data['direction'] != '')  //·½Ïò
-		{
-			if($data['direction'] == 'all')
-			{
-				$sqlstr = $sqlstr;
-			}else
-			{
-				$sqlstr = $sqlstr . " AND FXBH='$data[direction]'";
+		// æ–¹å‘
+		if (isset($data['fxbh'])) {
+			switch ($data['fxbh']) {
+				case 'all':
+					$sqlstr = $sqlstr;
+					break;
+				default:
+					$sqlstr = $sqlstr . " AND FXBH='$data[fxbh]'";
+					break;
 			}
 		}
-		if ($data['color'] != '')      //ÑÕÉ«
-		{
-			if($data['color'] == 'all')
-			{
-				$sqlstr = $sqlstr;
-			}else
-			{
-				$sqlstr = $sqlstr . " AND HPYS='$data[color]'";
+		//è½¦ç‰Œé¢œè‰²
+		if (isset($data['hpys'])) {
+			switch ($data['hpys']) {
+				case 'all':
+					$sqlstr = $sqlstr;
+					break;
+				default:
+					$sqlstr = $sqlstr . " AND HPYS='$data[hpys]'";
+					break;
 			}
 		}
-		
-		if($data['spcarnum'] != '')    //ÌØÊâ³µÅÆ
-		{
-			$sqlstr = $sqlstr . " AND HPHM in ($data[spcarnum])";
-		}
-        //³µÅÆºÅÂë
-		elseif(strlen($data['carnum'])>=1 AND $data['number'] != '-' AND $data['number'] != 'R')  
-        {
-        	$data['number'] = str_replace('?', '%', $data['number']);
-        	$data['number'] = str_replace('£¿', '%', $data['number']);
-        	$data['number'] = str_replace('R', '%', $data['number']);
-        	$data['carnum'] = str_replace('*', '%', $data['carnum']);
-            $data['carnum'] = str_replace('?', '_', $data['carnum']);
-            $data['carnum'] = str_replace('£¿', '_', $data['carnum']);
-            
-            if($data['number'] == 'all')
-            {
-            	$data['number'] = '%';
-            }
-            $carnum = "$data[number]" . "$data[carnum]";
-            
-            $sqlstr = $sqlstr . " AND HPHM LIKE '$carnum'";
-        }
-        elseif($data['carnum'] == '' AND $data['number'] == '?')
-        {
-        	$sqlstr = $sqlstr;
-        }
-        elseif($data['carnum'] == '' AND $data['number'] != '-' AND $data['number'] != 'R')
-        {
-        	$sqlstr = $sqlstr . " AND HPHM LIKE '$data[number]%'";
-        }
-        elseif($data['number'] == '-')       
-		{
-			$sqlstr = $sqlstr . " AND (HPHM='' OR HPHM='-')";
-		}
-		elseif($data['number'] == 'R')
-		{
-			$sqlstr = $sqlstr . " and length(hphm)>=2";
-		}
-		
-		if($data['starttime'] != '')            //¿ªÊ¼Ê±¼ä
-		{
-			$sqlstr = $sqlstr . " AND jgsj>to_date('$data[starttime]','yyyy-mm-dd hh24:mi:ss')";
-		}
-		if($data['endtime'] != '')              //½áÊøÊ±¼ä
-		{ 
-			$sqlstr = $sqlstr . " AND jgsj < to_date('$data[endtime]','yyyy-mm-dd hh24:mi:ss')";
-		}
-		
-		if ($offset >= 0 AND $row_count > 0)
-	    {
-			$max_count = $row_count+$offset;
-			
-			$query = $this->ora_db->query("SELECT t.*, to_char(jgsj, 'yyyy-mm-dd hh24:mi:ss')as passtime FROM (SELECT A.*, ROWNUM RN FROM (SELECT * FROM cltx where 1=1 " . $sqlstr . " order by jgsj desc) A WHERE ROWNUM <= $max_count)t WHERE RN > $offset" );
-		}
-		elseif($offset == -1)
-		{
-			$query = $this->ora_db->query("SELECT t.* , to_char(jgsj, 'yyyy-mm-dd hh24:mi:ss')as passtime FROM cltx t where 1=1 " . $sqlstr . " order by jgsj desc");
-		}
-		else
-		{
-			//·µ»Ø²éÑ¯½á¹ûĞĞÊı
-			$query = $this->ora_db->query("select count(1) as sum  from cltx where 1=1 " . $sqlstr);
-		}
-		
-		return $query;
-		
-		//echo $this->db->last_query();
-	}
-	
-	//¸ù¾İÌõ¼ş»ñÈ¡Î¥ÕÂ³µÁ¾ĞÅÏ¢
-	function get_breakrule_by_condition($offset = 0, $row_count = 0, $data)
-	{
-		$data['carnum'] = strtoupper($data['carnum']);
-		
-		$sqlstr = '';
-		
-		if($data['okkval'] != '')   //¼à¿Øµã
-		{
-			$sqlstr = $sqlstr . " AND KKBH IN ($data[okkval])";
-		}
-		if ($data['record'] != '')      //¼ÇÂ¼×´Ì¬
-		{
-			if($data['record'] == 'all')
-			{
-				$sqlstr = $sqlstr;
-			}
-			elseif($data['record'] == 'ÒÑºË¶Ô')
-			{
-				$sqlstr = $sqlstr . " AND HDGG='T'";
-			}
-			elseif($data['record'] == 'ÒÑÉóºË')
-			{
-				$sqlstr = $sqlstr . " AND QBGG='T'";
-			}
-			elseif($data['record'] == 'ÒÑ´¦·£')
-			{
-				$sqlstr = $sqlstr . " AND CFGG='T'";
+		//ç‰¹æ®Šè½¦ç‰Œå·
+		if (isset($data['spcarnum'])) {
+			switch ($data['spcarnum']) {
+				case '':
+					$sqlstr = $sqlstr;
+					break;
+				default:
+					$sqlstr = $sqlstr . " AND HPHM in ($data[spcarnum])";
+					break;
 			}
 		}
-		if($data['breakrule'] != '')
-		{
-			if($data['breakrule'] == 'all')
-			{
-				$sqlstr = $sqlstr . " AND (CLBJ='O' OR JLLX='2' OR JLLX='3' OR JLLX='4')";
-			}
-			elseif($data['breakrule'] == '³¬ËÙ')
-			{
-				$sqlstr = $sqlstr . " AND CLBJ='O'";
-			}
-			elseif($data['breakrule'] == 'ÄæĞĞ')
-			{
-				$sqlstr = $sqlstr . " AND (CLBJ='N')";
-			}
-			elseif($data['breakrule'] == '´³ºìµÆ')
-			{
-				$sqlstr = $sqlstr . " AND (JLLX='2' OR JLLX='3')";
-			}
-			elseif($data['breakrule'] == '²»°´³µµÀĞĞÊ»')
-			{
-				$sqlstr = $sqlstr . " AND JLLX='4'";
-			}
-			else
-			{
-				$sqlstr = $sqlstr;
+		// è®°å½•çŠ¶æ€
+		if (isset($data['record'])) {
+			switch ($data['record']) {
+				case 'all':
+					break;
+				case 'å·²æ ¸å¯¹':
+					$sqlstr = $sqlstr . " AND HDGG='T'";
+					break;
+				case 'å·²å®¡æ ¸':
+					$sqlstr = $sqlstr . " AND QBGG='T'";
+					break;
+				case 'å·²å¤„ç½š':
+					$sqlstr = $sqlstr . " AND CFGG='T'";
+					break;
+				default:
+					$sqlstr = $sqlstr;
+					break;					
 			}
 		}
-		if ($data['color'] != '')      //ÑÕÉ«
-		{
-			if($data['color'] == 'all')
-			{
-				$sqlstr = $sqlstr;
-			}else
-			{
-				$sqlstr = $sqlstr . " AND HPYS='$data[color]'";
+		// è¿æ³•ç±»å‹
+		if (isset($data['breakrule'])) {
+			switch ($data['breakrule']) {
+				case 'all':
+					$sqlstr = $sqlstr . " AND (CLBJ='O' OR JLLX='2' OR JLLX='3' OR JLLX='4')";
+					break;
+				case 'è¶…é€Ÿ':
+					$sqlstr = $sqlstr . " AND CLBJ='O'";
+					break;
+				case 'é€†è¡Œ':
+					$sqlstr = $sqlstr . " AND (CLBJ='N')";
+					break;
+				case 'é—¯çº¢ç¯':
+					$sqlstr = $sqlstr . " AND (JLLX='2' OR JLLX='3')";
+					break;
+				case 'ä¸æŒ‰è½¦é“è¡Œé©¶':
+					$sqlstr = $sqlstr . " AND JLLX='4'";
+					break;
+				default:
+					$sqlstr = $sqlstr;
+					break;
 			}
 		}
-		
-
-        //³µÅÆºÅÂë
-	    if(strlen($data['carnum'])>=1 AND $data['number'] != '-' AND $data['number'] != 'R')  
-        {
-        	$data['number'] = str_replace('?', '%', $data['number']);
-        	$data['number'] = str_replace('£¿', '%', $data['number']);
-        	$data['number'] = str_replace('R', '%', $data['number']);
-        	$data['carnum'] = str_replace('*', '%', $data['carnum']);
-            $data['carnum'] = str_replace('?', '_', $data['carnum']);
-            $data['carnum'] = str_replace('£¿', '_', $data['carnum']);
-            
-            if($data['number'] == 'all')
-            {
-            	$data['number'] = '%';
-            }
-            $carnum = "$data[number]" . "$data[carnum]";
-            
-            $sqlstr = $sqlstr . " AND HPHM LIKE '$carnum'";
-        }
-	    elseif ($data['carnum'] == '' AND $data['number'] == '?')
-        {
-        	$sqlstr = $sqlstr;
-        }
-        elseif($data['carnum'] == '' AND $data['number'] != '-' AND $data['number'] != 'R')
-        {
-        	$sqlstr = $sqlstr . " AND HPHM LIKE '$data[number]%'";
-        }
-        elseif($data['number'] == '-')       
-		{
-			$sqlstr = $sqlstr . " AND (HPHM='' OR HPHM='-')";
-		}
-		elseif($data['number'] == 'R')
-		{
-			$sqlstr = $sqlstr . " and length(hphm)>=2";
-		}
-		
-		if($data['starttime'] != '')            //¿ªÊ¼Ê±¼ä
-		{
-			$sqlstr = $sqlstr . " AND jgsj>to_date('$data[starttime]','yyyy-mm-dd hh24:mi:ss')";
-		}
-		if($data['endtime'] != '')              //½áÊøÊ±¼ä
-		{ 
-			$sqlstr = $sqlstr . " AND jgsj < to_date('$data[endtime]','yyyy-mm-dd hh24:mi:ss')";
-		}
-		
-		if($data['minspeed'] != '')            //×îĞ¡ËÙ¶È
-		{
-			$sqlstr = $sqlstr . " AND CLSD >= '$data[minspeed]'";
-		}
-		if($data['maxspeed'] != '')              //×î´óËÙ¶È
-		{ 
-			$sqlstr = $sqlstr . " AND CLSD <= '$data[maxspeed]'";
-		}
-		
-		if ($offset >= 0 AND $row_count > 0)
-	    {
-			$max_count = $row_count+$offset;
-			
-			$query = $this->ora_db->query("SELECT t.*, to_char(jgsj, 'yyyy-mm-dd hh24:mi:ss')as passtime FROM (SELECT A.*, ROWNUM RN FROM (SELECT * FROM cltx where 1=1 " . $sqlstr . " order by jgsj desc) A WHERE ROWNUM <= $max_count)t WHERE RN > $offset" );
-		}
-		elseif($offset == -1)
-		{
-			$query = $this->ora_db->query("SELECT t.*, to_char(jgsj, 'yyyy-mm-dd hh24:mi:ss')as passtime FROM cltx t where 1=1 " . $sqlstr . " order by jgsj desc");
-		}
-		else
-		{
-			//·µ»Ø²éÑ¯½á¹ûĞĞÊı
-			$query = $this->ora_db->query("select count(1) as sum  from cltx where 1=1 " . $sqlstr);
-		}
-		
-		return $query;
-	}
-	
-	//¸ù¾İÌõ¼ş»ñÈ¡±¨¾¯³µÁ¾ĞÅÏ¢
-	function get_alarmcar_by_condition($offset = 0, $row_count = 0, $data)
-	{
-		$data['carnum'] = strtoupper($data['carnum']);
-		
-		$sqlstr = '';
-		
-		if($data['okkval'] != '')   //¼à¿Øµã
-		{
-			$sqlstr = $sqlstr . " AND c.KKBH IN ($data[okkval])";
-		}
-	    	
-		if($data['alarmtype'] != '')    //±¨¾¯ÀàĞÍ
-		{
-			if($data['alarmtype'] == '±»µÁÇÀ³µÁ¾')
-			{
-				$sqlstr = $sqlstr . " AND c.CLBJ='D'";
-			}
-			elseif($data['alarmtype'] == 'Ì×ÅÆ³µÁ¾')
-			{
-				$sqlstr = $sqlstr . " AND c.CLBJ='T'";
-			}
-			elseif($data['alarmtype'] == '±ãÒÂÏÓÒÉ³µÁ¾')
-			{
-				$sqlstr = $sqlstr . " AND c.CLBJ='S'";
-			}
-			elseif($data['alarmtype'] == '²¼¿Ø³µÁ¾')
-			{
-				$sqlstr = $sqlstr . " AND c.CLBJ='B'";
-			}
-			else
-			{
-				$sqlstr = $sqlstr . "AND (c.CLBJ='D' OR c.CLBJ='T' OR c.CLBJ='S' OR c.CLBJ='B')";
+		// æŠ¥è­¦ç±»å‹
+		if (isset($data['alarmtype'])) {
+			switch ($data['alarmtype']) {
+				case 'è¢«ç›—æŠ¢è½¦è¾†':
+					$sqlstr = $sqlstr . " AND CLBJ='D'";
+					break;
+				case 'å¥—ç‰Œè½¦è¾†':
+					$sqlstr = $sqlstr . " AND CLBJ='T'";
+					break;
+				case 'ä¾¿è¡£å«Œç–‘è½¦è¾†':
+					$sqlstr = $sqlstr . " AND CLBJ='S'";
+					break;
+				case 'å¸ƒæ§è½¦è¾†':
+					$sqlstr = $sqlstr . " AND CLBJ='B'";
+					break;
+				case 'all':
+					$sqlstr = $sqlstr . "AND CLBJ<>'F' AND CLBJ<>'O' AND CLBJ<>'N'";
+					break;
+				default:
+					$sqlstr = $sqlstr;
+					break;
 			}
 		}
-		//°¸Çé´¦Àí	
-		if($data['dispose'] != '')
-		{
-			if($data['dispose'] == 'all')
-			{
-				$sqlstr = $sqlstr;
-			}
-			elseif($data['dispose'] == '¾¯ÇéÎ´´¦Àí')
-			{
-				$sqlstr = $sqlstr . " AND (c.CFBM='' or c.CFBM is null) ";
-			}
-			elseif($data['dispose'] == '³µÅÆºÅÂëÊ¶±ğ´íÎó')
-			{
-				$sqlstr = $sqlstr . " AND (c.CFBM='$data[dispose]' OR c.CFBM='ºÅÂëÊ¶±ğ´íÎó' OR c.CFBM='Ê¶±ğ´íÎó')";
-			}
-			elseif($data['dispose'] == '³µÅÆÑÕÉ«Ê¶±ğ´íÎó')
-			{
-				$sqlstr = $sqlstr . " AND (c.CFBM='$data[dispose]' OR c.CFBM='ÑÕÉ«Ê¶±ğ´íÎó')";
-			}
-			elseif($data['dispose'] == 'ÓëºÚÃûµ¥Êı¾İ²»·û')
-			{
-				$sqlstr = $sqlstr . " AND (c.CFBM='$data[dispose]' OR c.CFBM='±È¶ÔÊı¾İ´í')";
-			}
-			else
-			{
-				$sqlstr = $sqlstr . " AND c.CFBM='$data[dispose]'";
+		// æ¡ˆæƒ…å¤„ç†
+		if (isset($data['dispose'])) {
+			switch ($data['dispose']) {
+				case 'all':
+					$sqlstr = $sqlstr;
+					break;
+				case 'è­¦æƒ…æœªå¤„ç†':
+					$sqlstr = $sqlstr . " AND (CFBM='' or CFBM is null) ";
+					break;
+				case 'è½¦ç‰Œå·ç è¯†åˆ«é”™è¯¯':
+					$sqlstr = $sqlstr . " AND (CFBM='$data[dispose]' OR CFBM='å·ç è¯†åˆ«é”™è¯¯' OR CFBM='è¯†åˆ«é”™è¯¯')";
+					break;
+				case 'è½¦ç‰Œé¢œè‰²è¯†åˆ«é”™è¯¯':
+					$sqlstr = $sqlstr . " AND (CFBM='$data[dispose]' OR CFBM='é¢œè‰²è¯†åˆ«é”™è¯¯')";
+					break;
+				case 'ä¸é»‘åå•æ•°æ®ä¸ç¬¦':
+					$sqlstr = $sqlstr . " AND (CFBM='$data[dispose]' OR CFBM='æ¯”å¯¹æ•°æ®é”™')";
+					break;
+				case '':
+					$sqlstr = $sqlstr;
+					break;
+				default:
+					$sqlstr = $sqlstr . " AND CFBM='$data[dispose]'";
+					break;
 			}
 		}	
-		if ($data['color'] != '')      //ÑÕÉ«
-		{
-			if($data['color'] == 'all')
-			{
-				$sqlstr = $sqlstr;
-			}else
-			{
-				$sqlstr = $sqlstr . " AND c.HPYS='$data[color]'";
+		// æœ€å°é€Ÿåº¦
+		if (isset($data['minspeed'])) {
+			switch ($data['minspeed']) {
+				case '':
+					$sqlstr = $sqlstr;
+					break;
+				default:
+					$sqlstr = $sqlstr . " AND CLSD >= '$data[minspeed]'";
+					break;
 			}
 		}
-		
-        //³µÅÆºÅÂë
-	    if(strlen($data['carnum'])>=1 AND $data['number'] != '-' AND $data['number'] != 'R')  
-        {
-        	$data['number'] = str_replace('?', '%', $data['number']);
-        	$data['number'] = str_replace('£¿', '%', $data['number']);
-        	$data['number'] = str_replace('R', '%', $data['number']);
-        	$data['carnum'] = str_replace('*', '%', $data['carnum']);
-            $data['carnum'] = str_replace('?', '_', $data['carnum']);
-            $data['carnum'] = str_replace('£¿', '_', $data['carnum']);
-            
-            if($data['number'] == 'all')
-            {
-            	$data['number'] = '%';
-            }
-            $carnum = "$data[number]" . "$data[carnum]";
-            
-            $sqlstr = $sqlstr . " AND c.HPHM LIKE '$carnum'";
-        }
-	    elseif ($data['carnum'] == '' AND $data['number'] == '?')
-        {
-        	$sqlstr = $sqlstr;
-        }
-        elseif($data['carnum'] == '' AND $data['number'] != '-' AND $data['number'] != 'R')
-        {
-        	$sqlstr = $sqlstr . " AND c.HPHM LIKE '$data[number]%'";
-        }
-        elseif($data['number'] == '-')       
-		{
-			$sqlstr = $sqlstr . " AND (c.HPHM='' OR c.HPHM='-')";
+		// æœ€å¤§é€Ÿåº¦
+		if (isset($data['maxspeed'])) {
+			switch ($data['maxspeed']) {
+				case '':
+					$sqlstr = $sqlstr;
+					break;
+				default:
+					$sqlstr = $sqlstr . " AND CLSD <= '$data[maxspeed]'";
+					break;
+			}
 		}
-		elseif($data['number'] == 'R')
-		{
-			$sqlstr = $sqlstr . " and length(c.hphm)>=2";
+		// å¼€å§‹æ—¶é—´
+		$sqlstr = $sqlstr . " AND jgsj > to_date('$data[st]','yyyy-mm-dd hh24:mi:ss')";
+         // ç»“æŸæ—¶é—´
+		$sqlstr = $sqlstr . " AND jgsj < to_date('$data[et]','yyyy-mm-dd hh24:mi:ss')";
+
+		switch ($data['number']) {
+			case 'R':
+				$sqlstr = $sqlstr . " and length(hphm) >= 2";
+				break;
+			case '?' || 'ï¼Ÿ':
+				$data['carnum'] == '' ? $sqlstr = $sqlstr : $sqlstr = $sqlstr . " AND HPHM LIKE '$data[platename]'";
+				break;
+			case '-':
+				$sqlstr = $sqlstr . " AND (HPHM = '' OR HPHM = '-')";
+			default:
+				$sqlstr = $sqlstr . " AND HPHM LIKE '$data[platename]'";
 		}
-		
-		if($data['starttime'] != '')            //¿ªÊ¼Ê±¼ä
-		{
-			$sqlstr = $sqlstr . " AND c.jgsj>to_date('$data[starttime]','yyyy-mm-dd hh24:mi:ss')";
-		}
-		if($data['endtime'] != '')              //½áÊøÊ±¼ä
-		{ 
-			//$sqlstr = $sqlstr . " AND jgsj<to_date('$data[endtime]','yyyy-mm-dd hh24:mi:ss')";
-			$sqlstr = $sqlstr . " AND c.jgsj < to_date('$data[endtime]','yyyy-mm-dd hh24:mi:ss')";
-		}
-		
-		if ($offset >= 0 AND $row_count > 0)
-	    {
-			$max_count = $row_count+$offset;
+
+		if ($limit == 0) {
+			return $this->ora_db->query("SELECT count(1) AS sum  FROM cltx WHERE 1=1 " . $sqlstr);
+		} else {
+			$max_count = $limit + $offset;
 			
-			$query = $this->ora_db->query("SELECT t.*, to_char(jgsj, 'yyyy-mm-dd hh24:mi:ss')as passtime FROM (SELECT A.*, ROWNUM RN FROM (SELECT c.* FROM cltx c where 1=1 " . $sqlstr . " order by jgsj desc) A WHERE ROWNUM <= $max_count)t WHERE RN > $offset" );
+			return $this->ora_db->query("SELECT t.*, to_char(jgsj, 'yyyy-mm-dd hh24:mi:ss')as passtime FROM (SELECT A.*, ROWNUM RN FROM (SELECT * FROM cltx WHERE 1=1 $sqlstr ORDER BY $sort $order) A WHERE ROWNUM <= $max_count)t WHERE RN > $offset" );
 		}
-		elseif($offset == -1)
-		{
-			$query = $this->ora_db->query("SELECT c.*, to_char(jgsj, 'yyyy-mm-dd hh24:mi:ss')as passtime FROM cltx c where 1=1 " . $sqlstr . " order by jgsj desc");
-		}
-		else
-		{
-			//·µ»Ø²éÑ¯½á¹ûĞĞÊı
-			$query = $this->ora_db->query("select count(1) as sum  from cltx c where 1=1 " . $sqlstr);
-		}
-		
-		return $query;		
 	}
 		
-	//¸ù¾İIDºÅ»ñÈ¡¿¨¿ÚºÅ
+	//æ ¹æ®IDå·è·å–å¡å£å·
 	function get_openkakou_by_id($role_id)
 	{
 		$this->db->get();
 	}
 
-	//¸ù¾İID»ñÈ¡³µÁ¾ĞÅÏ¢
-	function get_car_by_id($id)
+	//æ ¹æ®IDè·å–è½¦è¾†ä¿¡æ¯
+	function getCltxById2($id)
 	{
 		return $this->ora_db->query("SELECT t.*,c.*,to_char(jgsj, 'yyyy-mm-dd hh24:mi:ss')as passtime from cltx t left join cfg_kakou c on t.kkbh=c.kk_id where t.ID='$id'");
 	}
 	
-	//¸ù¾İID»ñÈ¡³µÁ¾ĞÅÏ¢
-	function get_car_by_id2($id)
+	//æ ¹æ®IDè·å–è½¦è¾†ä¿¡æ¯
+	function getCltxById($id)
 	{
 		return $this->ora_db->query("SELECT t.* , to_char(jgsj, 'yyyy-mm-dd hh24:mi:ss')as passtime from cltx t where ID='$id'");
 	}
 	
-	//¸ù¾İIDĞŞ¸Ä³µÁ¾ĞÅÏ¢
-	function edit_car_by_id($id, $data)
+	//æ ¹æ®IDä¿®æ”¹è½¦è¾†ä¿¡æ¯
+	function setCltxById($id, $data)
 	{
 		$data['carnum'] = strtoupper($data['carnum']);
 		
 		return $this->ora_db->query("update cltx set hphm='$data[carnum]',hpys='$data[color]',hdgg='T' where id='$id'");
 	}
-	//¸ù¾İIDĞŞ¸Ä´¦Àí½á¹ûĞÅÏ¢
+	//æ ¹æ®IDä¿®æ”¹å¤„ç†ç»“æœä¿¡æ¯
 	function handle_by_id($id, $data)
 	{
 		return $this->ora_db->query("update cltx set CFBM='$data[dispose]',MEMO='$data[jyqk]',CFSJ='$data[cfsj]',FKBM='$data[user]' where id=$id");
 	}
 	
-	function check_car_by_id($id,$data)
-	{
-		
-	}
-	
-	//¸ù¾İIDÉ¾³ı³µÁ¾ĞÅÏ¢
+	/*
+	//æ ¹æ®IDåˆ é™¤è½¦è¾†ä¿¡æ¯
 	function del_car_by_id($id)
 	{
 		return $this->ora_db->query("delete from cltx where id='$id'");
-	}
+	} */
 	
 	function get_bcxw($carnum)
 	{

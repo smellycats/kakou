@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Kakou µÇÂ¼¹ÜÀí¿ØÖÆÆ÷
+ * Kakou ç™»å½•ç®¡ç†æŽ§åˆ¶å™¨
  * 
  * @package     Kakou
  * @subpackage  Controllers
@@ -11,288 +11,166 @@
  */
 class Home extends CI_Controller
 {
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		
-		$this->load->library('form_validation');
-		$this->load->library('DX_Auth');
 		$this->load->library('Lib_Kakou');			
 		
 		$this->load->helper('url');
 		$this->load->helper('form');
-		$this->load->helper('news');
 		$this->load->helper('kakou');
 		$this->load->helper('date');
 		
-		//$this->load->model('Mhome');
-		$this->load->model('Muser');
-		$this->load->model('Msyst2');
+		$this->load->model('Mhome');
 		
 		//$this->output->enable_profiler(TRUE);
 	}
 
-	/* Ê×Ò³  */
-	function index()
+    /**
+     * ç™»å½•é¡µé¢
+     * 
+     * @return void
+     */
+	public function index()
 	{
 		$this->login();
 	}
-	
-	function login2()
-	{
-		$this->load->view('admin/login2');
-	}
-	
-	function login3()
-	{
-		if( ! $this->_ip_access($this->input->ip_address()))
-		{
-			$data['message'] = 'ÏÞÖÆIPµÇÂ½';
-		}
-		else 
-		{
-		    $data['message'] = '';
-		}
-		
-		$this->load->view('admin/login3', $data);
-	}
 
-	function login()
-	{
-		if( ! $this->_ip_access($this->input->ip_address()))
-		{
-			$data['message'] = 'ÏÞÖÆIPµÇÂ½';
-		}
-		else 
-		{
-		    $data['message'] = '';
-		}
-		#$data['adv'] = $this->Msyst->get_adv_by_disable()->result();
-		
-		$this->load->view('admin/login', $data);
-	}
-	
-	function login_ok()
-	{
-		$data['page_title'] = '¿¨¿ÚÏµÍ³';
-
-		//$this->load->view('header', $data);
-		
-		if( $this->_ip_access($this->input->ip_address()) )
-		{
-		
-			if ( ! $this->dx_auth->is_logged_in())
-			{
-				$val = $this->form_validation;
-				
-				$val->set_rules('username', 'ÓÃ»§Ãû', 'trim|required|xss_clean|');
-		    	$val->set_rules('password', 'ÃÜÂë', 'trim|xss_clean');
-		    	$val->set_rules('remember', '¼Ç×¡µÇÂ¼×´Ì¬', 'integer');
-		    	
-		    	$val->set_message('required', '%s²»ÄÜÎª¿Õ.');
-	
-			    $val->set_error_delimiters('<span>', '</span>');
-			    
-			    $data['message'] = '';
-		
-				// Set captcha rules if login attempts exceed max attempts in config
-/*				if ($this->dx_auth->is_max_login_attempts_exceeded())
-				{
-					$val->set_rules('captcha', 'Confirmation Code', 'trim|required|xss_clean|callback_captcha_check');
-				}*/
-				$query = $this->Muser->login($this->input->post('username'), sha1($this->input->post('password')));
-				#var_dump($this->input->get('username'));
-				if ($val->run() == False)
-				{
-					$this->load->view('admin/login', $data);
-				}
-				elseif ($query->num_rows() == 0)
-				{
-					$data['message'] = 'ÓÃ»§Ãû»òÃÜÂë´íÎó';
-					
-					$this->load->view('admin/login', $data);
-				}
-				elseif ($query->num_rows() == 1 AND $query->row()->r_banned == NULL)
-				{
-					$data['message'] = 'ÓÃ»§ËùÊô½ÇÉ«²»´æÔÚ';
-					
-					$this->load->view('admin/login', $data);
-				}
-				elseif ($query->row()->u_banned == 0 AND $query->row()->u_disabled == 0 AND $query->row()->r_banned == 0 AND $query->row()->r_disabled == 0)
-				{
-					$this->_set_session($query->row());
-					
-					$da['user_id'] = $this->session->userdata('DX_user_id');
-					$da['login_ip'] = $this->session->userdata('ip_address');
-					$da['login_time'] = mdate("%Y-%m-%d %H:%i:%s");
-					$this->Muser->login_user_flag($da);
-					
-					showmessage('µÇÂ¼³É¹¦', 'admin/index');
-				}
-				elseif ($query->row()->r_disabled != 0)
-				{					
-					// Default is we don't show captcha until max login attempts eceeded
-					//$data['show_captcha'] = FALSE;
-					$data['message'] = 'ÓÃ»§ËùÊô½ÇÉ«ÒÑ¾­±»É¾³ý';
-					
-					$this->load->view('admin/login', $data);
-				}
-				elseif($query->row()->u_disabled != 0)
-				{
-					$data['message'] = 'ÓÃ»§ÒÑ¾­±»É¾³ý';
-					$this->load->view('admin/login', $data);
-				}
-				elseif($query->row()->r_banned != 0 AND $query->row()->r_disabled == 0)
-				{
-					$data['message'] = 'ÓÃ»§ËùÊô½ÇÉ«ÒÑ¾­±»¶³½á';
-					$this->load->view('admin/login', $data);
-				}
-				elseif($query->row()->u_banned != 0 AND $query->row()->u_disabled == 0)
-				{
-					$data['message'] = 'ÓÃ»§ÒÑ¾­±»¶³½á';
-					$this->load->view('admin/login', $data);
-				}
-			}
-			else
-			{
-				$query = $this->Muser->login($this->input->post('username'), sha1($this->input->post('password')));
-				$this->_set_session($query->row());
-				
-				$da['user_id'] = $this->session->userdata('DX_user_id');
-				$da['login_ip'] = $this->session->userdata('ip_address');
-				$da['login_time'] = mdate("%Y-%m-%d %H:%i:%s");
-				$this->Muser->login_user_flag($da);
-				
-				showmessage('µÇÂ½³É¹¦', 'admin/index');
-				//$data
-				//$this->Muser->user_access_count($this->session->userdata('DX_user_id'));
-			}
-		
-		}
-		else 
-		{
-			$data['message'] = 'ÏÞÖÆIPµÇÂ½';
-				
-			$this->load->view($this->dx_auth->login_view, $data);
-		}
-		
-		//$this->load->view('admin/login');
-	}
-	
-	function test()
-	{
+	public function login()
+	{	
 		$this->load->view('admin/login');
 	}
 	
-	//»Øµ÷º¯Êý¼ì²éÓÃ»§ÃûÄÜ·ñµÇÂ¼
-    public function username_check($username)
-    {
-    	$this->load->model('Muser');
-    	
-    	//$exist = $this->Muser->check_user_entry_permission($username, '');
-    	
-    	//$banned = $this->Muser->check_user_entry_permission($username, 1);
-    	
-    	$query = $this->Muser->get_user_by_name_pass($username);
-    	
-        if ($query->num_rows() == 0 or $query->disabled !=0)
-        {
-        	$this->form_validation->set_message('username_check', 'ÓÃ»§Ãû²»´æÔÚ');
-        	
-            return FALSE;
-        }
-        elseif($query->banned != 0)
-        {
-        	$this->form_validation->set_message('username_check', 'ÓÃ»§ÎªËø¶¨ÕÊ»§,ÎÞ·¨µÇÂ¼ÏµÍ³');
-        	
-            return FALSE;
-        }
-        elseif($this->Muser->get_role_by_id($exist->row()->role_id)->disable != 0)
-        {
-        	$this->form_validation->set_message('username_check', 'ÓÃ»§ËùÊô½ÇÉ«ÒÑ¾­¶³½á,ÎÞ·¨µÇÂ¼ÏµÍ³');
-        	
-            return FALSE;
-        }
-        elseif($this->Muser->get_role_by_id($exist->row()->role_id)->disable != 0)
-        {
-        	$this->form_validation->set_message('username_check', 'ÓÃ»§ÎªËø¶¨ÕÊ»§,ÎÞ·¨µÇÂ¼ÏµÍ³');
-        	
-            return FALSE;
-        }
-        else
-        {
-        	return TRUE;
-        }
-    }
+	public function login_ok()
+	{
+		$data['page_title'] = 'å¡å£ç³»ç»Ÿ';
+		
+		$val = $this->form_validation;
+				
+		$val->set_rules('username', 'ç”¨æˆ·å', 'trim|required|xss_clean|');
+		$val->set_rules('password', 'å¯†ç ', 'trim|required|xss_clean');
+		$val->set_rules('remember', 'è®°ä½ç™»å½•çŠ¶æ€', 'integer');
+		    	
+		$val->set_message('required', '%sä¸èƒ½ä¸ºç©º.');
+	
+		$val->set_error_delimiters('<span>', '</span>');
+			    
+		$data['message'] = '';
+		
+		$query = $this->Mhome->getUserByName($this->input->post('username', True));
+
+		if ($val->run() == False) {
+			$this->load->view('admin/login', $data);
+			exit;
+		} 
+		if ($query->num_rows() == 0) {
+			$data['message'] = 'ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯';
+			$this->load->view('admin/login', $data);
+			exit;
+		}
+		if ($this->input->post('password') != sha1($query->row->password)) {
+			$data['message'] = 'ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯';
+			$this->load->view('admin/login', $data);
+			exit;
+		}
+		// æ£€æŸ¥ç”¨æˆ·IP
+		if ($this->_checkIpAccess($this->session->userdata('ip_address')) == False) {
+			$data['message'] = 'é™åˆ¶IPç™»é™†';
+			$this->load->view('admin/login', $data);
+			exit;
+		}
+		if ($query->row()->r_banned == 1) {
+			$data['message'] = 'ç”¨æˆ·æ‰€å±žè§’è‰²å·²è¢«å†»ç»“';	
+			$this->load->view('admin/login', $data);
+			exit;
+		}
+		if($query->row()->u_banned == 1){
+			$data['message'] = 'ç”¨æˆ·å·²è¢«å†»ç»“';
+			$this->load->view('admin/login', $data);
+			exit;
+		}
+		// ä¿å­˜session
+		$this->_setSession($query->row());
+		// ä¿®æ”¹ç”¨æˆ·ç™»å½•ä¿¡æ¯
+		$da['last_ip']    = $this->session->userdata('ip_address');
+		$da['last_login'] = mdate("%Y-%m-%d %H:%i:%s");
+		$this->Mhome->loginPlus($query->row()->id, $da);
+		// æ·»åŠ ç™»å½•æ—¥å¿—
+		$da2['ip'] = $this->session->userdata('ip_address');
+		$da2['user_id'] = $query->row()->id;
+		$da2['user_name'] = $query->row()->username;
+		$this->Mhome->addAccessLog($da2);
+				
+		redirect('admin/index');
+	}
+	
+	public function test()
+	{
+		$da['last_ip']    = '123';
+		$da['last_login'] = mdate("%Y-%m-%d %H:%i:%s");
+		$this->Mhome->userLoinAdd(299, $da);
+	}
     
-    //ÅÐ¶ÏIPµØÖ·ÊÇ·ñÔÚÔÊÐí·¶Î§
-    function _ip_access($ip)
-    {	
-    	$ip_allow = FALSE;
+    /**
+     * ç™»å½•é¡µé¢
+     * 
+     * @param string $ip IPåœ°å€
+     * @return bool
+     */
+    private function _checkIpAccess($ip)
+    {
+    	$is_access = False;
     	
-    	$user_ip = ip_to_double($ip);
+    	$int_ip = h_ip_to_double($ip);
     	
-    	$ip_access = $this->Msyst2->get_ip_access_by_condition_mysql('T');
+    	$query = $this->Mhome->getIpAccess();
     	
-    	if($ip_access->num_rows()==0 || $ip == '127.0.0.1')
-    	{
-    		$ip_allow = TRUE;
-    	}
-    	else 
-    	{	
-    		foreach ($ip_access->result() as $row)
-    		{
-    			$minip = ip_to_double($row->MINIP);
-    			$maxip = ip_to_double($row->MAXIP);
+    	if ($query->num_rows() == 0) {
+    		$is_access = True;
+    	} else {	
+    		foreach ($query->result_array() as $row) {
+    			$minip = h_ip_to_double($row['minip']);
+    			$maxip = h_ip_to_double($row['maxip']);
     			
-    			if($row->MAXIP == '')
-    			{
-    				if($ip == $row->MINIP)
-    				{
-    					$ip_allow = TRUE;
+    			if($row['maxip']== '') {
+					if($ip == $row['minip']) {
+    					$is_access = True;
     				}
-    			}
-    			elseif($row->MINIP != '' AND $user_ip >= $minip AND $user_ip <= $maxip)
-    			{
-    				$ip_allow = TRUE;
+    			} elseif($row['minip'] != '' AND $int_ip >= $minip AND $int_ip <= $maxip) {
+    				$is_access = True;
     			}
     		}
     	}
-    	return $ip_allow;
+
+    	return $is_access;
     }
-   
-    //ÉèÖÃsession
-	function _set_session($data)
+
+    /**
+     * è®¾ç½®session
+     * 
+     * @param object $data ç”¨æˆ·å¯¹è±¡
+     * @return void
+     */
+	private function _setSession($data)
 	{
 		session_start();
-		$_SESSION['logged_in'] = 1;
-		
-		$user = array(						
-			'DX_user_id'		=> $data->user_id,
-			'DX_username'		=> $data->username,
-			'DX_role_id'		=> $data->role_id,		
-			'DX_role_name'		=> $data->role_name,
-			'DX_role_right'		=> explode(',',$data->role_right),
-			'DX_role_openkakou' => $this->lib_kakou->openkakou2arr($data->role_id),		
-			'DX_logged_in'		=> TRUE
-		);
-
-		$this->session->set_userdata($user);
+		$_SESSION['logged_in']  = 1;
+		$_SESSION['timestamp']  = time();
+		$_SESSION['role_id']    = $data->role_id;
+		$_SESSION['role_name']  = $data->role_name;
+		$_SESSION['role_right'] = explode(',', $data->role_right);
+		$_SESSION['user_id']    = $data->user_id;
+		$_SESSION['user_name']  = $data->username;
 	}
 	
-	function _get_role_data($role_id)
-	{
-		$data = $this->Muser->get_role_by_id($role_id);
-		return $data;
-	}
-	
-	//³¬Ê±ÍË³ö
+	//è¶…æ—¶é€€å‡º
 	function time_out()
 	{
-		showmessage3('µÇÂ¼³¬Ê±£¬ÇëÖØÐÂµÇÂ¼', 'home/exit_system');
+		showmessage3('ç™»å½•è¶…æ—¶ï¼Œè¯·é‡æ–°ç™»å½•', 'home/exit_system');
 	}
 
-	/* ÍË³öÏµÍ³  */
+	/* é€€å‡ºç³»ç»Ÿ  */
 	function exit_system()
 	{	
 		//$this->dx_auth->logout();
@@ -302,49 +180,7 @@ class Home extends CI_Controller
 
 		redirect('home/login');
 	}
-	
-	//¹«¸æÐÅÏ¢
-	function get_notice()
-	{
-		#$this->load->model('Mbasedata');
-		
-		$data = $this->Msyst2->get_notice_all()->result_array();
 
-		$result = array();
-		
-		foreach ($data as $key=>$val){
-			$result[$key] = array('id' => $data[$key]['id'],
-								  'text' => iconv("GBK","UTF-8//IGNORE",$data[$key]['content']),
-							);
-		}
-		
-		echo json_encode($result);
-	}
-	
-	function user()
-	{
-		session_start();
-		if(strstr($_SERVER["HTTP_USER_AGENT"], "MSIE 10.0")){
-			echo 'IE 10';
-		}
-		/*
-		 * strstr($_SERVER["HTTP_USER_AGENT"], "MSIE 8.0");
-			strstr($_SERVER["HTTP_USER_AGENT"], "MSIE 7.0");
-			strstr($_SERVER["HTTP_USER_AGENT"], "MSIE 6.0");
-			strstr($_SERVER["HTTP_USER_AGENT"], "NetCaptor");
-			strstr($_SERVER["HTTP_USER_AGENT"], "Netscape");
-			strstr($_SERVER["HTTP_USER_AGENT"], "Lynx");
-			strstr($_SERVER["HTTP_USER_AGENT"], "Opera");
-			strstr($_SERVER["HTTP_USER_AGENT"], "Konqueror");
-			strstr($_SERVER["HTTP_USER_AGENT"], "Mozilla/5.0");
-			strstr($_SERVER["HTTP_USER_AGENT"], "Firefox");
-			strstr($_SERVER["HTTP_USER_AGENT"], "Firefox/3");
-			strstr($_SERVER["HTTP_USER_AGENT"], "Firefox/2");
-			strstr($_SERVER["HTTP_USER_AGENT"], "Chrome");
-
-		 */
-		
-	}
 }
 
 /* End of file home.php */

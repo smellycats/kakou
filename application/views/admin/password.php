@@ -1,6 +1,6 @@
 
 <div class="pageContent">
-	<form method="post" action="<?php echo base_url(); ?>index.php/admin/change_pwd" class="pageForm required-validate" 
+	<form method="post" action="<?php echo base_url(); ?>index.php/admin/setPassword" class="pageForm required-validate" 
 		onsubmit="return iframeCallback(this, dialogAjaxDone);">
 		<div id="pollxxPanel" class="pageFormContent" layoutH="58">
 			<div class="unit">
