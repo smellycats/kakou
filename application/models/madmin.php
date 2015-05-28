@@ -6,77 +6,119 @@ class Madmin extends CI_Model
 	{
 		parent::__construct();
 	}
-	
+
 	/**
-	 * »ñµÃ²Ëµ¥Êı¾İ
+	 * æ ¹æ®idè·å¾—èœå•æ•°æ®
+	 *
+	 * @param int $id èœå•id
+	 * @return object
 	 */
-	function get_menu()
+	public function getMenuById($id)
 	{
-		//»ñµÃmenu±ífidÎª0µÄÊı¾İ£¬´æÈëµ½Êı×é$f_datas¡£
-		$f_datas = $this->db->select('*')->from('menu')->where('fid',0)->where('status', '1')->order_by('arrange', 'asc')->get()->result_array();
-		
-		//°ÑÃ¿Ò»¸öfidÎª0µÄ×Ó²Ëµ¥Êı¾İ×·¼Óµ½Êı×é$f_datasµÄchildrens×ÓÊı×éÖĞ¡£
-		foreach($f_datas as $f_num => $f_data)
-		{
-			$f_datas[$f_num]['childrens'] = $this->db->select('*')->from('menu')->where('fid',$f_data['id'])->where('status', '1')->get()->result_array();
-		}
-		
-		return $f_datas;
+		$this->db->select('*');
+		$this->db->where('id', $id);
+		$this->db->where('status', 1);
+
+		return $this->db->get('menu');
+	}
+
+	/**
+	 * æ ¹æ®fidè·å¾—èœå•æ•°æ®
+	 *
+	 * @param int $fid çˆ¶èœå•id
+	 * @return object
+	 */
+	public function getMenuByFid($fid)
+	{
+		$this->db->select('*');
+		$this->db->where('fid', $fid);
+		$this->db->where('status', 1);
+		$this->db->order_by('arrange', 'asc');
+
+		return $this->db->get('menu');
+	}
+
+	/**
+	 * æ ¹æ®fidæ•°ç»„è·å¾—èœå•æ•°æ®
+	 *
+	 * @param array $fid_arr çˆ¶èœå•idæ•°ç»„
+	 * @return object
+	 */
+	public function getMenuByFidRight($fid, $right_arr)
+	{
+		$this->db->select('*');
+		$this->db->where('fid', $fid);
+		$this->db->where_in('id', $right_arr);
+		$this->db->where('status', 1);
+		$this->db->order_by('arrange', 'asc');
+
+		return $this->db->get('menu');
+	}
+
+	/**
+	 * æ ¹æ®ç”¨æˆ·æƒé™è·å–çˆ¶èœå•
+	 *
+	 * @param array $right_array æƒé™æ•°ç»„
+	 * @return object
+	 */
+	public function getFidByRight($right_arr)
+	{
+		$this->db->select('fid');
+		$this->db->where_in('id', $right_arr);
+		$this->db->where('status', 1);
+		$this->db->where('fid >', 0);
+		$this->db->order_by('arrange', 'asc');
+		$this->db->group_by('fid');
+
+		return $this->db->get('menu');
+
+	}
+
+	/**
+	 * 
+	 * æ ¹æ®èœå•åè·å–èœå•æ•°æ®
+	 *
+	 * @param string $name èœå•åç§°
+	 * @return object
+	 */
+	public function getMenuByName($name)
+	{
+		return $this->db->select('*')->where('name', $name)->get('menu');
 	}
 	
 	/**
 	 * 
-	 * ¸ù¾İÈ¨ÏŞ»ñÈ¡²Ëµ¥Êı¾İ
-	 * @param unknown_type $role_id
+	 * æ ¹æ®è§’è‰²idè·å–è§’è‰²ä¿¡æ¯
+	 *
+	 * @param int $id è§’è‰²idç¼–å·
+	 * @return object
 	 */
-	function get_menu_by_prem($role_id)
+	public function getRoleById($id)
 	{
-		$rights = $this->db->select('*')->from('roles')->where('id',$role_id)->get()->row();
-		
-		if($rights != '')
-		{
-			$rights_to_arr = explode(',', $rights->rights);
-			//»ñÈ¡²Ëµ¥È¨ÏŞµÄ¸¸ID
-			$fid = $this->db->select('fid')->from('menu')->where_in('id', $rights_to_arr)->where('status', '1')->order_by('arrange', 'asc')->group_by('fid')->get()->result();
-
-			foreach($fid as $num=>$f)
-			{
-				$fid_to_arr[$num] = $f->fid;
-			}
-			//¸ù¾İÈ¨ÏŞ»ñµÃmenu±ífidµÄÊı¾İ£¬´æÈëµ½Êı×é$f_datas¡£
-			$f_datas = $this->db->select('*')->from('menu')->where_in('id', $fid_to_arr)->get()->result_array();
-		
-			$right_datas = $this->db->select('*')->from('menu')->where_in('id', $rights_to_arr)->where('status', '1')->get()->result_array();
-		
-			foreach ($f_datas as $f_num => $f_data)
-			{
-				$f_datas[$f_num]['childrens'] = $this->db->select('*')->from('menu')->where('fid',$f_data['id'])->where_in('id', $rights_to_arr)->where('status', '1')->get()->result_array();
-			}
-		}
-		else 
-		{
-			$f_datas = null;
-		}
-		
-		return $f_datas;
+		return $this->db->select('*')->where('id', $id)->get('roles');
+	}
+	/**
+	 * 
+	 * æ ¹æ®IDè·å–ç”¨æˆ·ä¿¡æ¯
+	 *
+	 * @param int $id idç¼–å·
+	 * @return object
+	 */
+	public function getUserById($id)
+	{
+		return $this->db->where('id', $id)->get('users');
 	}
 	
-	function get_menu_by_name($name)
+    /**
+     * æ ¹æ®idç¼–è¾‘ç”¨æˆ·ä¿¡æ¯
+     * 
+     * @param int $id ç¼–å·
+     * @param array $array ç”¨æˆ·ä¿¡æ¯æ•°ç»„
+     * @return object
+     */
+	public function setUser($id, $data)
 	{
-		return $this->db->select('*')->from('menu')->where('name',$name)->get();
-	}
-	
-	//¸ù¾İID»ñÈ¡ÓÃ»§ĞÅÏ¢
-	function getUserById($id)
-	{
-		return $this->db->where('id',$id)->get('users');
-	}
-	
-	//±à¼­ÓÃ»§
-	function edit_user($id, $data)
-	{
-		$this->db->where('id',$id);
-		return $this->db->update('users',$data);
+		return $this->db->where('id', $id)->update('users', $data);
 	}
 }
 
