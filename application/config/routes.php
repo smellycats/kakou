@@ -57,8 +57,9 @@ $route['user/role_man']    = 'role/view';
 $route['logo/smsnum']      = 'sms/view';
 $route['logo/real_select'] = 'logo/realSelectView';
 
-
-
+$route['stat/carsum'] = 'stat/carsumView';
+$route['stat/wzsum']  = 'stat/wzsumView';
+$route['stat/bjsum']  = 'stat/bjsumView';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
