@@ -168,7 +168,9 @@
 				<td><?php echo $row['cllx']; ?></td>
 				<td><?php echo $row['csys']; ?></td>
 			</tr>
-			<?php $index += 1;?>
+			<?php $_SESSION['lgquery']['ids'] = array(); ?>
+			<?php array_push($_SESSION['lgquery']['ids'], $row['id']); ?>
+			<?php $index += 1; ?>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
