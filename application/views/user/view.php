@@ -41,12 +41,12 @@
 		<ul class="toolBar">
 			<li>
 				<a class="add" href="<?php echo base_url(); ?>index.php/user/addView" 
-					target="dialog" minable="true" rel="user_index_add" max="false" drawable="false" resizable="false" 
+					target="dialog" minable="true" rel="user_index_add" max="false" drawable="true" resizable="false" 
 					maxable="true" mask="true" width="600" height="450" title="用户添加"><span>添加</span></a>
 			</li>
 			<li>
 				<a class="edit" href="<?php echo base_url(); ?>index.php/user/editView?id={this_id}" 
-					target="dialog" minable="true" rel="user_index_edit" max="false" drawable="false" resizable="false" 
+					target="dialog" minable="true" rel="user_index_edit" max="false" drawable="true" resizable="false" 
 					maxable="true" mask="true" width="600" height="450" title="用户编辑"><span>编辑</span></a>
 			</li>
 			<li>
