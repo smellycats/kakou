@@ -42,6 +42,7 @@ class Muser extends CI_Model
 			$this->db->select('created');
 			$this->db->select('banned');
 			$this->db->select('last_ip');
+			$this->db->select('last_login');
 			$this->db->select('identity');
 			$this->db->select('phone');
 			$this->db->select('access_type');
