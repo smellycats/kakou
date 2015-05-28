@@ -1,28 +1,29 @@
 
 <script type="text/javascript">
-	$(function(){
-		$("#cmpquery_view_clppflag").val(<?php echo '"'. $clppflag .'"'?>);
-	});
+	 //遍历被选中CheckBox元素的集合 得到Value值    
+	 function treeclick()  {    
+		var oidStr=""; //定义一个字符串用来装值的集合    
+		
+		//jquery循环t2下的所有选中的复选框    
+		$("#t2 input:checked").each(function(i,a){    
+		    //alert(a.value);    
+		    oidStr +=a.value+',';  //拼接字符串    
+		});
+		$("#real_select_places").val(oidStr.substring(0, oidStr.length - 1));
+	 }    
 </script>
 
-<form id="pagerForm" method="post" action="<?php echo site_url('logo/cmpquery'); ?>">
-	<input type="hidden" name="page" value="<?php echo $page; ?>" />
-	<input type="hidden" name="rows" value="<?php echo $rows; ?>" />
-	<input type="hidden" name="sort" value="<?php echo $sort; ?>" />
-	<input type="hidden" name="order" value="<?php echo $order; ?>" />
-
-	<input type="hidden" name="clppflag" value="<?php echo $clppflag; ?>" />
-</form>
-
+<div id="resultBox"></div>
+<div id="json_data"></div>
 
 <div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="<?php echo site_url('logo/cmpquery'); ?>" method="post">
-	<div class="searchBar">
+	<form onsubmit="return navTabSearch(this);" action="<?php echo site_url('logo/select'); ?>" method="post">
+	<div id="t2" class="searchBar">
 		<table class="searchContent">
 			<tr>
 				<td>
 					<label>品牌是否匹配：</label>
-					<select class="combox" id="cmpquery_view_clppflag" name="clppflag" >
+					<select class="combox" id="real_select_view_matchflag" name="matchflag" >
 						<option value="all">所有</option>
 						<option value="0">不匹配</option>
 						<option value="1">匹配</option>
@@ -34,41 +35,18 @@
 			<tr>
 
 		</table>
-
+		<input id="real_select_places" name="places" type="hidden" />
+		<ul class="tree treeFolder treeCheck expand" oncheck="treeclick">
+			<li><a tname="place" tvalue="0">卡口地点</a>
+				<ul>
+					<?php foreach ($sel_places as $row): ?> 
+					<li><a tname="place" tvalue="<?php echo $row['id']; ?>"><?php echo $row['place']; ?></a></li>
+					<?php endforeach; ?>
+				</ul>
+			</li>
+		</ul>
 	
 	</div>
 	</form>
 </div>
-<div class="pageContent">
-	<div class="panelBar">
-		<ul class="toolBar">
-			<li>
-				<a class="edit" href="<?php echo base_url(); ?>index.php/logo/cmpquery_detail?id={cmpquery_id}" 
-					target="dialog" minable="true" rel="cmpquery_index_detail" max="false" drawable="false" resizable="false" 
-					maxable="true" mask="true" width="600" height="500" title="查看详细信息"><span>查看</span></a>
-			</li>
 
-		</ul>
-	</div>
-	<table class="table" width="100%" layoutH="138">
-		<thead>
-			<tr>
-				<th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
-				<th width="20">#</th>
-				<th width="800">卡口地点</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php $index = $offset + 1; ?>
-			<?php foreach ($result as $row): ?>
-			<tr target="real_select_id" rel="<?php echo $row['id']; ?>">
-				<td><input name="ids" value="<?php echo $row['id']; ?>" type="checkbox"></td>
-				<td><?php echo $index; ?></td>
-				<td><?php echo $row['place']; ?></td>
-			</tr>
-			<?php $index += 1; ?>
-			<?php endforeach; ?>
-		</tbody>
-	</table>
-
-</div>
