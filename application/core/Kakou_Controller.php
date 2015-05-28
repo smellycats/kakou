@@ -16,24 +16,22 @@ class Admin_Controller extends CI_Controller {
 		//$this->output->enable_profiler(TRUE);
 		session_start();
 
-        //$this->_timeout();
-		//$this->_check_login();
-		//$this->_check_rights();
-		
+		$this->_checkLogin();
+		$this->_checkRights();
      }
      
     /**
      * 检查用户是否登录
      *
-     * @access  protected
-     * @return  void
+     * @access private
+     * @return void
      */
-     protected function _check_login()
+     private function _checkLogin()
      {
      	//Check if user has logon status of manager, redirect to home page if not
         if(isset($_SESSION['timestamp'])){
      		$time_lags = time() - $_SESSION['timestamp'];
-     		if ($time_lags <= 1800){    //半小时
+     		if ($time_lags <= 1800) {    //30分钟超时
      			$_SESSION['timestamp'] = time();
      		} else {
      			$this->_timeout();
@@ -45,30 +43,34 @@ class Admin_Controller extends CI_Controller {
     /**
      * 检查用户权限
      *
-     * @access  protected
-     * @return  void
+     * @access private
+     * @return void
      */
-     protected function _check_rights()
+     private function _checkRights()
      {
-     	$control = $this->uri->segment(1);
+     	$control  = $this->uri->segment(1);
      	$function = $this->uri->segment(2);
      	
-     	$query = $this->Madmin->get_menu_by_name($function);
-     	$rights = $this->session->userdata('DX_role_right');
+     	$query = $this->Madmin->getMenuByName($function);
      	
-     	if($query->num_rows()==1 AND $this->session->userdata('DX_role_id')!=1 AND !in_array($query->row()->id,$rights))
-		{
-			show_error('No Right to Access',500);
+     	if($query->num_rows() == 1 AND $_SESSION['role_id'] != 1 AND !in_array($query->row()->id, $_SESSION['role_right'])) {
+			show_error('No Right To Access', 500);
 		}
      }
 
-    function _timeout()
+    /**
+     * 登录超时
+     *
+     * @access private
+     * @return json
+     */
+    private function _timeout()
     {
-        $result["statusCode"] = "301";
-        $result["message"] = "会话超时，请重新登录";
-        $result["navTabId"] = "";
-        $result["callbackType"] = "";
-        $result["forwardUrl"] = "";
+        $result['statusCode']   = '301';
+        $result['message']      = '会话超时，请重新登录';
+        $result['navTabId']     = '';
+        $result['callbackType'] = '';
+        $result['forwardUrl']   = '';
         
         echo json_encode($result);
         exit;
