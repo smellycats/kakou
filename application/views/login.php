@@ -1,79 +1,96 @@
-<?php
-$username = array(
-	'name'	=> 'username',
-	'id'	=> 'username',
-	'size'	=> 30,
-	'value' => set_value('username')
-);
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<base href="<?php echo base_url(); ?>"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+	<link rel="stylesheet" href="style/alogin.css"  type="text/css" />
+	<title><?php echo $this->config->item('title'); ?></title>
+	<style type="text/css">
+	.banner { position: relative; overflow: auto; }
+	    .banner li { list-style: none; }
+	        .banner ul li { float: left; }
+	</style>
+</head>
+<body>
 
-$password = array(
-	'name'	=> 'password',
-	'id'	=> 'password',
-	'size'	=> 30
-);
-
-$remember = array(
-	'name'	=> 'remember',
-	'id'	=> 'remember',
-	'value'	=> 1,
-	'checked'	=> set_value('remember'),
-	'style' => 'margin:0;padding:0'
-);
-
-$confirmation_code = array(
-	'name'	=> 'captcha',
-	'id'	=> 'captcha',
-	'maxlength'	=> 8
-);
-
-?>
-
-<fieldset><legend>登录</legend>
-<?php echo form_open($this->uri->uri_string())?>
-
-<?php echo $this->dx_auth->get_auth_error(); ?>
-
-
-<dl>	
-	<dt><?php echo form_label('用户名', $username['id']);?></dt>
-	<dd>
-		<?php echo form_input($username)?>
-    <?php echo form_error($username['name']); ?>
-	</dd>
-
-  <dt><?php echo form_label('密码', $password['id']);?></dt>
-	<dd>
-		<?php echo form_password($password)?>
-    <?php echo form_error($password['name']); ?>
-	</dd>
-
-<?php if ($show_captcha): ?>
-
-	<dt>请输入图片中的文字，没有数字0.</dt>
-	<dd><?php echo $this->dx_auth->get_captcha_image(); ?></dd>
-
-	<dt><?php echo form_label('Confirmation Code', $confirmation_code['id']);?></dt>
-	<dd>
-		<?php echo form_input($confirmation_code);?>
-		<?php echo form_error($confirmation_code['name']); ?>
-	</dd>
-	
-<?php endif; ?>
-
-	<dt></dt>
-	<dd>
-		<?php echo form_checkbox($remember);?> <?php echo form_label('Remember me', $remember['id']);?> 
-		<?php echo anchor($this->dx_auth->forgot_password_uri, 'Forgot password');?> 
-		<?php
-			if ($this->dx_auth->allow_registration) {
-				echo anchor($this->dx_auth->register_uri, 'Register');
-			};
-		?>
-	</dd>
-
-	<dt></dt>
-	<dd><?php echo form_submit('login','Login');?></dd>
-</dl>
-
-<?php echo form_close()?>
-</fieldset>
+	<div>
+	    <form method="post" action="<?php echo site_url('home/index'); ?>">
+	    <div class="Main">
+	        <ul>
+	            <li class="top">
+	            </li>	
+	            <li class="top2">
+	               	<div align="center">
+	                	<img src="images/login/title8.png" alt="" style="" />
+	            	</div>
+	            </li>
+	            <li class="topA"></li>
+	            <li class="topB">
+					<div class="banner">
+						<?php if (!empty($adv)): ?>
+						<?php foreach ($adv as $s):?>
+					    <ul>
+					        <li><h1><?php echo $s->CONTENT;?></h1></li>
+					    </ul>
+					    <?php endforeach;?>
+						<?php endif;?>
+					</div>
+	            </li>
+	            <li class="topC"></li>
+	            <li class="topD">
+	                <ul class="login">
+	                    <li>
+	                    	<div align="center">
+								<span style="color:red">
+								    <?php if($message != ''){echo $message;}?>
+								    <?php echo form_error('username'); ?>
+								    <?php echo form_error('password'); ?>
+							    </span>
+							</div>
+	                    </li>
+	                    <li>
+	                    	<span class="left">用户名：</span> <span style="left">
+	                        	<input value="<?php echo set_value('username'); ?>" class="txt" type="text" name="username" alt="请填写用户名" /> 
+							</span>
+	                    </li>
+	                    <li>
+	                    	<span class="left">密 码：</span> <span style="left">
+	                       		<input class="txt" type="password" name="password" alt="请填写密码" /> 
+	                    	</span>
+	                    </li>
+	                    
+	                </ul>
+	            </li>
+	            <li class="topE"></li>
+	            <li class="middle_A"></li>
+	            <li class="middle_B"></li>
+	            <li class="middle_C">
+	            	<div align = "center">
+	            	<input style="margin-right:5px;vertical-align:middle" class="submit" type="submit" value="登录" />
+	            	<input style="margin-right:5px;vertical-align:middle" class="button" type="reset" value="取消" />
+	            	</div>
+	            </li>
+	            <li class="middle_D"></li>
+	            <li class="bottom_A"></li>
+	            <li class="bottom_B">
+	            Power by 实现科技有限公司  Copyright &copy; 2009 - 2015
+	            </li>
+	        </ul>
+	    </div>
+	    </form>
+    </div>
+    
+	<script type="text/javascript" src=<?php echo base_url('js/jQuery1.7.1/jquery-1.7.1.min.js'); ?>></script>
+	<script type="text/javascript" src=<?php echo base_url('js/unslider/unslider.js'); ?>></script>
+	<script type="text/javascript">
+	$('.banner').unslider({
+		speed: 500,               //  The speed to animate each slide (in milliseconds)
+		delay: 5000,              //  The delay between slide animations (in milliseconds)
+		complete: function() {},  //  A function that gets called after every slide animation
+		keys: true,               //  Enable keyboard (left, right) arrow shortcuts
+		dots: true,               //  Display dot navigation
+		fluid: false              //  Support responsive design. May break non-responsive designs
+	});
+	</script>
+</body>
+</html>
