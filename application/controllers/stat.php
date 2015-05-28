@@ -10,7 +10,7 @@
  *
  */
 
-class Stat extends CI_Controller
+class Stat extends Admin_Controller
 {	
 	function __construct()
 	{

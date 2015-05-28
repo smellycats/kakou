@@ -10,7 +10,7 @@
  *
  */
 
-class Sms extends CI_Controller
+class Sms extends Admin_Controller
 {	
 
 	function __construct()

@@ -10,7 +10,7 @@
  *
  */
 
-class Role extends CI_Controller
+class Role extends Admin_Controller
 {
 	function __construct()
 	{
