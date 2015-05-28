@@ -61,10 +61,10 @@ class Gate extends Admin_Controller
 
 		$data['title'] = '车辆查询';
 
-		$data['sel_place'] = $this->Mbasedata2->getCfgKakou()->result_array();
-		$data['sel_fxbh'] = $this->config->item('fxbh');
-		$data['sel_cdbh'] = $this->config->item('cdbh');
-		$data['sel_hpys'] = $this->config->item('hpys');
+		$data['sel_place']  = $this->Mbasedata2->getCfgKakou()->result_array();
+		$data['sel_fxbh']   = $this->config->item('fxbh');
+		$data['sel_cdbh']   = $this->config->item('cdbh');
+		$data['sel_hpys']   = $this->config->item('hpys');
 		$data['sel_number'] = $this->config->item('number');
 
 		$this->load->view('gate/carquery_view', $data);
