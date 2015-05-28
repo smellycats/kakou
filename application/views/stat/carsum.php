@@ -59,7 +59,6 @@
 		$("#carsum_place").val("<?php echo $place; ?>");
 		$("#carsum_fxbh").val("<?php echo $fxbh; ?>");
 		$("#carsum_hpys").val("<?php echo $hpys; ?>");
-		alert('1');
 
 		Highcharts.setOptions({
 		    lang:{
@@ -82,21 +81,17 @@
 		       weekdays: ["星期一", "星期二", "星期三", "星期三", "星期四", "星期五", "星期六","星期天"]
 		    }
 		});
-		alert('2');
-        doSearch();
-        alert('3'); 
+
+        doSearch(); 
 	});
 
 	function doSearch(){ 
-        $.post('<?php echo base_url('index.php/stat/test'); ?>', { place: $('#carsum_place').combobox('getValue'),st:$('#carsum_st').combobox('getValue'),et:$('#carsum_et').combobox('getValue'),dire:$('#carsum_fxbh').combobox('getValue'),carsize:$('#carsum_hpys').combobox('getValue')}, function (result) {
-                alert(result);
+        $.post('<?php echo base_url('index.php/stat/test'); ?>', { st:$('#carsum_st').val(), et:$('#carsum_et').val(), place: $('#carsum_place').val(), fxbh:$('#carsum_fxbh').val(), hpys:$('#carsum_hpys').val()}, function (result) {
                 title = result.title;
                 data = result.data;
-                alert('d2');
                 for(var i = 0; i < data.length; i++) {
                 	total += data[i];
                 }
-                alert('d3');
                 loaddata();
             }, 'json');   
 	}
