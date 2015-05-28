@@ -95,7 +95,9 @@
 						<?php endforeach; ?>
 					</select>
 					<select class="combox" id="lgquery_view_ppdm2" name="ppdm2">
-						<option value="all">请选择主品牌</option>
+						<?php foreach ($sel_ppdm2 as $row): ?>
+						<option value="<?php echo $row['code']; ?>"><?php echo $row['name']; ?></option>
+						<?php endforeach; ?>
 					</select>
 				</td>
 				<td>

@@ -80,6 +80,14 @@ class Logo extends Admin_Controller
 		$data['sel_dire']   = $this->Mbasedata->get_directions()->result_array();
 		$data['sel_hpys']   = $this->Mbasedata->get_hpys()->result_array();
 		$data['sel_ppdm']   = $this->Mbasedata->get_ppdm()->result_array();
+		$data['sel_ppdm2']  = array(array('code'=>'all', 'name' =>'请选择主品牌'));
+		if ($data['ppdm'] != "all") { 
+			$data['sel_ppdm2'] = array(array('code'=>'all', 'name'=>'所有子品牌'));
+			$query = $this->Mbasedata->get_clpp2($data['ppdm']); 
+			foreach($query->result_array() as $row) { 
+				array_push($data['sel_ppdm2'], array('code'=>$row['clpp2'], 'name'=>$row['name2'])); 
+			}
+		}
 		$data['sel_cllx']   = $this->Mbasedata->get_cllx()->result_array();
 		$data['sel_number'] = $this->config->item('number');
 
