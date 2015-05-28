@@ -10,7 +10,7 @@
  * @author      Fire
  *
  */
-class Admin extends CI_Controller
+class Admin extends Admin_Controller
 {
 	function __construct()
 	{
@@ -33,22 +33,58 @@ class Admin extends CI_Controller
      * 
      * @return void
      */
-	function index()
-	{
-		$role_id = 1;
-		
-	    if($role_id == 1)
-		{
-			$data['f_datas'] = $this->Madmin->get_menu();
-		}
-		else
-		{
-			$data['f_datas'] = $this->Madmin->get_menu_by_prem($role_id);
+	public function index()
+	{		
+	    if ($_SESSION['role_id'] == 1) {
+			$data['f_datas'] = $this->_getMenu();
+		} else {
+			$data['f_datas'] = $this->_getMenuByRoleId($_SESSION['role_id']);
 		}
 
 		$this->load->view('admin/header',$data);
 		$this->load->view('admin/index');
 		$this->load->view('admin/footer');
+	}
+
+	private function _getMenu()
+	{
+		// 获得menu表fid为0的数据，存入到数组$f_datas。
+		$f_datas = $this->Madmin->getMenuByFid(0)->result_array();
+		// 遍历fid为0的子菜单数据添加到数组$f_datas的childrens子数组中。
+		foreach($f_datas as $f_num => $f_data) {
+			$f_datas[$f_num]['childrens'] = $this->Madmin->getMenuByFid($f_data['id'])->result_array();
+		}
+
+		return $f_datas;
+	}
+	
+	/**
+	 * 根据权限获取菜单数据
+	 *
+	 * @param int $role_id
+	 * @return object
+	 */
+	function _getMenuByRoleId($role_id)
+	{
+		$rights = $this->Madmin->getRoleById($role_id)->row()->rights;
+		
+		if($rights != '') {
+			$right_arr = explode(',', $rights);
+			//获取菜单权限的父ID
+			$fids = $this->Madmin->getFidByRight($right_arr)->result_array();
+			// 根据权限获得menu表fid的数据，存入到数组$f_datas。
+			foreach($fids as $id=>$row) {
+				$f_datas[$id] = $this->Madmin->getMenuById($row['fid'])->row_array();
+			}
+			foreach ($f_datas as $f_num => $f_data) {
+
+				$f_datas[$f_num]['childrens'] = $this->Madmin->getMenuByFidRight($f_data['id'], $right_arr)->result_array();
+			}
+		} else {
+			$f_datas = null;
+		}
+
+		return $f_datas;
 	}
 	
     /**
@@ -76,7 +112,7 @@ class Admin extends CI_Controller
 			$result['message']    = '旧密码错误！';
 		} else {
 			$data['password'] = sha1($this->input->post('password_new'));
-			if ($this->Madmin->edit_user($id, $data)) {
+			if ($this->Madmin->setUser($id, $data)) {
 				$result['statusCode']   = '200';
 				$result['message']      = '修改密码完成！';
 	            $result['callbackType'] = 'closeCurrent';
@@ -100,7 +136,7 @@ class Admin extends CI_Controller
 		session_unset(); 
 		session_destroy();
 		
-		redirect('home/login');
+		redirect('home/index');
 	}
 
 	/* 退出系统  */
@@ -111,23 +147,6 @@ class Admin extends CI_Controller
 		session_destroy();
 		
 		redirect('home/login');
-	}
-	
-	function test()
-	{
-		#$this->Madmin->get_menu_by_prem(3);
-		
-		#echo $this->db->last_query();
-		session_unset();
-		session_destroy();
-		
-		 //手工指定并开启
-		session_id('qnb2u4hd9mespi3vg4jm06deh5');
-		session_start();
-		//后面用$_SESSION['userid']就行。
-		// 但是这样就完全没有用到框架的session类了。
-
-		// 而且ci那个session类这样做是行不通的（前提是我没在有数据库中记录session）
 	}
 
 }
