@@ -104,14 +104,7 @@ class Home extends CI_Controller
 				
 		redirect('admin/index');
 	}
-	
-	public function test()
-	{
-		$da['last_ip']    = '123';
-		$da['last_login'] = mdate("%Y-%m-%d %H:%i:%s");
-		$this->Mhome->userLoinAdd(299, $da);
-	}
-    
+
     /**
      * 登录页面
      * 
