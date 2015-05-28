@@ -23,7 +23,10 @@
 
 	<script src="<?php echo base_url('js/jquery.ztree.all-3.5.min.js');?>" type="text/javascript"></script>
 	
-	<script src="<?php echo base_url('js/jqzoom_ev-2.3/js/jquery.jqzoom-core-pack.js');?>"  type="text/javascript"></script>
+	<script src="<?php echo base_url('js/jqzoom_ev-2.3/js/jquery.jqzoom-core-pack.js');?>" type="text/javascript"></script>
+
+	<script src="<?php echo base_url('js/Highcharts-4.0.1/js/highcharts.js'); ?>" type="text/javascript"></script>
+	<script src="<?php echo base_url('js/Highcharts-4.0.1/js/modules/exporting.js'); ?>" type="text/javascript"></script>
 
 	<script type="text/javascript">
 		function fleshVerify(){
