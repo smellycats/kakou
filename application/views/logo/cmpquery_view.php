@@ -121,7 +121,7 @@
 		<ul class="toolBar">
 			<li>
 				<a class="edit" href="<?php echo base_url(); ?>index.php/logo/cmpquery_detail?id={cmpquery_id}" 
-					target="dialog" minable="true" rel="cmpquery_index_detail" max="false" drawable="false" resizable="false" 
+					target="dialog" minable="true" rel="cmpquery_index_detail" max="false" drawable="true" resizable="false" 
 					maxable="true" mask="true" width="600" height="500" title="查看详细信息"><span>查看</span></a>
 			</li>
 			<li class="line">line</li>
@@ -168,6 +168,8 @@
 				<td><?php $clppflag_dict = array('0'=>'<span style="color:orange">否</span>','1'=>'<span style="color:gray">是</span>'); echo $clppflag_dict[$row['clppflag']]; ?></td>
 				<td><?php $confirm_dict = array('0'=>'<span style="color:gray">否</span>','1'=>'<span style="color:green">是</span>'); echo $confirm_dict[$row['confirm']]; ?></td>
 			</tr>
+			<?php $_SESSION['cmpquery']['ids'] = array(); ?>
+			<?php array_push($_SESSION['cmpquery']['ids'], $row['id']); ?>
 			<?php $index += 1; ?>
 			<?php endforeach; ?>
 		</tbody>
