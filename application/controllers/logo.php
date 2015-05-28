@@ -11,20 +11,8 @@
  */
 
 class Logo extends Admin_Controller
-{	
-	protected $msg1 = '请选择查询条件.';
-	
-	protected $msg2 = '没有车辆记录！';
-	
-	protected $imgpath = array();
-
-	
-	//protected $imgpath = array('HDWJ-KKDATA1'=>'localhost:8082','HDWJ-KKDATA2'=>'localhost:8082',''=>'192.168.10.234:81');
-	
-	//protected $path = 'D:\SpreadData/';
-	//图片批量下载数量
-	//protected $imgs_num = 400;
-
+{
+	private $imgpath = array();
 		
 	function __construct()
 	{
@@ -46,10 +34,9 @@ class Logo extends Admin_Controller
 		
 		//$this->output->enable_profiler(TRUE);
 						
-		if (substr($this->session->userdata('ip_address'),0,3)=='192')
-		{
+		if (substr($this->session->userdata('ip_address'),0,3)=='192') {
 			$this->imgpath = array(0=>'192.168.10.234:8888',1=>'192.168.10.235:8888',''=>'192.168.10.234:8888');
-		}else {
+		} else {
 			$this->imgpath = array(0=>'10.44.249.227:81',1=>'10.44.249.227:82',''=>'10.44.249.227:81');
 		}
 	}
