@@ -1,20 +1,16 @@
 
 <script type="text/javascript">
-	 //遍历被选中CheckBox元素的集合 得到Value值    
-	 function treeclick()  {    
+	// 遍历被选中CheckBox元素的集合 得到Value值    
+	function treeclick()  {
 		var oidStr=""; //定义一个字符串用来装值的集合    
 		
-		//jquery循环t2下的所有选中的复选框    
-		$("#t2 input:checked").each(function(i,a){    
-		    //alert(a.value);    
-		    oidStr +=a.value+',';  //拼接字符串    
+		// jquery循环t2下的所有选中的复选框    
+		$("#t2 input:checked").each(function(i,a){   
+		    oidStr +=a.value+',';  //拼接字符串
 		});
 		$("#real_select_places").val(oidStr.substring(0, oidStr.length - 1));
-	 }    
+	}    
 </script>
-
-<div id="resultBox"></div>
-<div id="json_data"></div>
 
 <div class="pageHeader">
 	<form onsubmit="return navTabSearch(this);" action="<?php echo site_url('logo/select'); ?>" method="post">

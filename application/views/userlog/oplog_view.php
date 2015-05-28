@@ -1,10 +1,10 @@
 
 <script type="text/javascript">
 	$(function(){
-		$("#userlog_view_page_num").val(<?php echo '"' . $rows . '"'?>);
-		$("#userlog_view_st").val(<?php echo '"' . $st . '"'?>);
-		$("#userlog_view_et").val(<?php echo '"' . $et . '"'?>);
-		$("#userlog_view_uname").val(<?php echo '"' . $uname . '"'?>);
+		$("#oplog_view_page_num").val("<?php echo $rows; ?>");
+		$("#oplog_view_st").val("<?php echo $st; ?>");
+		$("#oplog_view_et").val("<?php echo $et; ?>");
+		$("#oplog_view_uname").val("<?php echo $uname; ?>");
 	});
 </script>
 
@@ -27,15 +27,15 @@
 			<tr>
 				<td>
 					<span>开始时间：</span>
-					<input type="text" id="userlog_view_st" name="st" class="date" dateFmt="yyyy-MM-dd HH:mm:ss" readonly="true"/>
+					<input type="text" id="oplog_view_st" name="st" class="date" dateFmt="yyyy-MM-dd HH:mm:ss" readonly="true"/>
 				</td>
 				<td>
 					<span>结束时间：</span>
-					<input type="text" id="userlog_view_et" name="et" class="date" dateFmt="yyyy-MM-dd HH:mm:ss" readonly="true"/>
+					<input type="text" id="oplog_view_et" name="et" class="date" dateFmt="yyyy-MM-dd HH:mm:ss" readonly="true"/>
 				</td>
 				<td>
 					<label>用户名：</label>
-					<input type="text" id="userlog_view_uname" name="uname" />
+					<input type="text" id="oplog_view_uname" name="uname" />
 				</td>
 				<td>
 					<div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div>
@@ -59,28 +59,28 @@
 		<tbody>
 			<?php $index = $offset + 1;?>
 			<?php foreach ($result as $row): ?>
-			<tr target="userlog_id" rel="<?php echo $row['id']; ?>">
+			<tr target="this_id" rel="<?php echo $row['id']; ?>">
 				<td><?php echo $index; ?></td>
 				<td><?php echo $row['czsj']; ?></td>
 				<td><?php echo $row['uname']; ?></td>
 				<td><?php echo $row['memo']; ?></td>
 				<td><?php echo $row['uip']; ?></td>
 			</tr>
-			<?php $index += 1;?>
+			<?php $index += 1; ?>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
 	<div class="panelBar">
 		<div class="pages">
 			<span>显示</span>
-			<select class="combox" id="userlog_view_page_num" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
+			<select class="combox" id="oplog_view_page_num" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
 				<option value="20">20</option>
 				<option value="50">50</option>
 			</select>
-			<span>条，共<?php echo ceil($total/$rows);?>页，共<?php echo $total;?>条</span>
+			<span>条，共<?php echo ceil($total / $rows); ?>页，共<?php echo $total; ?>条</span>
 		</div>
 		
-		<div class="pagination" targetType="navTab" totalCount="<?php echo $total;?>" 
+		<div class="pagination" targetType="navTab" totalCount="<?php echo $total; ?>" 
 				numPerPage="<?php echo $rows; ?>" pageNumShown="5" currentPage="<?php echo $page; ?>">
 		</div>
 

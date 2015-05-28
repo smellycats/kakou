@@ -1,168 +1,181 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-	<title>ÎŞ±êÌâÎÄµµ</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url() . "js/jquery-easyui/themes/" . $this->config->item('ui_themes') . "/easyui.css"?>" />
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url() . "js/jquery-easyui/themes/icon.css"?>" />
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url() . "js/jquery-easyui/themes/color.css"?>" />
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url() . "js/jquery-easyui/themes/main.css"?>" />
-	<script type="text/javascript" src="<?php echo base_url() . "js/jquery-easyui/jquery.min.js"?>"></script>
-	<script type="text/javascript" src="<?php echo base_url() . "js/jquery-easyui/jquery.easyui.min.js"?>"></script>
-	<script type="text/javascript" src="<?php echo base_url() . "js/jquery-easyui/locale/easyui-lang-zh_CN_GBK.js"?>"></script>
 
-</head>
-<body>
-	<script type="text/javascript" src="<?php echo base_url() . "js/Highcharts-4.0.1/js/highcharts.js"?>"></script>
-	<script type="text/javascript" src="<?php echo base_url() . "js/Highcharts-4.0.1/js/modules/exporting.js"?>"></script>
-	<div id="p" class="easyui-panel" style="width:100%;padding:0px 10px 10px 10px;">
-		<div id="tb" style="padding:3px 20px">
-			<div align="center">
-				<span>¿ªÊ¼Ê±¼ä:</span>
-				<input id="st" class="easyui-datetimebox" required="true" value="<?php echo $st;?>" style="width:150px" />
-				<span>½áÊøÊ±¼ä:</span>
-				<input id="et" class="easyui-datetimebox" required="true" value="<?php echo $et;?>" style="width:150px" />
-				<span>¿¨¿ÚµØµã:</span>
-				<input id="place" class="easyui-combobox"
-						url = "<?php echo base_url() . 'index.php/basedata/get_place_logo';?>" 
-						method = "get" valueField = "id" textField = "text" />
-				<span>·½Ïò:</span>
-				<input id="dire" class="easyui-combobox" style="width:80px"
-						url = "<?php echo base_url() . 'index.php/basedata/get_dire';?>" 
-						method = "get" valueField = "id" textField = "text" />	
-				<span>³µĞÍ:</span>
-				<input id="carsize" class="easyui-combobox" style="width:60px"
-						url = "<?php echo base_url() . 'index.php/basedata/get_carsize';?>" 
-						method = "get" valueField = "id" textField = "text" />				
-				<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="doSearch()">²éÑ¯</a>
-			</div>
-		</div>
-		<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div class="pageHeader">
+	<div class="searchBar">
+		<table class="searchContent">
+			<tr>
+				<td>
+					<span>å¼€å§‹æ—¶é—´ï¼š</span>
+					<input type="text" id="carsum_st" name="st" class="date" dateFmt="yyyy-MM-dd HH:mm:ss" readonly="true"/>
+				</td>
+				<td>
+					<span>ç»“æŸæ—¶é—´ï¼š</span>
+					<input type="text" id="carsum_et" name="et" class="date" dateFmt="yyyy-MM-dd HH:mm:ss" readonly="true"/>
+				</td>
+				<td>
+					<label>å¡å£åœ°ç‚¹ï¼š</label>
+					<select class="combox" id="carsum_place" name="place" >
+						<option value="all">æ‰€æœ‰</option>
+						<?php foreach ($sel_place as $row): ?>
+						<option value="<?php echo $row; ?>"><?php echo $row; ?></option>
+						<?php endforeach; ?>
+					</select>
+				</td>
+				<td>
+					<label>æ–¹å‘ï¼š</label>
+					<select class="combox" id="carsum_fxbh" name="fxbh" >
+						<option value="all">æ‰€æœ‰</option>
+						<?php foreach ($sel_fxbh as $row): ?>
+						<option value="<?php echo $row; ?>"><?php echo $row; ?></option>
+						<?php endforeach; ?>
+					</select>
+				</td>
+				<td>
+					<label>å·ç‰Œé¢œè‰²ï¼š</label>
+					<select class="combox" id="carsum_hpys" name="hpys" >
+						<option value="all">æ‰€æœ‰</option>
+						<?php foreach ($sel_hpys as $row): ?>
+						<option value="<?php echo $row; ?>"><?php echo $row; ?></option>
+						<?php endforeach; ?>
+					</select>
+				</td>
+				<td>
+					<div class="buttonActive"><div class="buttonContent"><button type="button" onclick="doSearch()">æ£€ç´¢</button></div></div>
+				</td>
+			</tr>
+		</table>
 	</div>
-	<script type="text/javascript">
-		var title = [];
-		var data = [];
-		var total = 0;
-		$(function () {
-			Highcharts.setOptions({
-			    lang:{
-			       contextButtonTitle:"Í¼±íµ¼³ö²Ëµ¥",
-			       decimalPoint:".",
-			       downloadJPEG:"ÏÂÔØJPEGÍ¼Æ¬",
-			       downloadPDF:"ÏÂÔØPDFÎÄ¼ş",
-			       downloadPNG:"ÏÂÔØPNGÎÄ¼ş",
-			       downloadSVG:"ÏÂÔØSVGÎÄ¼ş",
-			       drillUpText:"·µ»Ø {series.name}",
-			       loading:"¼ÓÔØÖĞ",
-			       months:["Ò»ÔÂ","¶şÔÂ","ÈıÔÂ","ËÄÔÂ","ÎåÔÂ","ÁùÔÂ","ÆßÔÂ","°ËÔÂ","¾ÅÔÂ","Ê®ÔÂ","Ê®Ò»ÔÂ","Ê®¶şÔÂ"],
-			       noData:"Ã»ÓĞÊı¾İ",
-			       numericSymbols: [ "Ç§" , "Õ×" , "G" , "T" , "P" , "E"],
-			       printChart:"´òÓ¡Í¼±í",
-			       resetZoom:"»Ö¸´Ëõ·Å",
-			       resetZoomTitle:"»Ö¸´Í¼±í",
-			       shortMonths: [ "Jan" , "Feb" , "Mar" , "Apr" , "May" , "Jun" , "Jul" , "Aug" , "Sep" , "Oct" , "Nov" , "Dec"],
-			       thousandsSep:",",
-			       weekdays: ["ĞÇÆÚÒ»", "ĞÇÆÚ¶ş", "ĞÇÆÚÈı", "ĞÇÆÚÈı", "ĞÇÆÚËÄ", "ĞÇÆÚÎå", "ĞÇÆÚÁù","ĞÇÆÚÌì"]
-			    }
-			});
-			
-	        $.post('<?php echo base_url() . "index.php/stat/load_data"."'";?>, { id: 1 }, function (result) {
-	                title = result.title;
-	                data = result.data
-	                for(var i = 0; i < data.length; i++) {
-	                	total += data[i];
-	                }
-	                loaddata();
-	            }, 'json');      
+</div>
+<div class="pageContent">
+	<div id="container_hc" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+</div>
+
+<script type="text/javascript">
+	var title = [];
+	var data  = [];
+	var total = 0;
+	$(function () {
+		$("#carsum_st").val("<?php echo $st; ?>");
+		$("#carsum_et").val("<?php echo $et; ?>");
+		$("#carsum_place").val("<?php echo $place; ?>");
+		$("#carsum_fxbh").val("<?php echo $fxbh; ?>");
+		$("#carsum_hpys").val("<?php echo $hpys; ?>");
+		alert('1');
+
+		Highcharts.setOptions({
+		    lang:{
+		       contextButtonTitle:"å›¾è¡¨å¯¼å‡ºèœå•",
+		       decimalPoint:".",
+		       downloadJPEG:"ä¸‹è½½JPEGå›¾ç‰‡",
+		       downloadPDF:"ä¸‹è½½PDFæ–‡ä»¶",
+		       downloadPNG:"ä¸‹è½½PNGæ–‡ä»¶",
+		       downloadSVG:"ä¸‹è½½SVGæ–‡ä»¶",
+		       drillUpText:"è¿”å› {series.name}",
+		       loading:"åŠ è½½ä¸­",
+		       months:["ä¸€æœˆ","äºŒæœˆ","ä¸‰æœˆ","å››æœˆ","äº”æœˆ","å…­æœˆ","ä¸ƒæœˆ","å…«æœˆ","ä¹æœˆ","åæœˆ","åä¸€æœˆ","åäºŒæœˆ"],
+		       noData:"æ²¡æœ‰æ•°æ®",
+		       numericSymbols: [ "åƒ" , "å…†" , "G" , "T" , "P" , "E"],
+		       printChart:"æ‰“å°å›¾è¡¨",
+		       resetZoom:"æ¢å¤ç¼©æ”¾",
+		       resetZoomTitle:"æ¢å¤å›¾è¡¨",
+		       shortMonths: [ "Jan" , "Feb" , "Mar" , "Apr" , "May" , "Jun" , "Jul" , "Aug" , "Sep" , "Oct" , "Nov" , "Dec"],
+		       thousandsSep:",",
+		       weekdays: ["æ˜ŸæœŸä¸€", "æ˜ŸæœŸäºŒ", "æ˜ŸæœŸä¸‰", "æ˜ŸæœŸä¸‰", "æ˜ŸæœŸå››", "æ˜ŸæœŸäº”", "æ˜ŸæœŸå…­","æ˜ŸæœŸå¤©"]
+		    }
 		});
-	
-		function loaddata(){
-	        $('#container').highcharts({
-	            chart: {
-	                type: 'column'
-	            },
-	            title: {
-	                text: '³µÁ÷Á¿Í³¼Æ',
-	                style: {
-	                    color: '#4B79E5',
-	                    fontFamily: 'Microsoft Yahei, Verdana, sans-serif',
-	                    fontWeight: 'bold'
-	                }
-	            },
-	            subtitle: {
-	                text: '×ÜÊı:'+total+'Á¾'
-	            },
-	            legend: {
-	                enabled: false
-	            },
-	            xAxis: {
-	                labels: {
-	            		rotation: -45,
-	            		align: 'right',
-	                    style: {
-	            			fontSize: '13px',
-	            			fontFamily: 'Microsoft Yahei, Verdana, sans-serif'
-	                    }
-	                },
-	                categories: title
-	            },
-	            yAxis: {
-	                min: 0,
-	                title: {
-	                    text: '³µÁ÷ (Á¾)'
-	                },
-		            labels: {
-		                style: {
-	                		fontSize: '13px',
-	                		fontFamily: 'Microsoft Yahei, Verdana, sans-serif'
-		                }
-		            }
-	            },
-	            tooltip: {
-	                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-	                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-	                    '<td style="padding:0"><b>{point.y} Á¾</b></td></tr>',
-	                footerFormat: '</table>',
-	                shared: true,
-	                useHTML: true
-	            },
-	            plotOptions: {
-	                column: {
-	                    pointPadding: 0.2,
-	                    borderWidth: 0
-	                }
-	            },
-	            series: [{
-	                name: '³µÁ÷Á¿',
-	                data: data,
-		            dataLabels: {
-		                enabled: true,
-		                rotation: -90,
-		                color: '#FFFFFF',
-		                align: 'right',
-		                x: 4,
-		                y: 10,
-		                style: {
-		                    fontSize: '13px',
-		                    fontFamily: 'Microsoft YaheiVerdana, Verdana, sans-serif'
-		                }
-		            }
-	            }],
-	            exporting: {
-	                enabled: false
-	            }
-	        });
-		}
-		function doSearch(){ 
-            $.post('<?php echo base_url() . "index.php/stat/stat_data"."'";?>, { place: $('#place').combobox('getValue'),st:$('#st').combobox('getValue'),et:$('#et').combobox('getValue'),dire:$('#dire').combobox('getValue'),carsize:$('#carsize').combobox('getValue')}, function (result) {
-                    title = result.title;
-                    data = result.data
-                    for(var i = 0; i < data.length; i++) {
-                    	total += data[i];
+		alert('2');
+        doSearch();
+        alert('3'); 
+	});
+
+	function doSearch(){ 
+        $.post('<?php echo base_url('index.php/stat/test'); ?>', { place: $('#carsum_place').combobox('getValue'),st:$('#carsum_st').combobox('getValue'),et:$('#carsum_et').combobox('getValue'),dire:$('#carsum_fxbh').combobox('getValue'),carsize:$('#carsum_hpys').combobox('getValue')}, function (result) {
+                alert(result);
+                title = result.title;
+                data = result.data;
+                alert('d2');
+                for(var i = 0; i < data.length; i++) {
+                	total += data[i];
+                }
+                alert('d3');
+                loaddata();
+            }, 'json');   
+	}
+
+	function loaddata(){
+        $('#container_hc').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'è½¦æµé‡ç»Ÿè®¡',
+                style: {
+                    color: '#4B79E5',
+                    fontFamily: 'Microsoft Yahei, Verdana, sans-serif',
+                    fontWeight: 'bold'
+                }
+            },
+            subtitle: {
+                text: 'æ€»æ•°:'+total+'è¾†'
+            },
+            legend: {
+                enabled: false
+            },
+            xAxis: {
+                labels: {
+            		rotation: -45,
+            		align: 'right',
+                    style: {
+            			fontSize: '13px',
+            			fontFamily: 'Microsoft Yahei, Verdana, sans-serif'
                     }
-                    loaddata();
-                }, 'json');   
-		} 
-	</script>
-</body>
-</html>
+                },
+                categories: title
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'è½¦æµ (è¾†)'
+                },
+	            labels: {
+	                style: {
+                		fontSize: '13px',
+                		fontFamily: 'Microsoft Yahei, Verdana, sans-serif'
+	                }
+	            }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y} è¾†</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'è½¦æµé‡',
+                data: data,
+	            dataLabels: {
+	                enabled: true,
+	                rotation: -90,
+	                color: '#FFFFFF',
+	                align: 'right',
+	                x: 4,
+	                y: 10,
+	                style: {
+	                    fontSize: '13px',
+	                    fontFamily: 'Microsoft YaheiVerdana, Verdana, sans-serif'
+	                }
+	            }
+            }],
+            exporting: {
+                enabled: false
+            }
+        });
+	}
+</script>

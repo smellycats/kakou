@@ -1,7 +1,7 @@
 
 <script type="text/javascript">
 	$(function(){
-		$("#user_view_page_num").val("<?php echo $rows; ?>");
+		$("#userlog_view_page_num").val("<?php echo $rows; ?>");
 	});
 </script>
 
@@ -12,9 +12,7 @@
 	<input type="hidden" name="order" value="<?php echo $order; ?>" />
 
 	<input type="hidden" name="username" value="<?php echo $username; ?>">
-	<input type="hidden" name="department" value="<?php echo $department; ?>">
 </form>
-
 
 <div class="pageHeader">
 	<form onsubmit="return navTabSearch(this);" action="<?php echo site_url('userlog/view'); ?>" method="post">
@@ -54,7 +52,7 @@
 			<?php $index = $offset + 1;?>
 			<?php foreach ($result as $row): ?>
 			<?php $banned_dict = array('0'=>'<span style="color:green">启用</span>','1'=>'<span style="color:brown">禁用</span>');?>
-			<tr target="user_id" rel="<?php echo $row['id']; ?>">
+			<tr target="this_id" rel="<?php echo $row['id']; ?>">
 				<td><?php echo $index; ?></td>
 				<td><?php echo $row['username']; ?></td>
 				<td><?php echo $row['rolename']; ?></td>
@@ -64,21 +62,21 @@
 				<td><?php echo $row['access_count']; ?></td>
 				<td><?php echo $banned_dict[$row['banned']]; ?></td>
 			</tr>
-			<?php $index += 1;?>
+			<?php $index += 1; ?>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
 	<div class="panelBar">
 		<div class="pages">
 			<span>显示</span>
-			<select class="combox" id="user_view_page_num" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
+			<select class="combox" id="userlog_view_page_num" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
 				<option value="20">20</option>
 				<option value="50">50</option>
 			</select>
-			<span>条，共<?php echo ceil($total/$rows);?>页，共<?php echo $total;?>条</span>
+			<span>条，共<?php echo ceil($total / $rows); ?>页，共<?php echo $total; ?>条</span>
 		</div>
 		
-		<div class="pagination" targetType="navTab" totalCount="<?php echo $total;?>" 
+		<div class="pagination" targetType="navTab" totalCount="<?php echo $total; ?>" 
 				numPerPage="<?php echo $rows; ?>" pageNumShown="5" currentPage="<?php echo $page; ?>">
 		</div>
 
