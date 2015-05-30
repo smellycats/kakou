@@ -180,5 +180,27 @@ function _get_excel_data()
 		var_dump($request);
 	}
 
+	public function package_test()
+	{
+		// First, include Requests
+		include('requests/library/Requests.php');
+
+		// Next, make sure Requests can load internal classes
+		Requests::register_autoloader();
+
+		$url = 'http://127.0.0.1:8017/v1/package';
+		$headers = array('Content-Type' => 'application/json');
+		$data = array('key' => 'sx2767722',
+					  'urls' => array('http://localhost/imgareaselect/imgs/1.jpg','http://localhost/imgareaselect/imgs/2.jpg')
+					  );
+
+		// Now let's make a request!
+		$request = Requests::post($url, $headers, json_encode($data));
+
+		// Check what we received
+		var_dump($request->body);
+		var_dump($request->status_code);
+	}
+
 }
 
