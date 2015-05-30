@@ -73,7 +73,6 @@ class Home extends CI_Controller
 			$this->load->view('login', $data);
 			return;
 		}
-		var_dump($this->session->userdata('ip_address'));
 		// 检查全局IP限制
 		if ($this->_checkIpAccess($this->session->userdata('ip_address')) == False) {
 			$data['message'] = '限制IP登陆';
