@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Test extends Admin_Controller
+class Test extends CI_Controller
 {
  
 	function __construct()
@@ -163,6 +163,21 @@ function _get_excel_data()
 	function show_session()
 	{
 		var_dump($_SESSION);
+	}
+
+	public function requests_test()
+	{
+		// First, include Requests
+		include('requests/library/Requests.php');
+
+		// Next, make sure Requests can load internal classes
+		Requests::register_autoloader();
+
+		// Now let's make a request!
+		$request = Requests::post('http://httpbin.org/post', array(), array('mydata' => 'something'));
+
+		// Check what we received
+		var_dump($request);
 	}
 
 }
