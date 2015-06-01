@@ -98,6 +98,7 @@
 			<span>显示</span>
 			<select class="combox" id="user_view_page_num" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
 				<option value="20">20</option>
+				<option value="30">30</option>
 				<option value="50">50</option>
 			</select>
 			<span>条，共<?php echo ceil($total / $rows);?>页，共<?php echo $total; ?>条</span>

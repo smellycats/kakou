@@ -97,8 +97,8 @@
 			<span>显示</span>
 			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
 				<option <?php if($numPerPage == 20){ ?>selected="selected"<?php } ?>>20</option>
+				<option <?php if($numPerPage == 30){ ?>selected="selected"<?php } ?>>30</option>
 				<option <?php if($numPerPage == 50){ ?>selected="selected"<?php } ?>>50</option>
-				<option <?php if($numPerPage == 100){ ?>selected="selected"<?php } ?>>100</option>
 			</select>
 			<span>条，共<?php echo $totalPage;?>页，共<?php echo $total;?>条</span>
 		</div>
