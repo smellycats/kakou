@@ -63,8 +63,8 @@
 			<tr>
 				<th align="center" width="50px">#</th>
 				<th align="center" 
-					orderField="r.id" 
-					<?php if($orderField == 'r.id'){ ?>class="<?php echo $orderDirection; ?>"<?php } ?>>角色名</th>
+					orderField="id" 
+					<?php if($orderField == 'id'){ ?>class="<?php echo $orderDirection; ?>"<?php } ?>>角色名</th>
 				<th align="center" width="90px">锁定</th>
 			</tr>
 		</thead>
@@ -84,7 +84,7 @@
 			<tr align="center"  target="role_Id" rel="<?php echo $v['id']; ?>">
 				<td><?php echo $js_var; ?></td>
 				<td><?php echo $v['rolename']; ?></td>
-				<td><?php echo $v['bannedname']; ?></td>
+				<td><?php if ($v['disable'] == 1){ echo "是"; } else { echo "否"; }?></td>
 			</tr>		
 					<?php	
 					}
