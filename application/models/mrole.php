@@ -48,21 +48,24 @@ class Mrole extends CI_Model
 	// }
 
 	//获取角色列表
-	function get_roles($offset=0, $limit=0, $sort='r.id', $order='asc', $data)
+	// function get_roles($offset=0, $limit=0, $sort='r.id', $order='asc', $data)
+	function get_roles($offset=0, $limit=0, $sort='id', $order='asc', $data)
 	{	
 		if ($data['role_name'] != ''){
 			$this->db->like('name', $data['role_name']); 
 		}
 		$this->db->where('del',0);
-		$this->db->join('boolname as b', 'r.disable=b.num', 'left');
+		// $this->db->join('boolname as b', 'r.disable=b.num', 'left');
 		if ($offset == 0 and $limit == 0){
 			$this->db->select('count(*) as sum');
 		}else{
-			$this->db->select('r.id,b.boolean_name as bannedname,name as rolename,rights,openkakou,disable');
+			// $this->db->select('r.id,b.boolean_name as bannedname,name as rolename,rights,openkakou,disable');
+			$this->db->select('id,name as rolename,rights,openkakou,disable');
 			$this->db->limit($limit, $offset);
 			$this->db->order_by($sort, $order);
 		}
-		return $this->db->get('roles as r');
+		// return $this->db->get('roles as r');
+		return $this->db->get('roles');
 	}
 	
 	

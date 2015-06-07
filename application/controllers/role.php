@@ -44,7 +44,8 @@ class Role extends Admin_Controller
 	{
 		$page = $this->input->post('page') ? intval($this->input->post('page')) : 1;
 		$rows = $this->input->post('rows') ? intval($this->input->post('rows')) : 20;
-		$sort = $this->input->post('sort') ? strval($this->input->post('sort')) : 'r.id';
+		// $sort = $this->input->post('sort') ? strval($this->input->post('sort')) : 'r.id';
+		$sort = $this->input->post('sort') ? strval($this->input->post('sort')) : 'id';
 	    $order = $this->input->post('order') ? strval($this->input->post('order')) : 'asc';
 	    
 
