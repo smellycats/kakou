@@ -296,5 +296,32 @@ class Lib_kakou
 	    }
 	    return $s;
 	}
+
+	function getPlacesByRight()
+	{
+		$this->ci->load->model('Mbasedata2');
+		
+		if ($_SESSION['role_id'] == '1') {
+			return $this->ci->Mbasedata2->getCfgKakou()->result_array();
+		} else {
+			return $this->ci->Mbasedata2->getConfigInfo(h_arr2str($_SESSION['role_openkk']))->result_array();
+		}
+	}
+
+
+	function getQPlaces()
+	{
+		$this->ci->load->model('Mbasedata2');
+		
+		if ($_SESSION['role_id'] == '1') {
+			return 'all';
+		} else {
+			$places = $this->ci->Mbasedata2->getConfigInfo(h_arr2str($_SESSION['role_openkk']))->result_array();
+			foreach($places as $row) {
+				$data = "'$row[KKBH]'";
+			}
+			return join(',', $data);
+		}
+	}
 }
 ?>
