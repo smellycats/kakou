@@ -59,7 +59,7 @@
 			<a class="logo">Logo</a>
 			<ul class="nav">
 				<li><a href="<?php echo base_url('index.php/admin/password'); ?>" target="dialog" mask="true">修改密码</a></li>
-				<li><a href="<?php echo base_url('index.php/admin/logout'); ?>">退出</a></li>
+				<li><a href="<?php echo base_url('index.php/home/logout'); ?>">退出</a></li>
 			</ul>
 		</div>
 	</div>
