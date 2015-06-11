@@ -164,8 +164,7 @@ class Home extends CI_Controller
 	{
 		showmessage3('登录超时，请重新登录', 'home/exit_system');
 	}
-
-	/* 退出系统  */
+	/*
 	function exit_system()
 	{	
 		//$this->dx_auth->logout();
@@ -174,6 +173,20 @@ class Home extends CI_Controller
 		session_destroy();
 
 		redirect('home/login');
+	} */
+
+    /**
+     * 退出系统
+     * 
+     * @return void
+     */
+	function logout()
+	{
+		session_start();
+		session_unset(); 
+		session_destroy();
+		
+		redirect('home/index');
 	}
 
 }
