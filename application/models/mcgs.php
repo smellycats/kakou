@@ -8,29 +8,17 @@ class Mcgs extends CI_Model
 	{
 		parent::__construct();
 		
-		$this->cgs_db = $this->load->database('test_db', TRUE);
+		$this->cgs_db = $this->load->database('cgs_db', TRUE);
 	}
 	
-	#根据车牌号码查询广东车管信息
-	function get_vehicle_gd_by_hphm($data)
+	#鏍规嵁杞︾墝鍙风爜鏌ヨ骞夸笢杞︾淇℃伅
+	function getVehicleGdByHphm($hphm, $hpys_id)
 	{
-		return $this->cgs_db->query("select v.*,h.name as hpzl_name,d.name as cllx_name,c.code as csys_code,c.name as csys_name from vehicle_gd as v
-		 LEFT JOIN hpzl as h ON v.hpzl = h.code
-		 LEFT JOIN d_cllx as d ON d.code = v.cllx
-		 LEFT JOIN csys as c ON SUBSTRING(v.csys,1,1) = c.code 
-		 WHERE v.hphm = '$data[hphm]' AND h.banned = 0 ");
-	}
-	
-	#根据车牌号码查询广东车管信息
-	function get_vehicle_gd($data)
-	{
-		$this->cgs_db->select('v.*,h.name as hpzl_name,d.name as cllx_name,c.code as csys_code,c.name as csys_name');
-		$this->cgs_db->join('hpzl as h','v.hpzl = h.code','left');
-		$this->cgs_db->join('d_cllx as d','d.code = v.cllx','left');
-		$this->cgs_db->join('csys as c','SUBSTRING(v.csys,1,1) = c.code','left');
-		$this->cgs_db->where('v.hphm',$data['hphm']);
-		$this->cgs_db->where('h.banned',0);
-		return $this->cgs_db->get('vehicle_gd as v');
+		return $this->cgs_db->query("SELECT v.*,h.name AS hpzl_name,d.name AS cllx_name,c.code AS csys_code,c.name AS csys_name from vehicle_gd AS v
+		 LEFT JOIN hpzl AS h ON v.hpzl = h.code
+		 LEFT JOIN d_cllx AS d ON d.code = v.cllx
+		 LEFT JOIN csys AS c ON SUBSTRING(v.csys,1,1) = c.code 
+		 WHERE v.hphm = '$hphm' AND h.color_id='$hpys_id' AND h.banned = 0 ");
 	}
 }
 ?>
