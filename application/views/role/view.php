@@ -81,7 +81,9 @@
 					foreach ($result as $v) {
 						$js_var ++;
 					?>
-			<tr align="center"  target="role_Id" rel="<?php echo $v['id']; ?>">
+			<tr align="center"  target="role_Id" rel="<?php echo $v['id']; ?>" 
+				ed_url="<?php echo base_url(); ?>index.php/role/role_edit_ip?rId=<?php echo $v['id']; ?>" 
+				d_Name="角色信息修改" d_Id="role_index_edit">
 				<td><?php echo $js_var; ?></td>
 				<td><?php echo $v['rolename']; ?></td>
 				<td><?php if ($v['disable'] == 1){ echo "是"; } else { echo "否"; }?></td>

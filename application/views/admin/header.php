@@ -50,6 +50,14 @@
 				}
 			});
 		});
+
+		function my_tr_dbltable(ed_url, d_Name, d_Id){
+			if( ed_url != '' && d_Id != ""){
+				$.pdialog.open(ed_url, d_Id, d_Name, 
+								{max: false, minable: false, drawable: false, resizable: false, 
+									maxable: true, mask: true, width: 600, height: 500});
+			}
+		}
 	</script>
 </head>
 <body scroll="no">
