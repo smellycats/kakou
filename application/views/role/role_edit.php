@@ -117,9 +117,9 @@
 	<form method="post" action="<?php echo base_url(); ?>index.php/role/role_edit" class="pageForm required-validate" 
 		onsubmit="return iframeCallback(this, dialogAjaxDone);">
 		<div id="pollxxPanel" class="pageFormContent" layoutH="58">
-			<dl>
+			<dl style="width: 550px;" class="nowrap">
 				<dt style="width: 100px; text-align: right;">角色名：</dt>
-				<dd>
+				<dd style="width: 400px;">
 					<input id="role_edit_Name" name="role_edit_Name" class="required" type="text" style="width: 280px;" maxlength="30"/>
 					<input id="role_edit_Id" name="role_edit_Id" type="hidden" value="<?php echo $role['id']; ?>" />
 				</dd>
@@ -157,12 +157,12 @@
 		</div>
 		<div class="formBar" style="text-align: center; position: relative;">
 			<div style="clear: both; width: 95px; text-align: center; position: absolute; left: 50%; margin-left: -45px;">
-				<div class="button" style="margin-right: 10px;">
+				<div class="button" style="margin-right: 10px; width: 35px;">
 					<div class="buttonContent">
 						<button type="submit">修改</button>
 					</div>
 				</div>
-				<div class="button">
+				<div class="button" style="width: 35px;">
 					<div class="buttonContent">
 						<button type="button" class="close">取消</button>
 					</div>
